@@ -1,5 +1,12 @@
 # Getting Started with Create React App
 
+PREREQUISITIES: 
+1. Install NODE
+2. npm install --save bootstrap@5.1 react-cookie@4.1.1 react-router-dom@5.3.0 reactstrap@8.10.0
+3. npm install react-scripts --save
+4. Go to project directory and run npm start
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
