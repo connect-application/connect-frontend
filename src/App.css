@@ -2,17 +2,29 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+b {
+  font-size: 24px;
+  margin-left: 10px;
+  font-family: Helvetica;
+}
+td{
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+img { 
+  width: 150px;
+  height: 100px;
+  margin-left: 10px;
+}
+.navbar{
+  background-color: white;
 }
 
+#navbarNav{
+  margin-right: 10px;
+  justify-content: right;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
