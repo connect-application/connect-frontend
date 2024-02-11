@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import AccountService from '../services/AccountService';
-import logo from './images/logo1.png';
+import logo from './images/logo2.png';
 import { Settings } from 'lucide-react';
 
 
