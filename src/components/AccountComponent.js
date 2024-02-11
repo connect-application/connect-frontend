@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import AccountService from '../services/AccountService';
 import logo from './images/logo1.png';
+import { Settings } from 'lucide-react';
 
 
 function AccountComponent() {
@@ -29,7 +30,7 @@ function AccountComponent() {
             <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-            <span class="navbar-text"> Logout
+            <span class="navbar-text"> <Settings color= "black" size={30}/>
             </span>
             </div>
             </nav>
