@@ -4,7 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter } from "react-router-dom"
+import { BrowserRouter } from "react-router-dom";
+export { default as Sidebar } from "./components/Sidebar";
+export { default as SidebarItems } from "./components/Sidebar/SidebarItems";
+export { default as DynamicItem } from "./components/Routes/[item]";
+
+export { SIDEBAR_DATA as dummyData } from "./components/Data";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
