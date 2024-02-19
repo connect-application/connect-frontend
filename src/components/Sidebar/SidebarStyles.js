@@ -33,6 +33,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #b7e4ee;
     @media (max-width: 468px) {
         display: none;
     }

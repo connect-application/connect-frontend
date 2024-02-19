@@ -5,13 +5,16 @@ import {
     ChatIcon,
     CreateIcon,
     UserIcon,
+    NotificationIcon
   } from "./Icons";
+
   
   export const SIDEBAR_DATA = [
     {
       id: 1,
       name: "Home",
-      path: "home",
+      path: "accounts",
+      component: "AccountComponent",
       icon: <HomeIcon />,
     },
     {
@@ -34,12 +37,18 @@ import {
     },
     {
       id: 5,
+      name: "Notifications",
+      path: "notifications",
+      icon: <NotificationIcon />,
+    },
+    {
+      id: 6,
       name: "Profile",
       path: "accounts",
       icon: <UserIcon />,
     },
     {
-      id: 6,
+      id: 7,
       name: "Settings",
       path: "settings",
       icon: <SettingsIcon />,

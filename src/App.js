@@ -1,4 +1,5 @@
 import "./App.css";
+import React, { Suspense } from 'react';
 import { Routes, Route } from "react-router-dom";
 import { default as DynamicItem} from "./components/Routes/[item]";
 import { default as Sidebar } from "./components/Sidebar";
@@ -15,7 +16,7 @@ function App() {
               <Route
                 key={index}
                 path={item.path}
-                element={<DynamicItem page={item.name} />}
+                element={<LazyLoadedComponent component={item.component} />} 
               />
             ))}
         </Routes>
@@ -24,4 +25,12 @@ function App() {
   );
 }
 
+const LazyLoadedComponent = ({ component }) => {
+  const Component = React.lazy(() => import(`./components/${component}`));
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Component />
+    </Suspense>
+  );
+};
 export default App;

@@ -19,27 +19,10 @@ function AccountComponent() {
             console.log(response.data);
         });
     };
-    
-    function SideMenu() {
-        return (
-            <nav class="navbar navbar-expand-lg navbar-light">
-
-            <img src={logo} alt="Test"></img>           
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-
-            <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-            <span class="navbar-text"> <Settings color= "black" size={30}/>
-            </span>
-            </div>
-            </nav>
-            );
-    }
 
     return (
-        <><div> <SideMenu /></div><div className="container">
-            <h1 className="text-center"> Users List</h1>
+        <><div className="container">
+            <h1 id="page" className="text-center"> Users List</h1>
 
             <table id = "table1" className="table table-striped">
                 <thead>

@@ -12,7 +12,7 @@ export {
     Home as HomeIcon,
     Search as SearchIcon,
     MessageCircleMore as ChatIcon,
-    BellRing as notificationIcon,
+    BellRing as NotificationIcon,
     PlusCircle as CreateIcon,
     ChevronLeft as ArrowBackIcon,
     CircleUser as UserIcon

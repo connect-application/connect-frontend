@@ -5,9 +5,7 @@ import {
     SidebarContainer,
     SidebarWrapper,
     SidebarLogoWrapper,
-    SidebarLogo,
-    SidebarBrand,
-    SidebarToggler,
+    SidebarLogo
 } from "./SidebarStyles";
 import { SidebarItems } from "../..";
 const MOBILE_VIEW = window.innerWidth < 468;
