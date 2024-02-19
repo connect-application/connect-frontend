@@ -1,7 +1,7 @@
-// Head.js
+
 import React from 'react';
 
-const Head = () => (
+export const HeadUserLog = () => (
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -30,12 +30,20 @@ const Head = () => (
             border-color: #009999; /* New color */
             color: #fff; /* White text */
         }
+        .error-message {
+          color: red;
+          height: 20px;
+        }
         a {
             color: #009999; /* New color */
         }
+        .custom-container {
+          height: 80vh; /* adjust this value to move the form up or down */
+      }
+        
       `}
     </style>
   </head>
 );
 
-export default Head;
+export default HeadUserLog;

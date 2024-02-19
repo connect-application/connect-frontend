@@ -1,7 +1,7 @@
-// Header.js
+
 import React from 'react';
 
-const Header = () => (
+export const HeaderUserLog = () => (
   <div className="container">
     <div className="row">
       <div className="col-12 text-center p-3 mt-3">
@@ -11,4 +11,4 @@ const Header = () => (
   </div>
 );
 
-export default Header;
+export default HeaderUserLog;
