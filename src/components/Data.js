@@ -13,8 +13,8 @@ import {
     {
       id: 1,
       name: "Home",
-      path: "accounts",
-      component: "AccountComponent",
+      path: "home",
+      component: "HomeComponent",
       icon: <HomeIcon />,
     },
     {
@@ -45,6 +45,7 @@ import {
       id: 6,
       name: "Profile",
       path: "accounts",
+      component: "AccountComponent",
       icon: <UserIcon />,
     },
     {

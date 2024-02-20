@@ -18,8 +18,8 @@ function HomeComponent() {
     };
 
     return (
-        <div className = "container">
-            CONNECT
+        <div id = "colorPage" className="container">
+            <h2 id="page" className="text-center"> Home</h2>
         </div>
     )
 }

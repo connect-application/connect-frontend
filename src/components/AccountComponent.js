@@ -21,10 +21,10 @@ function AccountComponent() {
     };
 
     return (
-        <><div className="container">
-            <h1 id="page" className="text-center"> Users List</h1>
+        <div id = "colorPage" className="container">
+            <h2 id="page" className="text-center"> Users List</h2>
 
-            <table id = "table1" className="table table-striped">
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         <th> User Name</th>
@@ -47,7 +47,7 @@ function AccountComponent() {
 
             </table>
 
-        </div></>
+        </div>
     )
 }
 
