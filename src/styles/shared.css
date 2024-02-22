@@ -1,0 +1,38 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden; /* Prevent scrolling */
+}
+.no-margin {
+    margin: 0 !important; /* Remove margins */
+}
+.move-up {
+    margin-top: -100px; /* Move up by 30px */
+}
+.title {
+    color: #009999; /* New color */
+    font-weight: bold; /* Bold text */
+    font-size: 4em; /* Larger font size */
+}
+
+.btn-show {
+    background-color: #009999 !important;
+    color: white !important; /* This is for the text color, adjust as needed */
+    border: none !important; /* Remove this line if you want the default button border */
+}
+
+.btn-primary {
+    background-color: #009999; /* New color */
+    border-color: #009999; /* New color */
+    color: #fff; /* White text */
+}
+.error-message {
+  color: red;
+  height: 20px;
+}
+a {
+    color: #009999; /* New color */
+}
+.custom-container {
+  height: 80vh; /* adjust this value to move the form up or down */
+}
+

@@ -1,11 +1,13 @@
-import React from 'react';
-import {HeadUserLog, HeaderUserLog} from '../components/common';
-import {SignUpImage, SignUpForm} from '../components/Signup';
-
+import React from "react";
+import { HeaderUserLog } from "../components/common";
+import { SignUpImage, SignUpForm } from "../components/Signup";
+import { Helmet } from "react-helmet";
 
 export const SignUpPage = () => (
   <div>
-    <HeadUserLog />
+    <Helmet>
+      <title>Sign Up</title>
+    </Helmet>
     <HeaderUserLog />
     <div className="container vh-100 d-flex justify-content-center align-items-center move-up">
       <div className="row no-margin">
