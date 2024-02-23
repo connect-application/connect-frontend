@@ -1,6 +1,6 @@
 body {
     font-family: 'Roboto', sans-serif;
-    overflow: hidden; /* Prevent scrolling */
+    /*overflow: hidden; /* Prevent scrolling */
 }
 .no-margin {
     margin: 0 !important; /* Remove margins */
@@ -36,3 +36,25 @@ a {
   height: 80vh; /* adjust this value to move the form up or down */
 }
 
+.form-container {
+    min-height: calc(100vh - 60px); /* Replace 60px with the height of your header */
+    overflow: auto; /* Add vertical scrollbar when necessary */
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align content at the start */
+  }
+  
+  .row {
+    width: 100%;
+    margin: 0;
+  }
+
+  .header {
+    background-color: #f8f9fa; /* Change this to your preferred color */
+  }
+  
+  .title {
+    color: #009999; /* Change this to your preferred color */
+    font-size: 4rem; /* Adjust size as needed */
+  }

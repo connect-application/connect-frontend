@@ -1,7 +1,13 @@
 // App.jsx
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { SignInPage, SignUpPage, RecoverPasswordPage } from "./pages";
+import {
+  SignInPage,
+  SignUpPage,
+  RecoverPasswordPage,
+  SignUpSuccessPage,
+  SignInSuccessPage,
+} from "./pages";
 import { Helmet } from "react-helmet";
 import "./styles/shared.css";
 
@@ -24,6 +30,8 @@ function App() {
         <Route path="/" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/recover-password" element={<RecoverPasswordPage />} />
+        <Route path="/signup-success" element={<SignUpSuccessPage />} />
+        <Route path="/signin-success" element={<SignInSuccessPage />} />
       </Routes>
     </div>
   );
