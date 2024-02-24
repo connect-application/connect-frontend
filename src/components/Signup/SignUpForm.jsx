@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // import useNavigate
 import { useForm } from "react-hook-form";
-import { InputField } from "../common/InputField";
+import { InputField } from "../common";
 import axios from "axios";
 
 export const SignUpForm = () => {
@@ -10,7 +10,7 @@ export const SignUpForm = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({ mode: "onChange" });
 
   const [statusMessage, setStatusMessage] = useState("");
   const navigate = useNavigate(); // initialize useNavigate
@@ -42,26 +42,27 @@ export const SignUpForm = () => {
   };
 
   return (
-    <form className="w-100 mx-auto" onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <h2 className="text-center">Sign Up</h2>
       <InputField
         label="First Name"
         id="firstName"
         register={register}
-        rules={{ required: "First name is required." }}
+        rules={{ required: "* First name is required" }}
         errorMessage={errors.firstName && errors.firstName.message}
       />
       <InputField
         label="Last Name"
         id="lastName"
         register={register}
-        rules={{ required: "Last name is required." }}
+        rules={{ required: "* Last name is required" }}
         errorMessage={errors.lastName && errors.lastName.message}
       />
       <InputField
         label="Username"
         id="username"
         register={register}
-        rules={{ required: "Username is required." }}
+        rules={{ required: "* Username is required" }}
         errorMessage={errors.username && errors.username.message}
       />
       <InputField
@@ -69,10 +70,10 @@ export const SignUpForm = () => {
         id="email"
         register={register}
         rules={{
-          required: "Email is required.",
+          required: "* Email is required",
           pattern: {
             value: /\S+@\S+\.\S+/,
-            message: "Entered value does not match email format.",
+            message: "* Invalid email address",
           },
         }}
         type="email"
@@ -82,7 +83,7 @@ export const SignUpForm = () => {
         label="Password"
         id="password"
         register={register}
-        rules={{ required: "Password is required." }}
+        rules={{ required: "* Password is required" }}
         type="password"
         errorMessage={errors.password && errors.password.message}
       />
@@ -91,9 +92,9 @@ export const SignUpForm = () => {
         id="confirmPassword"
         register={register}
         rules={{
-          required: "Please confirm your password.",
+          required: "* Please confirm your password",
           validate: (value) =>
-            value === password || "The passwords do not match.",
+            value === password || "* The passwords do not match",
         }}
         type="password"
         errorMessage={errors.confirmPassword && errors.confirmPassword.message}
@@ -102,14 +103,14 @@ export const SignUpForm = () => {
         label="Date of Birth"
         id="dateOfBirth"
         register={register}
-        rules={{ required: "Date of birth is required." }}
+        rules={{ required: "* Date of birth is required" }}
         type="date"
         errorMessage={errors.dateOfBirth && errors.dateOfBirth.message}
       />
       <div className="form-group form-check">
         <input
           {...register("termsCheck", {
-            required: "You must accept the terms and privacy policy.",
+            required: " * Must accept the terms and privacy policy",
           })}
           type="checkbox"
           className="form-check-input"
@@ -123,7 +124,7 @@ export const SignUpForm = () => {
           {errors.termsCheck && errors.termsCheck.message}
         </div>
       </div>
-      <div className="error-message">
+      <div className="error-message font-weight-bold">
         {statusMessage && <div className="status-message">{statusMessage}</div>}
       </div>
       <button type="submit" className="btn btn-primary w-100">

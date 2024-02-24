@@ -15,7 +15,12 @@ export const PasswordInputField = ({
 
   return (
     <div className="form-group">
-      <label htmlFor={id}>{label}</label>
+      <div className="d-flex">
+        <label htmlFor={id} className="me-3">
+          {label}
+        </label>
+        <div className="error-message">{errorMessage}</div>
+      </div>
       <div className="input-group">
         <input
           {...register(id, rules)}
@@ -29,12 +34,12 @@ export const PasswordInputField = ({
             type="button"
             className="btn btn-show"
             onClick={togglePasswordVisibility}
+            style={{ width: "70px" }}
           >
             {showPassword ? "Hide" : "Show"}
           </button>
         </div>
       </div>
-      <div className="error-message">{errorMessage}</div>
     </div>
   );
 };

@@ -7,6 +7,9 @@ import {
   RecoverPasswordPage,
   SignUpSuccessPage,
   SignInSuccessPage,
+  ResetPasswordPage,
+  ResetPasswordSuccessPage,
+  RecoverPasswordSuccessPage,
 } from "./pages";
 import { Helmet } from "react-helmet";
 import "./styles/shared.css";
@@ -32,6 +35,15 @@ function App() {
         <Route path="/recover-password" element={<RecoverPasswordPage />} />
         <Route path="/signup-success" element={<SignUpSuccessPage />} />
         <Route path="/signin-success" element={<SignInSuccessPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route
+          path="/reset-password-success"
+          element={<ResetPasswordSuccessPage />}
+        />
+        <Route
+          path="/recover-password-success"
+          element={<RecoverPasswordSuccessPage />}
+        />
       </Routes>
     </div>
   );

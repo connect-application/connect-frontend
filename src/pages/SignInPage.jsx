@@ -8,12 +8,11 @@ export const SignInPage = () => (
     <Helmet>
       <title>Sign In</title>
     </Helmet>
-    <HeaderUserLog />
-    <div className="container vh-100 d-flex justify-content-center align-items-center move-up">
-      <div className="row no-margin">
+    <div className="container d-flex align-items-center justify-content-center vh-100 container-page">
+      <HeaderUserLog />
+      <div className="row auth-form">
         <SignInImage />
         <div className="col-md-6 d-flex flex-column justify-content-center align-items-center">
-          <h2 className="text-center">Sign In</h2>
           <SignInForm />
         </div>
       </div>

@@ -9,13 +9,17 @@ export const InputField = ({
   errorMessage,
 }) => (
   <div className="form-group">
-    <label htmlFor={id}>{label}</label>
+    <div className="d-flex">
+      <label htmlFor={id} className="me-3">
+        {label}
+      </label>
+      <div className="error-message">{errorMessage}</div>
+    </div>
     <input
       {...register(id, rules)}
       type={type}
       className="form-control"
       id={id}
     />
-    <div className="error-message">{errorMessage}</div>
   </div>
 );
