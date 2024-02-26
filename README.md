@@ -6,6 +6,8 @@ PREREQUISITIES:
 3. npm install react-scripts --save
 4. Go to project directory and run npm start
 5. npm install lucide-react  --legacy-peer-deps
+6. npm install react-hook-form --legacy-peer-deps
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
