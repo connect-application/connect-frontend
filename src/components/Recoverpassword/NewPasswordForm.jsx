@@ -22,7 +22,7 @@ export const NewPasswordForm = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/password/reset",
+        "http://localhost:8080/api/v1/login/reset",
         {
           email: email,
           token: token,

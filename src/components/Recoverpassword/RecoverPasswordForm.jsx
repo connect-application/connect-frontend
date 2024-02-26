@@ -17,7 +17,7 @@ export const RecoverPasswordForm = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/password/reset-token",
+        "http://localhost:8080/api/v1/login/reset/token",
         {
           email: data.email,
         }
