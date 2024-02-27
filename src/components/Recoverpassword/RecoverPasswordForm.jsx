@@ -11,7 +11,7 @@ export const RecoverPasswordForm = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
-  const [statusMessage, setStatusMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -24,14 +24,15 @@ export const RecoverPasswordForm = () => {
       );
       const { email, code, status } = response.data;
       if (code === "00") {
-        setStatusMessage(status);
+        setErrorMessage(status);
         navigate("/recover-password-success");
       }
       console.log(`Email: ${email}, Code: ${code}, Status: ${status}`);
     } catch (error) {
       if (error.response && error.response.status === 403) {
-        setStatusMessage("Email is not registered.");
+        setErrorMessage("Email is not registered.");
       } else {
+        setErrorMessage("There was an error!");
         console.error("There was an error!", error);
       }
     }
@@ -58,8 +59,15 @@ export const RecoverPasswordForm = () => {
         type="email"
         errorMessage={errors.email && errors.email.message}
       />
-      <div className="error-message font-weight-bold">
-        {statusMessage && <div className="status-message">{statusMessage}</div>}
+      <div style={{ position: "relative", paddingBottom: "30px" }}>
+        {errorMessage && (
+          <div
+            className="error-message"
+            style={{ position: "absolute", top: "0", left: "0" }}
+          >
+            {errorMessage}
+          </div>
+        )}
       </div>
       <button type="submit" className="btn btn-primary w-100">
         Send Code

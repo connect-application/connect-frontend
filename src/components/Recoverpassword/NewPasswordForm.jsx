@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -14,6 +14,7 @@ export const NewPasswordForm = () => {
 
   const password = watch("password", "");
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get("token");
@@ -33,12 +34,15 @@ export const NewPasswordForm = () => {
       if (code === "00") {
         navigate("/reset-password-success");
       } else {
-        console.log(
-          `Email: ${responseEmail}, Code: ${code}, Status: ${status}`
-        );
+        setErrorMessage(status);
       }
+      console.log(`Email: ${responseEmail}, Code: ${code}, Status: ${status}`);
     } catch (error) {
-      console.error("There was an error!", error);
+      if (error.response && error.response.status === 403) {
+        setErrorMessage("Invalid token or password.");
+      } else {
+        setErrorMessage("There was an error!");
+      }
     }
   };
 
@@ -69,6 +73,16 @@ export const NewPasswordForm = () => {
         type="password"
         errorMessage={errors.confirmPassword && errors.confirmPassword.message}
       />
+      <div style={{ position: "relative", paddingBottom: "30px" }}>
+        {errorMessage && (
+          <div
+            className="error-message"
+            style={{ position: "absolute", top: "0", left: "0" }}
+          >
+            {errorMessage}
+          </div>
+        )}
+      </div>
       <button type="submit" className="btn btn-primary w-100">
         Reset
       </button>

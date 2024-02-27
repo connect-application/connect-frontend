@@ -1,5 +1,6 @@
 body {
-    font-family: 'Roboto', sans-serif;}
+    font-family: 'Roboto', sans-serif;
+  background-color: #009999;}
 .no-margin {
     margin: 0 !important; /* Remove margins */
 }
@@ -32,7 +33,7 @@ a {
 }
 
 
-  .header {
+  .header-log {
     background-color: #f8f9fa; /* Change this to your preferred color */
   }
   
@@ -50,23 +51,42 @@ a {
     margin: 0 auto;
  }
 
+ .signup_form {
+    padding-top: 250px;
+}
+
 
   /* // X-Small devices (portrait phones, less than 576px) */
 /* // o media query for `xs` since this is the default in Bootstrap */
 
 /* // Small devices (landscape phones, 576px and up) */
-@media (min-width: 576px) {  }
-
-/* // Medium devices (tablets, 768px and up) */
-@media (min-width: 768px) { 
+@media (min-width: 576px) {  
 
 }
 
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+  .signup_form {
+    padding-top: 200px;
+
+}
+}
+
 /* // Large devices (desktops, 992px and up) */
-@media (min-width: 992px) {  }
+@media (min-width: 992px) {  
+  .signup_form {
+    padding-top: 50px;
+
+}
+}
 
 /* // X-Large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {  }
+@media (min-width: 1200px) { 
+  .signup_form {
+    padding-top: 50px;
+
+}
+ }
 
 /* // XX-Large devices (larger desktops, 1400px and up) */
 

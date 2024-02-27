@@ -33,6 +33,7 @@ export const SignInForm = () => {
         setErrorMessage("Invalid username or password.");
       } else {
         setErrorMessage("There was an error!");
+        console.error("There was an error!", error);
       }
     }
   };
@@ -61,7 +62,16 @@ export const SignInForm = () => {
         rules={{ required: "* Password is required" }}
         errorMessage={errors.password && errors.password.message}
       />
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      <div style={{ position: "relative", paddingBottom: "30px" }}>
+        {errorMessage && (
+          <div
+            className="error-message"
+            style={{ position: "absolute", top: "0", left: "0" }}
+          >
+            {errorMessage}
+          </div>
+        )}
+      </div>
       <button type="submit" className="btn btn-primary w-100">
         Submit
       </button>

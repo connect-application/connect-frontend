@@ -10,7 +10,7 @@ export const ResetPasswordPage = () => (
     </Helmet>
     <div className="container d-flex align-items-center justify-content-center vh-100 container-page">
       <HeaderUserLog />
-      <div className="col-md-6 d-flex flex-column justify-content-center align-items-center">
+      <div className="col-md-6 d-flex flex-column justify-content-center align-items-center row">
         <NewPasswordForm />
       </div>
     </div>

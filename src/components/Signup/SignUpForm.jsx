@@ -12,7 +12,7 @@ export const SignUpForm = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
 
-  const [statusMessage, setStatusMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate(); // initialize useNavigate
   const password = watch("password", "");
 
@@ -28,21 +28,21 @@ export const SignUpForm = () => {
       });
       const { email, code, status } = response.data;
       if (code === "00") {
-        setStatusMessage(status);
+        setErrorMessage(status);
         navigate("/signup-success"); // navigate to success page
       }
       console.log(`Email: ${email}, Code: ${code}, Status: ${status}`);
     } catch (error) {
       if (error.response && error.response.status === 403) {
-        setStatusMessage("Email or username is already registered.");
+        setErrorMessage("Email or username is already registered.");
       } else {
-        console.error("There was an error!", error);
+        setErrorMessage("There was an error!");
       }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className="signup_form">
       <h2 className="text-center">Sign Up</h2>
       <InputField
         label="First Name"
@@ -124,12 +124,20 @@ export const SignUpForm = () => {
           {errors.termsCheck && errors.termsCheck.message}
         </div>
       </div>
-      <div className="error-message font-weight-bold">
-        {statusMessage && <div className="status-message">{statusMessage}</div>}
+      <div style={{ position: "relative", paddingBottom: "30px" }}>
+        {errorMessage && (
+          <div
+            className="error-message"
+            style={{ position: "absolute", top: "0", left: "0" }}
+          >
+            {errorMessage}
+          </div>
+        )}
       </div>
       <button type="submit" className="btn btn-primary w-100">
         Sign Up
       </button>
+
       <p className="text-center mt-3">
         Already a member? <Link to="/">Sign In</Link>
       </p>
