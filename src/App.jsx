@@ -1,6 +1,7 @@
 // App.jsx
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import Home from "./App";
 import {
   SignInPage,
   SignUpPage,
@@ -13,6 +14,13 @@ import {
 } from "./pages";
 import { Helmet } from "react-helmet";
 import "./styles/shared.css";
+import HomeComponent from "./components/HomeComponent/home";
+import ProfileComponent from "./components/ProfileComponent";
+import Settings from "./components/Settings";
+import Notification from "./components/Notifications";
+import Search from "./components/Search";
+import Chat from "./components/Chat";
+import Create from "./components/Create";
 
 function App() {
   return (
@@ -32,10 +40,17 @@ function App() {
       <Routes>
         <Route path="/" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/recover-password" element={<RecoverPasswordPage />} />
         <Route path="/signup-success" element={<SignUpSuccessPage />} />
         <Route path="/signin-success" element={<SignInSuccessPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/profile" element={<ProfileComponent />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/notifications" element={<Notification />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/create" element={<Create />} />
+        <Route path="/chat" element={<Chat />} />
         <Route
           path="/reset-password-success"
           element={<ResetPasswordSuccessPage />}

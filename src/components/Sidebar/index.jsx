@@ -6,7 +6,7 @@ import {
     SidebarWrapper,
     SidebarLogoWrapper,
     SidebarLogo
-} from "./SidebarStyles";
+} from "../Sidebar/SidebarStyles";
 import { SidebarItems } from "../..";
 const MOBILE_VIEW = window.innerWidth < 468;
     export default function Sidebar({ children }) {

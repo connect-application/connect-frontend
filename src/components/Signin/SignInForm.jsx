@@ -21,7 +21,7 @@ export const SignInForm = () => {
       const { email, jwtToken, code, status } = response.data;
       if (code === "00") {
         localStorage.setItem("jwtToken", jwtToken); // store the JWT token
-        navigate("/signin-success"); // navigate to profile page
+        navigate("/home"); // navigate to profile pages
       } else {
         setErrorMessage(status);
       }

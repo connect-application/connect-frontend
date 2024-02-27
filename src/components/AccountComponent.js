@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react'
 import AccountService from '../services/AccountService';
 import logo from './images/logo2.png';
 import { Settings } from 'lucide-react';
+import Common from '../Common';
+import { SIDEBAR_DATA as dummyData } from './Data.js'; // Assuming you have sidebar data
 
 
 function AccountComponent() {
@@ -21,33 +23,7 @@ function AccountComponent() {
     };
 
     return (
-        <div id = "colorPage" className="container">
-            <h2 id="page" className="text-center"> Users List</h2>
-
-            <table className="table table-striped">
-                <thead>
-                    <tr>
-                        <th> User Name</th>
-                        <th> User Email</th>
-                    </tr>
-
-                </thead>
-                <tbody>
-                    {users.map(
-                        account => <tr key={account.id}>
-                            <td> {account.name}</td>
-                            <td> {account.email}</td>
-
-                        </tr>
-
-                    )}
-
-                </tbody>
-
-
-            </table>
-
-        </div>
+        <Common  dummyData={dummyData} > <div id="colorPage"></div></Common>
     )
 }
 
