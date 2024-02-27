@@ -72,6 +72,7 @@ background-color: #009999;}
   background-color: #009999 !important;
   color: white !important; /* This is for the text color, adjust as needed */
   border: none !important; /* Remove this line if you want the default button border */
+  border-radius: 3px;
 }
 
 .btn-primary {

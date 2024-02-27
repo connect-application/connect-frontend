@@ -32,7 +32,7 @@ export const PasswordInputField = ({
           <button
             id="showPassword"
             type="button"
-            className="btn btn-show"
+            className="btn-show"
             onClick={togglePasswordVisibility}
             style={{ width: "70px" }}
           >
