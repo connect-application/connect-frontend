@@ -10,7 +10,7 @@ export const ResetPasswordSuccessPage = () => (
     </Helmet>
     <div className="container d-flex align-items-center justify-content-center vh-100 container-page">
       <HeaderUserLog />
-      <div className="col-md-6 d-flex flex-column justify-content-center align-items-center">
+      <div className="col-md-6 d-flex flex-column justify-content-center align-items-center row">
         <h2 className="text-center">Password Reset Success</h2>
         <p className="text-center">
           You have successfully reset your password! You can now sign in with

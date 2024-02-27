@@ -9,7 +9,7 @@ export const RecoverPasswordSuccessPage = () => (
     </Helmet>
     <div className="container d-flex align-items-center justify-content-center vh-100 container-page">
       <HeaderUserLog />
-      <div className="col-md-6 d-flex flex-column justify-content-center align-items-center">
+      <div className="col-md-6 d-flex flex-column justify-content-center align-items-center row">
         <h2 className="text-center">Password Reset Request Success</h2>
         <p className="text-center">
           Your password reset request has been received! An email will be sent
