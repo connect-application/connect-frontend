@@ -40,7 +40,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<HomeComponent />} />
         <Route path="/recover-password" element={<RecoverPasswordPage />} />
         <Route path="/signup-success" element={<SignUpSuccessPage />} />
         <Route path="/signin-success" element={<SignInSuccessPage />} />
