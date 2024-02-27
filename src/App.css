@@ -96,10 +96,6 @@ a {
 
 .signup_form {
   padding-top: 250px;
-  border:solid red;
-}
-.header_log {
-  background-color: red; /* Change this to your preferred color */
 }
 
 @keyframes App-logo-spin {
