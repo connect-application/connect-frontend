@@ -1,0 +1,92 @@
+body {
+    font-family: 'Roboto', sans-serif;
+  background-color: #009999;}
+.no-margin {
+    margin: 0 !important; /* Remove margins */
+}
+.move-up {
+    margin-top: -100px; /* Move up by 30px */
+}
+.title {
+    color: #009999; /* New color */
+    font-weight: bold; /* Bold text */
+    font-size: 4em; /* Larger font size */
+}
+
+.btn-show {
+    background-color: #009999 !important;
+    color: white !important; /* This is for the text color, adjust as needed */
+    border: none !important; /* Remove this line if you want the default button border */
+}
+
+.btn-primary {
+    background-color: #009999; /* New color */
+    border-color: #009999; /* New color */
+    color: #fff; /* White text */
+}
+.error-message {
+  color: red;
+  height: 20px;
+}
+a {
+    color: #009999; /* New color */
+}
+
+
+  .header-log {
+    background-color: #f8f9fa; /* Change this to your preferred color */
+  }
+  
+  .title {
+    color: #009999; /* Change this to your preferred color */
+    font-size: 3rem; /* Adjust size as needed */
+  }
+
+  .container-page {
+    min-height: 600px;
+  }
+
+  .recov-form {
+    max-width: 50%;
+    margin: 0 auto;
+ }
+
+ .signup_form {
+    padding-top: 250px;
+}
+
+
+  /* // X-Small devices (portrait phones, less than 576px) */
+/* // o media query for `xs` since this is the default in Bootstrap */
+
+/* // Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {  
+
+}
+
+/* // Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) { 
+  .signup_form {
+    padding-top: 200px;
+
+}
+}
+
+/* // Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {  
+  .signup_form {
+    padding-top: 50px;
+
+}
+}
+
+/* // X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) { 
+  .signup_form {
+    padding-top: 50px;
+
+}
+ }
+
+/* // XX-Large devices (larger desktops, 1400px and up) */
+
