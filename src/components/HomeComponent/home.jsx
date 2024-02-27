@@ -44,8 +44,7 @@ function HomeComponent() {
     }, [])
 
     const getPosts= () => {
-        var token = localStorage.getItem('jwtToken');
-        PostService.getAllPosts(4, token).then((response) => {
+        PostService.getAllPosts(4).then((response) => {
             setPosts(response.data)
             console.log(response.data);
         });
