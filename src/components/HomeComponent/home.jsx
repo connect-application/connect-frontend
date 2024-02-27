@@ -13,15 +13,16 @@ const useStyles = makeStyles((theme) => ({
     root: {
       display: 'flex',
       maxHeight: '100vh', // Set maximum height to viewport height
-      maxWidth:700,
+      width:'100%',
       flexDirection: 'column', // Set flex direction to column
       padding: theme.spacing(2),
+      overflowX: 'hidden', // Add vertical scrollbar if content overflows // Add margin between cards
       overflowY: 'auto', // Add vertical scrollbar if content overflows // Add margin between cards
     },
     card: {
       padding: theme.spacing(1),
       marginBottom: theme.spacing(2),
-      height: '1700', // Set a fixed height for all cards
+      width:'50%',
       marginRight: theme.spacing(2),
       overflowY: 'auto', // Add vertical scrollbar if content overflows // Add margin between cards
       border: '2px solid #325d66', // Add a border with a light gray color
