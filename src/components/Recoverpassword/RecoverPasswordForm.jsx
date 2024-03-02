@@ -19,7 +19,7 @@ export const RecoverPasswordForm = () => {
       const response = await axios.post(
         "http://localhost:8080/api/v1/login/reset/token",
         {
-          email: data.email,
+          email: data.email.toLowerCase(),
         }
       );
       const { email, code, status } = response.data;
@@ -51,6 +51,10 @@ export const RecoverPasswordForm = () => {
         register={register}
         rules={{
           required: "* Email is required",
+          maxLength: {
+            value: 62,
+            message: "* Email cannot exceed 62 characters",
+          },
           pattern: {
             value: /\S+@\S+\.\S+/,
             message: "* Invalid email address",

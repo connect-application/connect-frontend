@@ -22,7 +22,7 @@ export const SignUpForm = () => {
         firstName: data.firstName,
         lastName: data.lastName,
         userName: data.username,
-        email: data.email,
+        email: data.email.toLowerCase(),
         password: data.password,
         dateOfBirth: data.dateOfBirth,
       });
@@ -48,22 +48,43 @@ export const SignUpForm = () => {
         label="First Name"
         id="firstName"
         register={register}
-        rules={{ required: "* First name is required" }}
+        rules={{
+          required: "* First name is required",
+          maxLength: {
+            value: 50,
+            message: "* First name cannot exceed 50 characters",
+          },
+        }}
         errorMessage={errors.firstName && errors.firstName.message}
+        errorMessageId="firstName_error"
       />
       <InputField
         label="Last Name"
         id="lastName"
         register={register}
-        rules={{ required: "* Last name is required" }}
+        rules={{
+          required: "* Last name is required",
+          maxLength: {
+            value: 50,
+            message: "* Last name cannot exceed 50 characters",
+          },
+        }}
         errorMessage={errors.lastName && errors.lastName.message}
+        errorMessageId="lastName_error"
       />
       <InputField
         label="Username"
         id="username"
         register={register}
-        rules={{ required: "* Username is required" }}
+        rules={{
+          required: "* Username is required",
+          maxLength: {
+            value: 12,
+            message: "* Username cannot exceed 12 characters",
+          },
+        }}
         errorMessage={errors.username && errors.username.message}
+        errorMessageId="username_error"
       />
       <InputField
         label="Email"
@@ -71,6 +92,10 @@ export const SignUpForm = () => {
         register={register}
         rules={{
           required: "* Email is required",
+          maxLength: {
+            value: 62,
+            message: "* Email cannot exceed 62 characters",
+          },
           pattern: {
             value: /\S+@\S+\.\S+/,
             message: "* Invalid email address",
@@ -78,14 +103,31 @@ export const SignUpForm = () => {
         }}
         type="email"
         errorMessage={errors.email && errors.email.message}
+        errorMessageId="email_error"
       />
       <InputField
         label="Password"
         id="password"
         register={register}
-        rules={{ required: "* Password is required" }}
+        rules={{
+          required: "* Password is required",
+          maxLength: {
+            value: 20,
+            message: "* Password cannot exceed 20 characters",
+          },
+          minLength: {
+            value: 6,
+            message: "* Password must have at least 6 characters",
+          },
+          pattern: {
+            value:
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+            message: "* Password not secure enough",
+          },
+        }}
         type="password"
         errorMessage={errors.password && errors.password.message}
+        errorMessageId="password_error"
       />
       <InputField
         label="Confirm Password"
@@ -98,6 +140,7 @@ export const SignUpForm = () => {
         }}
         type="password"
         errorMessage={errors.confirmPassword && errors.confirmPassword.message}
+        errorMessageId="confirmPassword_error"
       />
       <InputField
         label="Date of Birth"
@@ -106,6 +149,7 @@ export const SignUpForm = () => {
         rules={{ required: "* Date of birth is required" }}
         type="date"
         errorMessage={errors.dateOfBirth && errors.dateOfBirth.message}
+        errorMessageId="dateOfBirth_error"
       />
       <div className="form-group form-check">
         <input
@@ -120,7 +164,7 @@ export const SignUpForm = () => {
           By signing up, you agree to our{" "}
           <a href="#">Terms and Privacy Policy</a>
         </label>
-        <div className="error-message">
+        <div className="error-message" errorMessageId="checkbox_error">
           {errors.termsCheck && errors.termsCheck.message}
         </div>
       </div>
@@ -129,6 +173,7 @@ export const SignUpForm = () => {
           <div
             className="error-message"
             style={{ position: "absolute", top: "0", left: "0" }}
+            errorMessageId="error_message"
           >
             {errorMessage}
           </div>

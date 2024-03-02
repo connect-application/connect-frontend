@@ -6,6 +6,7 @@ export const PasswordInputField = ({
   register,
   rules,
   errorMessage,
+  errorMessageId,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -19,7 +20,9 @@ export const PasswordInputField = ({
         <label htmlFor={id} className="me-3">
           {label}
         </label>
-        <div className="error-message">{errorMessage}</div>
+        <div className="error-message" errorMessageId={errorMessageId}>
+          {errorMessage}
+        </div>
       </div>
       <div className="input-group">
         <input
