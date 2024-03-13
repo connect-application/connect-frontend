@@ -40,6 +40,7 @@ const Posts = () => {
             if(visibility == "public"){
                 isPublic = true;
             }
+            console.log(localStorage.getItem('jwtToken'));
             const response = await PostService.createPost(caption, isPublic);
             setPost(response.data);
             console.log(response.data);
