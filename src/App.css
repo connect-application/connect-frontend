@@ -265,3 +265,9 @@ h2{
   border-radius: 50%;
   background-color: #fff;
 }
+
+.form-control.css-b62m3t-container {
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
