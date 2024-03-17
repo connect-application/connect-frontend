@@ -57,7 +57,22 @@ export const NewPasswordForm = () => {
         label="Password"
         id="password"
         register={register}
-        rules={{ required: "* Password is required" }}
+        rules={{
+          required: "* Password is required",
+          maxLength: {
+            value: 20,
+            message: "* Password cannot exceed 20 characters",
+          },
+          minLength: {
+            value: 6,
+            message: "* Password must have at least 6 characters",
+          },
+          pattern: {
+            value:
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+            message: "* Password not secure enough",
+          },
+        }}
         type="password"
         errorMessage={errors.password && errors.password.message}
       />

@@ -57,6 +57,7 @@ export const SignInForm = () => {
         }}
         type="email"
         errorMessage={errors.email && errors.email.message}
+        errorMessageId="email_error"
       />
       <PasswordInputField
         label="Password"
@@ -64,12 +65,14 @@ export const SignInForm = () => {
         register={register}
         rules={{ required: "* Password is required" }}
         errorMessage={errors.password && errors.password.message}
+        errorMessageId="password_error"
       />
       <div style={{ position: "relative", paddingBottom: "30px" }}>
         {errorMessage && (
           <div
             className="error-message"
             style={{ position: "absolute", top: "0", left: "0" }}
+            errorMessageId="error_message"
           >
             {errorMessage}
           </div>
