@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 function HomeComponent() {
+    var status = 'ERROR';
     const [posts, setPosts] = useState([])
     const classes = useStyles();
 
@@ -45,9 +46,11 @@ function HomeComponent() {
     }, [])
 
     const getPosts= () => {
-        PostService.getAllPosts(4).then((response) => {
-            setPosts(response.data)
-            console.log(response.data);
+        PostService.getAllPosts().then((response) => {
+            if(response != null){
+                status = 'SUCCESS';
+                setPosts(response.data['SUCCESS']);
+            }
         });
     };
             

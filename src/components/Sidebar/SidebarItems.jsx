@@ -1,32 +1,83 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import ReactModal from 'react-modal';
 import { SIDEBAR_DATA as dummyData } from "../Data";
 import {
     ItemsList,
     ItemContainer,
     ItemWrapper,
     ItemName,
+    SubmenuItem,
 } from "../Sidebar/SidebarStyles";
+
+import {
+    CreateIcon,
+  } from "../Icons";
+
 
 const SidebarItems = ({ displaySidebar }) => {
 const [activeItem, setActiveItem] = useState(0);
+const [showSubmenu, setShowSubmenu] = useState(false);
+
+const toggleSubmenu = () => {
+  setShowSubmenu(!showSubmenu);
+};
+const handleItemClick = (itemName) => {
+    if (itemName === "create") {
+        toggleSubmenu();
+        setActiveItem(null); // Clear active item when "Create" is clicked
+      } else {
+        setActiveItem(itemName);
+        setShowSubmenu(false); // Collapse submenu when other items are clicked
+      }
+  };
 
 return (
         <ItemsList>
         {dummyData.map((itemData, index) => (
             <ItemContainer
             key={index}
-            onClick={() => setActiveItem(itemData.id)}
-            className={itemData.id === activeItem ? "active" : ""}
-            >
-            <Link to={itemData.path}>
+            onClick={() => handleItemClick(itemData.name)}
+            className={
+              (itemData.name === "create") ||
+              activeItem === itemData.id
+                ? "active"
+                : ""
+            }
+          >
+        <Link to={itemData.path}>
                 <ItemWrapper>
                 {itemData.icon}
                 <ItemName displaySidebar={displaySidebar}>
                     {itemData.name}
                 </ItemName>
                 </ItemWrapper>
-            </Link>
+        </Link>
+        {itemData.name === "create" && showSubmenu && (
+            <div className="submenu">
+              <SubmenuItem>
+                <Link to = "/create">
+                <ItemWrapper>
+                <CreateIcon />
+                <ItemName displaySidebar={displaySidebar}>
+                    Post
+                </ItemName> 
+                </ItemWrapper>
+                </Link>
+            </SubmenuItem>
+            <SubmenuItem>
+                <Link to = "/create">
+                <ItemWrapper>
+                <CreateIcon />
+                <ItemName displaySidebar={displaySidebar}>
+                    Activity
+                </ItemName> 
+                </ItemWrapper>
+                </Link>
+            </SubmenuItem>
+
+            </div>
+          )}
             </ItemContainer>
         ))}
         </ItemsList>

@@ -20,7 +20,7 @@ import Settings from "./components/Settings";
 import Notification from "./components/Notifications";
 import Search from "./components/Search";
 import Chat from "./components/Chat";
-import Create from "./components/Create";
+import Posts from "./components/Posts";
 
 function App() {
   return (
@@ -49,7 +49,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/notifications" element={<Notification />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/create" element={<Create />} />
+        <Route path="/create" element={<Posts />} />
         <Route path="/chat" element={<Chat />} />
         <Route
           path="/reset-password-success"

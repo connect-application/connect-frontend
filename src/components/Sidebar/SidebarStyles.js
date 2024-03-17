@@ -1,5 +1,14 @@
     import styled from "styled-components";
 
+export const SubmenuItem = styled.div`
+  padding: 8px 16px;
+  color: #fff;
+  cursor: pointer;
+  &:hover {
+    background-color: #555;
+  }
+`;
+
     export const Children = styled.div`
     width: 100%;
     height: 100%;
