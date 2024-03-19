@@ -61,7 +61,7 @@ export const ActivityForm = () => {
 
       // Handle the response
       console.log(response.data);
-      navigate("/create-success");
+      navigate("/create-activity/success");
     } catch (error) {
       // Handle the error
       console.log(error);
