@@ -14,6 +14,7 @@ import {
   RecoverPasswordSuccessPage,
   NewActivityPage,
   ProfilePage,
+  ChatPage,
   NewActivitySuccessPage,
   ProfileEditPage,
 } from "./pages";
@@ -54,6 +55,7 @@ function App() {
           <Route path="/signin-success" element={<SignInSuccessPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/profile/:userId" element={<ProfilePage />} />
+          <Route path="/chat" element={<ChatPage />} />
           <Route path="/profile/edit" element={<ProfileEditPage />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/notifications" element={<Notification />} />
@@ -64,7 +66,7 @@ function App() {
             element={<NewActivitySuccessPage />}
           />
           <Route path="/create-post" element={<Posts />} />
-          <Route path="/chat" element={<Chat />} />
+          
           <Route
             path="/reset-password-success"
             element={<ResetPasswordSuccessPage />}

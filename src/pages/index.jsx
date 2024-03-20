@@ -8,5 +8,6 @@ export * from "./ResetPasswordSuccessPage";
 export * from "./RecoverPasswordSuccessPage";
 export * from "./NewActivityPage";
 export * from "./ProfilePage";
+export * from "./ChatPage";
 export * from "./NewActivitySuccessPage";
 export * from "./ProfileEditPage";
