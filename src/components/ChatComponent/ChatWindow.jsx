@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const ChatWindow = ({ selectedFollower, onClose }) => {
     const [message, setMessage] = useState("");
+    const [messages, setMessages] = useState([]);
 
     const handleMessageChange = (e) => {
         setMessage(e.target.value);
@@ -10,30 +11,52 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
     const handleSendMessage = () => {
         // Implement sending message logic here
         console.log("Message sent:", message);
+        setMessages([...messages, message]); // Add the new message to the list
         setMessage(""); // Clear the message input after sending
     };
+    
     const ChatWindowStyle = {
         position: 'absolute',
         right: 0,
         top: 0,
-        width: '300px', // Adjust width as needed
-        height: '100%', // Take full height of the parent
+        width: '100%', // Adjust width as needed
+        height: '100vh', // Take full viewport height
         backgroundColor: '#fff',
         borderLeft: '1px solid #e3e3e3',
         boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.1)',
+        display: 'flex',
+        flexDirection: 'column',
+        padding: '10px',
     };
-    console.log("hello1->>" + selectedFollower)
+
+    const headerStyle = {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    };
+
+    const inputContainerStyle = {
+        display: 'flex',
+        alignItems: 'center',
+    };
+
     return (
         <div className="chat-window" style={{ ...ChatWindowStyle, backgroundColor: '#f8f9fa' }}>
-            <div className="chat-header">
+            <div className="chat-header" style={headerStyle}>
                 <span>{selectedFollower.firstName} {selectedFollower.lastName}</span>
                 <button className="btn btn-secondary" onClick={onClose}>Close</button>
             </div>
             <div className="chat-messages">
-                {/* Display chat messages here */}
-                {/* Example: <div>{selectedFollower.firstName}: Hi there!</div> */}
+                {/* Display messages if available, otherwise render empty space */}
+                {messages.length > 0 ? (
+                    messages.map((msg, index) => (
+                        <div key={index}>{msg}</div>
+                    ))
+                ) : (
+                    <div style={{ minHeight: '50px' }}></div> // Empty space
+                )}
             </div>
-            <div className="chat-input d-flex">
+            <div className="chat-input" style={inputContainerStyle}>
                 {/* Input box for sending messages */}
                 <input
                     type="text"
@@ -45,7 +68,6 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
                 <button className="btn btn-primary" onClick={handleSendMessage}>Send</button>
             </div>
         </div>
-
     );
 };
 

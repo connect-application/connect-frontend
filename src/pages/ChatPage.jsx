@@ -15,7 +15,7 @@ export const ChatPage = () => {
 
   const handleFollowerClick = (follower) => {
     setSelectedFollower(follower);
-    
+
   };
 
   const closeChatWindow = () => {
@@ -23,18 +23,18 @@ export const ChatPage = () => {
   };
 
   return (
-    <div className="row no-gutters align-items-center">
-      <div className="col-lg-8">
+    <div className="row no-gutters ">
+      <div className="col-lg-8 align-items-center">
         <Common dummyData={dummyData}>
           <Suspense fallback={<div>Loading...</div>}>
-            <ChatCard userId={userId} handleFollowerClick =  {handleFollowerClick}/>
+            <ChatCard userId={userId} handleFollowerClick={handleFollowerClick} />
           </Suspense>
         </Common>
       </div>
-      
+
       {selectedFollower && ( // Render the chat window if a follower is selected
-      
-        <div className="row no-gutters align-items-center col-lg-3">
+
+        <div className="col-lg-4 position-relative ">
           <ChatWindow
             selectedFollower={selectedFollower}
             onClose={closeChatWindow}

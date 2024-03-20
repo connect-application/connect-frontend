@@ -6,7 +6,7 @@ import {
   getFollowersList,
   getFollowingsList,
 } from "../services/userService";
-import { getUserPosts, getCurrentUserPosts } from "../services/PostService";
+import { getUserPosts, getCurrentUserPosts } from "../services/postService";
 
 export function useUserProfile(userId, loggedInUserId) {
   const [profileData, setProfileData] = useState({
