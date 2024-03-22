@@ -1,5 +1,5 @@
 import React from 'react';
-// import FollowerItem from './FollowerItem';
+import FollowerItem from './FollowerItem';
 
 const ListStyle = {
   backgroundColor: '#f8f9fa',
@@ -36,11 +36,11 @@ const UserList = ({ users, headerText, handleFollowerClick }) => {
         ) : (
           users.map((user, index) => (
             <div class="btn-group-vertical">
-            {/* <FollowerItem
+            <FollowerItem
               key={index}
               follower={user}
               handleFollowerClick={handleFollowerClick}
-            /> */}
+            />
             </div>
           ))
         )}
