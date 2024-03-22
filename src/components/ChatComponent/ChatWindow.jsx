@@ -1,26 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const ChatWindow = ({ selectedFollower, onClose }) => {
     const [message, setMessage] = useState("");
     const [messages, setMessages] = useState([]);
+    const [showSentAt, setShowSentAt] = useState(null);
+    const userId = parseInt(localStorage.getItem("userId"), 10);
+    console.log("UserId: ", userId);
+
+    useEffect(() => {
+        // Fetch initial messages from the backend when the component mounts
+        fetchInitialMessages();
+    }, []); // Empty dependency array ensures this effect runs only once when the component mounts
+
+    const fetchInitialMessages = async () => {
+        const token = localStorage.getItem("jwtToken");
+        const options = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        try {
+            const response = await axios.post(`http://localhost:8080/chat/getChats?toUserId=${selectedFollower.id}`, {}, options);
+            console.log('Request URL:', response.config.url); 
+            console.log(response.data);
+            const alignedMessages = response.data.map(item => ({
+                chatText: item.chatText,
+                fromUserId: item.fromUserId,
+                sentAt: new Date(item.sentAt).toLocaleString(), // Format sentAt time
+                align: item.fromUserId === userId ? 'right' : 'left',
+            }));
+            setMessages(alignedMessages);
+        } catch (error) {
+            throw error;
+        }
+    };
 
     const handleMessageChange = (e) => {
         setMessage(e.target.value);
     };
 
     const handleSendMessage = () => {
-        // Implement sending message logic here
         console.log("Message sent:", message);
-        setMessages([...messages, message]); // Add the new message to the list
-        setMessage(""); // Clear the message input after sending
+        sendNewMsg(message);
+        setMessages([...messages, { chatText: message, fromUserId: userId, align: 'right' }]);
+        setMessage("");
+    };
+
+    const handleChatTextClick = (sentAt) => {
+        setShowSentAt(showSentAt === sentAt ? null : sentAt); // Toggle show/hide sentAt
+    };
+
+    const sendNewMsg = async (newChat) => {
+        const token = localStorage.getItem("jwtToken");
+        const options = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        try {
+            const response = await axios.post(`http://localhost:8080/chat/addChat?toUserId=${selectedFollower.id}&chatText=${newChat}`, {}, options);
+            console.log('Request URL:', response.config.url); 
+            console.log(response.data);
+        } catch (error) {
+            throw error;
+        }
     };
     
     const ChatWindowStyle = {
         position: 'absolute',
         right: 0,
         top: 0,
-        width: '100%', // Adjust width as needed
-        height: '100vh', // Take full viewport height
+        width: '100%',
+        height: '100vh',
         backgroundColor: '#fff',
         borderLeft: '1px solid #e3e3e3',
         boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.1)',
@@ -43,24 +97,33 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
     return (
         <div className="chat-window" style={{ ...ChatWindowStyle, backgroundColor: '#f8f9fa' }}>
             <div className="chat-header" style={headerStyle}>
-                <span>{selectedFollower.firstName} {selectedFollower.lastName}</span>
+                <h3>{selectedFollower.firstName} {selectedFollower.lastName}</h3>
                 <button className="btn btn-secondary" onClick={onClose}>Close</button>
             </div>
+            <hr></hr>
             <div className="chat-messages">
-                {/* Display messages if available, otherwise render empty space */}
                 {messages.length > 0 ? (
                     messages.map((msg, index) => (
-                        <div key={index}>{msg}</div>
+                        <div key={index} className="chat-message">
+                            <div className="p-3 mb-2 bg-info text-white" style={{ textAlign: msg.align , borderRadius:'10px'}}
+                                onClick={() => handleChatTextClick(msg.sentAt)}>
+                                {msg.chatText}
+                            </div>
+                            {showSentAt === msg.sentAt && (
+                                <div className="sent-at" style={{ textAlign: 'center', fontSize: '12px', color: '#888' }}>
+                                    {msg.sentAt}
+                                </div>
+                            )}
+                        </div>
                     ))
                 ) : (
-                    <div style={{ minHeight: '50px' }}></div> // Empty space
+                    <div style={{ minHeight: '50px' }}></div>
                 )}
             </div>
             <div className="chat-input" style={inputContainerStyle}>
-                {/* Input box for sending messages */}
                 <input
                     type="text"
-                    className="form-control flex-grow-1 mr-2"
+                    className="form                     control flex-grow-1 mr-2"
                     placeholder="Type your message..."
                     value={message}
                     onChange={handleMessageChange}
@@ -72,3 +135,4 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
 };
 
 export default ChatWindow;
+
