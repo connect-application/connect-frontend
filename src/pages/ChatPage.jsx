@@ -1,8 +1,7 @@
 import React, { Suspense, useState } from "react";
-import { useParams } from "react-router-dom";
 import { SIDEBAR_DATA as dummyData } from "../components/Data";
 import Common from "../Common";
-// import ChatWindow from "../components/ChatComponent/ChatWindow"; // Import the ChatWindow component
+import ChatWindow from "../components/ChatComponent/ChatWindow";
 
 const ChatCard = React.lazy(() =>
   import("../components/ChatComponent/ChatCard")
@@ -32,7 +31,7 @@ export const ChatPage = () => {
         </Common>
       </div>
 
-      {/* {selectedFollower && ( // Render the chat window if a follower is selected
+      {selectedFollower && ( // Render the chat window if a follower is selected
 
         <div className="col-lg-4 position-relative ">
           <ChatWindow
@@ -40,7 +39,7 @@ export const ChatPage = () => {
             onClose={closeChatWindow}
           />
         </div>
-      )} */}
+      )}
     </div>
   );
 };
