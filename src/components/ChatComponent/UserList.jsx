@@ -24,10 +24,10 @@ const ChatWindowStyle = {
 
 const UserList = ({ users, headerText, handleFollowerClick }) => {
   return (
-    <div className="col-lg-7 mb-4" style={{ position: 'relative' }}>
-      <h5 style={{ fontWeight: 'bold', color: '#009999', fontFamily: "'Roboto', sans-serif" }}>
+    <div className="col-lg-7 mb-4" style={{ position: 'relative' }}><br></br>
+      <h5 class = "display-6">
         {headerText}
-      </h5>
+      </h5><hr></hr>
       <div >
         {users.length === 0 ? (
           <div style={{ textAlign: 'center' }}>

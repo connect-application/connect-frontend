@@ -44,7 +44,7 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
     const handleSendMessage = () => {
         console.log("Message sent:", message);
         sendNewMsg(message);
-        setMessages([...messages, { chatText: message, fromUserId: userId, align: 'right' }]);
+        setMessages([...messages, { chatText: message, fromUserId: userId, align: 'right', sentAt: new Date().toLocaleString() }]);
         setMessage("");
     };
 
@@ -81,6 +81,7 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
         display: 'flex',
         flexDirection: 'column',
         padding: '10px',
+        overflowY: 'auto'
     };
 
     const headerStyle = {
@@ -91,7 +92,22 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
 
     const inputContainerStyle = {
         display: 'flex',
-        alignItems: 'center',
+        // // alignItems: 'right',
+        // position: 'fixed',
+        // bottom: 0,
+        // width: '72vh',
+        // //  left: 0, 
+        //  right: 0, 
+         backgroundColor: '#fff',
+        //   padding: '10px',
+        //   borderTop: '1px'
+        position: 'fixed',
+        width: '33%',
+        //   height: '200px',
+        right: '0%',
+        bottom: '0%',
+        marginLeft: '-300px', /*half the width*/
+          
     };
 
     return (
@@ -105,7 +121,14 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
                 {messages.length > 0 ? (
                     messages.map((msg, index) => (
                         <div key={index} className="chat-message">
-                            <div className="p-3 mb-2 bg-info text-white" style={{ textAlign: msg.align , borderRadius:'10px'}}
+                            <div className="p-3 mb-2 bg-info text-white"
+                                style={{
+                                    textAlign: msg.align,
+                                    borderRadius: '10px',
+                                    marginLeft: msg.align === 'left' ? '10px' : 'auto',
+                                    marginRight: msg.align === 'right' ? '10px' : 'auto',
+                                    maxWidth: '70%', // Limit maximum width of chat message
+                                }}
                                 onClick={() => handleChatTextClick(msg.sentAt)}>
                                 {msg.chatText}
                             </div>
@@ -119,11 +142,12 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
                 ) : (
                     <div style={{ minHeight: '50px' }}></div>
                 )}
-            </div>
+            </div><br></br><br></br>
+            <hr></hr>
             <div className="chat-input" style={inputContainerStyle}>
                 <input
                     type="text"
-                    className="form                     control flex-grow-1 mr-2"
+                    className="form control flex-grow-1 mr-2"
                     placeholder="Type your message..."
                     value={message}
                     onChange={handleMessageChange}

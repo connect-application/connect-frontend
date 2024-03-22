@@ -7,8 +7,8 @@ const ChatCard = ({handleFollowerClick }) => {
   const loggedInUserId = localStorage.getItem("userId");
 
   const {
-    // followersList,
-    followingsList,
+    followersList,
+    // followingsList,
     loading,
   } = useUserProfile(userId, loggedInUserId);
 
@@ -16,8 +16,9 @@ const ChatCard = ({handleFollowerClick }) => {
 
   return (
     <UserList
-      users={followingsList
-      // .concat(followersList)
+      users={
+        // followingsList
+      followersList
       }
       headerText="Chats"
       handleFollowerClick={handleFollowerClick}
