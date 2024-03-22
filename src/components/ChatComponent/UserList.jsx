@@ -28,18 +28,20 @@ const UserList = ({ users, headerText, handleFollowerClick }) => {
       <h5 style={{ fontWeight: 'bold', color: '#009999', fontFamily: "'Roboto', sans-serif" }}>
         {headerText}
       </h5>
-      <div style={ListStyle}>
+      <div >
         {users.length === 0 ? (
           <div style={{ textAlign: 'center' }}>
             <p>Follow others to start chatting with them</p>
           </div>
         ) : (
           users.map((user, index) => (
+            <div class="btn-group-vertical">
             <FollowerItem
               key={index}
               follower={user}
               handleFollowerClick={handleFollowerClick}
             />
+            </div>
           ))
         )}
       </div>
