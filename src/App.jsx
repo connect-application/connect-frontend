@@ -9,6 +9,7 @@ import {
   SignUpSuccessPage,
   SignInSuccessPage,
   ResetPasswordPage,
+  ChatPage,
   ResetPasswordSuccessPage,
   RecoverPasswordSuccessPage,
 } from "./pages";
@@ -19,7 +20,6 @@ import ProfileComponent from "./components/ProfileComponent";
 import Settings from "./components/Settings";
 import Notification from "./components/Notifications";
 import Search from "./components/Search";
-import Chat from "./components/Chat";
 import Posts from "./components/Posts";
 
 function App() {
@@ -50,7 +50,7 @@ function App() {
         <Route path="/notifications" element={<Notification />} />
         <Route path="/search" element={<Search />} />
         <Route path="/create" element={<Posts />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat" element={<ChatPage />} />
         <Route
           path="/reset-password-success"
           element={<ResetPasswordSuccessPage />}
