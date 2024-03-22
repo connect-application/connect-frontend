@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { getUser } from "../../services/userService";
+import {
+  editFirstName,
+  editLastName,
+  editAbout,
+  editDOB,
+  editProfilePic,
+} from "../../services/userService";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { InputField } from "../common";
@@ -15,7 +22,7 @@ export const ProfileEditCard = () => {
     userName: "",
     email: "",
     dateOfBirth: "",
-    aboutSection: "",
+    about: "",
   });
 
   const {
@@ -33,6 +40,7 @@ export const ProfileEditCard = () => {
       username: user.userName,
       dateOfBirth: user.dateOfBirth,
       email: user.email,
+      about: user.about,
     },
   });
 
@@ -53,6 +61,7 @@ export const ProfileEditCard = () => {
           username: userData.userName,
           dateOfBirth: userData.dateOfBirth,
           email: userData.email,
+          about: userData.about,
         });
       }
     };
@@ -84,7 +93,28 @@ export const ProfileEditCard = () => {
   // };
 
   const onSubmit = async (data) => {
+    console.log(data.profilePicture);
+    console.log(user.profilePicture);
     // Process the form submission here
+    if (data.firstName !== user.firstName) {
+      await editFirstName(data.firstName);
+    }
+    if (data.lastName !== user.lastName) {
+      await editLastName(data.lastName);
+    }
+    if (data.about !== user.about) {
+      await editAbout(data.about);
+    }
+    if (data.dateOfBirth !== user.dateOfBirth) {
+      await editDOB(data.dateOfBirth);
+    }
+    if (user.profilePicture) {
+      console.log("Profile picture is not null");
+      let formData = new FormData();
+      formData.append("profilePic", user.profilePicture);
+      await editProfilePic(formData);
+    }
+
     navigate(`/profile/${userId}`);
   };
 
@@ -153,16 +183,17 @@ export const ProfileEditCard = () => {
 
                 {/* About Section */}
                 <div className="mb-3">
-                  <label htmlFor="aboutSection" className="form-label">
+                  <label htmlFor="about" className="form-label">
                     About
                   </label>
 
                   <textarea
-                    id="aboutSection"
-                    name="aboutSection"
+                    id="about"
+                    name="about"
                     rows="4"
                     className="form-control"
-                    value={user.aboutSection}
+                    defaultValue={user.about}
+                    {...register("about")}
                   ></textarea>
                 </div>
 
@@ -183,6 +214,7 @@ export const ProfileEditCard = () => {
                   rules={{ required: "Last name is required" }}
                   errorMessage={errors.lastName && errors.lastName.message}
                 />
+                {/* 
                 <InputField
                   label="Username"
                   id="username"
@@ -190,7 +222,7 @@ export const ProfileEditCard = () => {
                   value={user.userName}
                   rules={{ required: "Username is required" }}
                   errorMessage={errors.username && errors.username.message}
-                />
+                />*/}
 
                 <InputField
                   label="Date of Birth"
@@ -199,11 +231,9 @@ export const ProfileEditCard = () => {
                   rules={{ required: "* Date of birth is required" }}
                   type="date"
                   value={user.dateOfBirth}
-                  errorMessage={
-                    errors.dateOfBirth && errors.dateOfBirth.message
-                  }
                 />
                 {/* Contact Section */}
+                {/*
                 <InputField
                   label="Email"
                   id="email"
@@ -218,7 +248,7 @@ export const ProfileEditCard = () => {
                   }}
                   type="email"
                   errorMessage={errors.email && errors.email.message}
-                />
+                />*/}
 
                 <div className="text-center">
                   <button

@@ -22,6 +22,7 @@ export function useUserProfile(userId, loggedInUserId) {
   useEffect(() => {
     const fetchUser = async () => {
       const userData = await getUser(userId);
+      console.log(userData); // Add this line
       setProfileData(prevData => ({ ...prevData, user: userData }));
     };
 

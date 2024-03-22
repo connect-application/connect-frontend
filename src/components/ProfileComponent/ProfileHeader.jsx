@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
+import defaultProfilePic from "../../assets/img/logos/base.png";
 
 const ProfileHeader = ({
   user,
@@ -10,18 +11,30 @@ const ProfileHeader = ({
   followers,
   following,
 }) => {
+  useEffect(() => {
+    console.log(user.profilePicture);
+  }, [user]);
   return (
     <div
       className="card-header d-flex justify-content-between align-items-center p-4"
       style={{ backgroundColor: "#f8f9fa", borderBottom: "1px solid #e3e3e3" }}
     >
       <div className="d-flex align-items-center flex-grow-1">
-        <img
-          src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-          alt={`${user.userName}'s avatar`}
-          className="rounded-circle"
-          style={{ width: "80px", height: "80px", objectFit: "cover" }}
-        />
+        {user.profilePic ? (
+          <img
+            src={`data:image/jpeg;base64,${user.profilePic}`}
+            alt={`${user.userName}'s avatar`}
+            className="rounded-circle"
+            style={{ width: "80px", height: "80px", objectFit: "cover" }}
+          />
+        ) : (
+          <img
+            src={defaultProfilePic}
+            alt={`${user.userName}'s avatar`}
+            className="rounded-circle"
+            style={{ width: "80px", height: "80px", objectFit: "cover" }}
+          />
+        )}
         <div className="ms-3">
           <h2
             className="mb-0"
