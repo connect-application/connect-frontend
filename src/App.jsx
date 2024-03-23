@@ -16,13 +16,13 @@ import {
   ProfilePage,
   NewActivitySuccessPage,
   ProfileEditPage,
+  SearchPage,
 } from "./pages";
 import { Helmet } from "react-helmet";
 import "./styles/shared.css";
 import HomeComponent from "./components/HomeComponent/home";
 import Settings from "./components/Settings";
 import Notification from "./components/Notifications";
-import Search from "./components/Search";
 import Chat from "./components/Chat";
 import Posts from "./components/Posts";
 
@@ -57,7 +57,7 @@ function App() {
           <Route path="/profile/edit" element={<ProfileEditPage />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/notifications" element={<Notification />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/search" element={<SearchPage />} />
           <Route path="/create-activity" element={<NewActivityPage />} />
           <Route
             path="/create-activity/success"

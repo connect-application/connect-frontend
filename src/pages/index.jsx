@@ -10,3 +10,4 @@ export * from "./NewActivityPage";
 export * from "./ProfilePage";
 export * from "./NewActivitySuccessPage";
 export * from "./ProfileEditPage";
+export * from "./SearchPage";
