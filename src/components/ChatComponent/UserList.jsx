@@ -41,7 +41,6 @@ const UserList = ({ users, headerText, handleFollowerClick }) => {
               follower={user}
               handleFollowerClick={handleFollowerClick}
             />
-            <br></br>
             </div>
           ))
         )}
