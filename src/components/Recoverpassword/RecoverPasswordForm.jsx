@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { InputField } from "../common/InputField";
+import { recoverPassword } from "../../services/authService";
 
 export const RecoverPasswordForm = () => {
   const {
@@ -16,13 +16,7 @@ export const RecoverPasswordForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/login/reset/token",
-        {
-          email: data.email.toLowerCase(),
-        }
-      );
-      const { email, code, status } = response.data;
+      const { email, code, status } = await recoverPassword(data.email);
       if (code === "00") {
         setErrorMessage(status);
         navigate("/recover-password-success");

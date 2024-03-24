@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { InputField, PasswordInputField } from "../common";
 import axios from "axios";
+import { login } from "../../services/authService";
+import { useUser } from "../common";
 
 export const SignInForm = () => {
   const {
@@ -11,16 +13,27 @@ export const SignInForm = () => {
     formState: { errors },
   } = useForm({ mode: "onChange" });
   const navigate = useNavigate();
+  const { setUser } = useUser();
   const [errorMessage, setErrorMessage] = useState("");
+
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:8080/api/v1/login", {
-        email: data.email,
-        password: data.password,
-      });
-      const { email, jwtToken, code, status } = response.data;
+      const response = await login(data.email, data.password);
+      const {
+        id,
+        firstName,
+        lastName,
+        userName,
+        email,
+        dateOfBirth,
+        jwtToken,
+        code,
+        status,
+      } = response;
       if (code === "00") {
+        setUser({ id, firstName, lastName, userName });
         localStorage.setItem("jwtToken", jwtToken); // store the JWT token
+        localStorage.setItem("userId", id); // store the user ID
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${localStorage.getItem("jwtToken")}`;

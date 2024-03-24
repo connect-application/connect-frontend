@@ -27,8 +27,7 @@ import {
     {
       id: 3,
       name: "create",
-      path: "/home",
-      component: "HomeComponent",
+      path: "/create-post",
       icon: <CreateIcon />,
     },
     {
