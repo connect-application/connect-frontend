@@ -71,6 +71,7 @@ export const NewPasswordForm = () => {
         }}
         type="password"
         errorMessage={errors.password && errors.password.message}
+        errorMessageId="password_error"
       />
       <InputField
         label="Confirm Password"
@@ -83,12 +84,14 @@ export const NewPasswordForm = () => {
         }}
         type="password"
         errorMessage={errors.confirmPassword && errors.confirmPassword.message}
+        errorMessageId="confirmPassword_error"
       />
       <div style={{ position: "relative", paddingBottom: "30px" }}>
         {errorMessage && (
           <div
             className="error-message"
             style={{ position: "absolute", top: "0", left: "0" }}
+            errorMessageId="error_message"
           >
             {errorMessage}
           </div>

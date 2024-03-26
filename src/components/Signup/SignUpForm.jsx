@@ -175,7 +175,7 @@ export const SignUpForm = () => {
         Sign Up
       </button>
 
-      <p className="text-center mt-3">
+      <p className="text-center mt-3 sign-in-link">
         Already a member? <Link to="/">Sign In</Link>
       </p>
     </form>
