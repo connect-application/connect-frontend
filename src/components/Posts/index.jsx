@@ -14,7 +14,7 @@ import { SIDEBAR_DATA as dummyData } from "../Data";
 import Common from "../../Common";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import axios from "axios";
-import PostService from "../../services/PostService";
+import PostService from "../../services/postService";
 
 const Posts = () => {
   const [caption, setCaption] = useState("");

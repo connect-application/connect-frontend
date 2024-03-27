@@ -10,6 +10,7 @@ import {
   SignUpSuccessPage,
   SignInSuccessPage,
   ResetPasswordPage,
+  ChatPage,
   ResetPasswordSuccessPage,
   RecoverPasswordSuccessPage,
   NewActivityPage,
@@ -23,7 +24,6 @@ import HomeComponent from "./components/HomeComponent/home";
 import Settings from "./components/Settings";
 import Notification from "./components/Notifications";
 import Search from "./components/Search";
-import Chat from "./components/Chat";
 import Posts from "./components/Posts";
 
 function App() {
@@ -54,6 +54,7 @@ function App() {
           <Route path="/signin-success" element={<SignInSuccessPage />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/profile/:userId" element={<ProfilePage />} />
+          <Route path="/chat" element={<ChatPage />} />
           <Route path="/profile/edit" element={<ProfileEditPage />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/notifications" element={<Notification />} />
@@ -64,7 +65,6 @@ function App() {
             element={<NewActivitySuccessPage />}
           />
           <Route path="/create-post" element={<Posts />} />
-          <Route path="/chat" element={<Chat />} />
           <Route
             path="/reset-password-success"
             element={<ResetPasswordSuccessPage />}
