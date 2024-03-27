@@ -113,3 +113,85 @@ export const toggleFollow = async (userId) => {
     throw error;
   }
 };
+
+export const editFirstName = async (newFirstName) => {
+  const token = localStorage.getItem("jwtToken");
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const url = `http://localhost:8080/user/editFirstName?firstName=${newFirstName}`;
+    const response = await axios.post(url, {}, options);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editLastName = async (newLastName) => {
+  const token = localStorage.getItem("jwtToken");
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const url = `http://localhost:8080/user/editLastName?lastName=${newLastName}`;
+    const response = await axios.post(url, {}, options);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editAbout = async (newAbout) => {
+  const token = localStorage.getItem("jwtToken");
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const url = `http://localhost:8080/user/editAbout?about=${newAbout}`;
+    const response = await axios.post(url, {}, options);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editDOB = async (newDOB) => {
+  const token = localStorage.getItem("jwtToken");
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const url = `http://localhost:8080/user/editDateOfBirth?dateOfBirth=${newDOB}`;
+    const response = await axios.post(url, {}, options);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const editProfilePic = async (newProfilePic) => {
+  const token = localStorage.getItem("jwtToken");
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data'
+    },
+  };
+
+  try {
+    const url = `http://localhost:8080/user/editProfilePic`;
+    const response = await axios.post(url, newProfilePic, options);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

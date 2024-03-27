@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom"; // import useNavigate
 import { useForm } from "react-hook-form";
 import { InputField } from "../common";
-import axios from "axios";
+import { signup } from "../../services/authService"; // import signup function from authService
 
 export const SignUpForm = () => {
   const {
@@ -18,15 +18,7 @@ export const SignUpForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post("http://localhost:8080/api/v1/signup", {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        userName: data.username,
-        email: data.email.toLowerCase(),
-        password: data.password,
-        dateOfBirth: data.dateOfBirth,
-      });
-      const { email, code, status } = response.data;
+      const { email, code, status } = await signup(data);
       if (code === "00") {
         setErrorMessage(status);
         navigate("/signup-success"); // navigate to success page
@@ -183,7 +175,7 @@ export const SignUpForm = () => {
         Sign Up
       </button>
 
-      <p className="text-center mt-3">
+      <p className="text-center mt-3 sign-in-link">
         Already a member? <Link to="/">Sign In</Link>
       </p>
     </form>

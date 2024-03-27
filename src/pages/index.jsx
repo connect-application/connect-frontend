@@ -7,3 +7,7 @@ export * from "./ChatPage";
 export * from "./ResetPasswordPage";
 export * from "./ResetPasswordSuccessPage";
 export * from "./RecoverPasswordSuccessPage";
+export * from "./NewActivityPage";
+export * from "./ProfilePage";
+export * from "./NewActivitySuccessPage";
+export * from "./ProfileEditPage";
