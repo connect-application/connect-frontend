@@ -42,25 +42,29 @@ function Notification() {
 
   return (
     <Common dummyData={dummyData}>
-      <div id = "colorPage">
-        <h2>Notifications</h2>
+      <div>
+        <h2 style={{ textAlign: 'center',  color: "#009999" }}>Notifications</h2>
         <div>
           <div style={{ textAlign: 'right',  marginBottom: '10px' }}>
             {/* Button to mark all notifications as read */}
-            <button className="btn btn-primary" onClick={handleMarkAllAsRead}>Mark All as Read</button>
+            <button className="btn" style={{ backgroundColor: "#009999", color: "white" }} onClick={handleMarkAllAsRead}>Mark All as Read</button>
           </div>
+          {notifications.length == 0 ? (
+            <h4 style={{ textAlign: 'center',  color: "#009999" }}>No notifications</h4>
+          ):(
+            <div>
+              {/* Display each notification */}
+              {notifications.map((notification) => (
+                <div key={notification.notificationId} style={notificationBoxStyle}>
+                  <p>{notification.notificationText}</p>
+                  <p>Created At: {notification.createdAt}</p>
+                  {/* Link to mark individual notification as read */}
+                  <button style={{ float: 'right', backgroundColor: "#009999", color: "white"}} className="btn" onClick={() => handleReadNotification(notification.notificationId)}>Mark as Read </button>
+                </div>
+              ))}
+            </div>
+          )}
           
-          <div>
-            {/* Display each notification */}
-            {notifications.map((notification) => (
-              <div key={notification.notificationId} style={notificationBoxStyle}>
-                <p>{notification.notificationText}</p>
-                <p>Created At: {notification.createdAt}</p>
-                {/* Link to mark individual notification as read */}
-                <button style={{ float: 'right' }} className="btn btn-primary" onClick={() => handleReadNotification(notification.notificationId)}>Mark as Read {notification.notificationId} </button>
-              </div>
-            ))}
-          </div>
         </div>
         
 
