@@ -6,27 +6,21 @@ import { SIDEBAR_DATA as dummyData } from './components/Data.js';
 
 function Common ({ children }) {
     return (
-        <Container fluid>
-            <Row>
-                <Col md={3}>
-                    <Sidebar>
-                        <Routes>
-                        {dummyData &&
-                        dummyData.map((item, index) => (
-                            <Route
-                            key={index}
-                            path={item.path}
-                            element={<LazyLoadedComponent component={item.component} />} 
-                            />
-                        ))}
-                        </Routes>
-                    </Sidebar>
-                </Col>
-                <Col md={9}>
-                    {children}
-                </Col>
-            </Row>
-        </Container>
+        <div id="colorPage">
+            <Sidebar>
+                {children}
+            <Routes>
+            {dummyData &&
+            dummyData.map((item, index) => (
+                <Route
+                key={index}
+                path={item.path}
+                element={<LazyLoadedComponent component={item.component} />} 
+                />
+            ))}
+            </Routes>
+            </Sidebar>
+        </div>
     );
 }
 
