@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
 import { InputField } from "../common/InputField";
+import { resetPassword } from "../../services/authService";
 
 export const NewPasswordForm = () => {
   const {
@@ -22,15 +22,11 @@ export const NewPasswordForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/login/reset",
-        {
-          email: email,
-          token: token,
-          newPassword: data.password,
-        }
-      );
-      const { email: responseEmail, code, status } = response.data;
+      const {
+        email: responseEmail,
+        code,
+        status,
+      } = await resetPassword(email, token, data.password);
       if (code === "00") {
         navigate("/reset-password-success");
       } else {
@@ -75,6 +71,7 @@ export const NewPasswordForm = () => {
         }}
         type="password"
         errorMessage={errors.password && errors.password.message}
+        errorMessageId="password_error"
       />
       <InputField
         label="Confirm Password"
@@ -87,12 +84,14 @@ export const NewPasswordForm = () => {
         }}
         type="password"
         errorMessage={errors.confirmPassword && errors.confirmPassword.message}
+        errorMessageId="confirmPassword_error"
       />
       <div style={{ position: "relative", paddingBottom: "30px" }}>
         {errorMessage && (
           <div
             className="error-message"
             style={{ position: "absolute", top: "0", left: "0" }}
+            errorMessageId="error_message"
           >
             {errorMessage}
           </div>
