@@ -9,6 +9,7 @@ export const SelectField = ({
   rules,
   options,
   errorMessage,
+  errorMessageId,
   required = false,
 }) => (
   <div className="form-group">
@@ -17,7 +18,9 @@ export const SelectField = ({
         {label}
         {required && <span style={{ color: "red" }}> *</span>}
       </label>
-      <div className="error-message">{errorMessage}</div>
+      <div className="error-message" errorMessageId={errorMessageId}>
+        {errorMessage}
+      </div>
     </div>
     <Controller
       control={control} // pass control prop here
