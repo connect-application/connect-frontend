@@ -12,6 +12,13 @@ class PostService {
     createPost(postText,isPublic){
         return axios.post(`${POST_API_CREATE_URL}?postText=${postText}&isPublic=${isPublic}`);
     }
+    likePost(postId){
+      return axios.post(`${POST_API_LIKE_URL}?postId=${postId}`);
+    }
+
+    getLikes(postId){
+      return axios.get(`${POST_API_GET_LIKE_URL}?postId=${postId}`);
+    }
 }
 
 export const getCurrentUserPosts = async () => {
