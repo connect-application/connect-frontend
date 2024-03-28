@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Common from '../../Common';
 import PostService from "../../services/PostService";
 
-import makeStyles from '@mui/styles/makeStyles';
+import { makeStyles } from '@material-ui/core/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
