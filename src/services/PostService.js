@@ -1,10 +1,11 @@
 import axios from "axios";
+import API_URL from "../config";
 
 
-const POST_API_BASE_URL = 'http://localhost:8080/posts/getFeed';
-const POST_API_CREATE_URL = 'http://localhost:8080/posts/addPost';
-const POST_API_LIKE_URL = 'http://localhost:8080/like/togglePostLike';
-const POST_API_GET_LIKE_URL = 'http://localhost:8080/like/getCountLikes';
+const POST_API_BASE_URL = `${API_URL}/posts/getFeed`;
+const POST_API_CREATE_URL = `${API_URL}/posts/addPost`;
+const POST_API_LIKE_URL = `${API_URL}/like/togglePostLike`;
+const POST_API_GET_LIKE_URL = `${API_URL}/like/getCountLikes`;
 
 
 
@@ -35,7 +36,7 @@ export const getCurrentUserPosts = async () => {
   };
 
   try {
-    const response = await axios.get(`http://localhost:8080/posts/getCurrentUserPosts`, options);
+    const response = await axios.get(`${API_URL}/posts/getCurrentUserPosts`, options);
     return response.data;
   } catch (error) {
     throw error;
@@ -51,7 +52,7 @@ export const getUserPosts = async (userId) => {
   };
 
   try {
-    const response = await axios.get(`http://localhost:8080/posts/${userId}`, options);
+    const response = await axios.get(`${API_URL}/posts/${userId}`, options);
     return response.data;
   } catch (error) {
     throw error;

@@ -1,5 +1,6 @@
 // userService.js
 import axios from "axios";
+import API_URL from "../config";
 
 
 export const getUser = async (userId) => {
@@ -11,7 +12,7 @@ export const getUser = async (userId) => {
   };
 
   try {
-    const response = await axios.get(`http://localhost:8080/user/${userId}`, options);
+    const response = await axios.get(`${API_URL}/user/${userId}`, options);
     return response.data;
   } catch (error) {
     throw error;
@@ -26,7 +27,7 @@ export const getFollowersCount = async (userId) => {
     },
   };
   try {
-    const response = await axios.get(`http://localhost:8080/follow/getCountFollowers?userId=${userId}`, options);
+    const response = await axios.get(`${API_URL}/follow/getCountFollowers?userId=${userId}`, options);
     return response.data;
   } catch (error) {
     throw error;
@@ -41,7 +42,7 @@ export const getFollowingCount = async (userId) => {
     },
   };
   try {
-    const response = await axios.get(`http://localhost:8080/follow/getCountFollowing?userId=${userId}`, options);
+    const response = await axios.get(`${API_URL}/follow/getCountFollowing?userId=${userId}`, options);
     return response.data;
   } catch (error) {
     throw error;
@@ -56,11 +57,11 @@ export const getFollowersList = async (userId) => {
     },
   };
   try {
-    const response = await axios.get(`http://localhost:8080/follow/getFollowers?userId=${userId}`, options);
+    const response = await axios.get(`${API_URL}/follow/getFollowers?userId=${userId}`, options);
     const followersListData = await response.data;
     const followersUserData = await Promise.all(
       followersListData.map(async (follower) => {
-        const response = await axios.get(`http://localhost:8080/user/${follower.followedBy}`, options);
+        const response = await axios.get(`${API_URL}/user/${follower.followedBy}`, options);
         return response.data;
       })
     );
@@ -78,11 +79,11 @@ export const getFollowingsList = async (userId) => {
     },
   };
   try {
-    const response = await axios.get(`http://localhost:8080/follow/getFollowing?userId=${userId}`, options);
+    const response = await axios.get(`${API_URL}/follow/getFollowing?userId=${userId}`, options);
     const followingsListData = await response.data;
     const followingsUserData = await Promise.all(
       followingsListData.map(async (following) => {
-        const response = await axios.get(`http://localhost:8080/user/${following.userId}`, options);
+        const response = await axios.get(`${API_URL}/user/${following.userId}`, options);
         return response.data;
       })
     );
@@ -100,7 +101,7 @@ export const toggleFollow = async (userId) => {
     },
   };
   try {
-    const url = `http://localhost:8080/follow/toggleFollow?toFollow=${userId}`;
+    const url = `${API_URL}/follow/toggleFollow?toFollow=${userId}`;
     console.log('Request URL:', url);
     console.log('Request headers:', options.headers);
     const response = await axios.post(url, {}, options);
@@ -122,7 +123,7 @@ export const editFirstName = async (newFirstName) => {
     },
   };
   try {
-    const url = `http://localhost:8080/user/editFirstName?firstName=${newFirstName}`;
+    const url = `${API_URL}/user/editFirstName?firstName=${newFirstName}`;
     const response = await axios.post(url, {}, options);
     return response.data;
   } catch (error) {
@@ -138,7 +139,7 @@ export const editLastName = async (newLastName) => {
     },
   };
   try {
-    const url = `http://localhost:8080/user/editLastName?lastName=${newLastName}`;
+    const url = `${API_URL}/user/editLastName?lastName=${newLastName}`;
     const response = await axios.post(url, {}, options);
     return response.data;
   } catch (error) {
@@ -154,7 +155,7 @@ export const editAbout = async (newAbout) => {
     },
   };
   try {
-    const url = `http://localhost:8080/user/editAbout?about=${newAbout}`;
+    const url = `${API_URL}/user/editAbout?about=${newAbout}`;
     const response = await axios.post(url, {}, options);
     return response.data;
   } catch (error) {
@@ -170,7 +171,7 @@ export const editDOB = async (newDOB) => {
     },
   };
   try {
-    const url = `http://localhost:8080/user/editDateOfBirth?dateOfBirth=${newDOB}`;
+    const url = `${API_URL}/user/editDateOfBirth?dateOfBirth=${newDOB}`;
     const response = await axios.post(url, {}, options);
     return response.data;
   } catch (error) {
@@ -188,7 +189,7 @@ export const editProfilePic = async (newProfilePic) => {
   };
 
   try {
-    const url = `http://localhost:8080/user/editProfilePic`;
+    const url = `${API_URL}/user/editProfilePic`;
     const response = await axios.post(url, newProfilePic, options);
     return response.data;
   } catch (error) {

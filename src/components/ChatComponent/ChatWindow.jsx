@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import API_URL from "../../config";
 
 const ChatWindow = ({ selectedFollower, onClose }) => {
     const [message, setMessage] = useState("");
@@ -22,7 +23,7 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
         };
 
         try {
-            const response = await axios.post(`http://localhost:8080/chat/getChats?toUserId=${selectedFollower.id}`, {}, options);
+            const response = await axios.post(`${API_URL}/chat/getChats?toUserId=${selectedFollower.id}`, {}, options);
             console.log('Request URL:', response.config.url); 
             console.log(response.data);
             const alignedMessages = response.data.map(item => ({

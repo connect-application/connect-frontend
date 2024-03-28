@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { InputField, SelectField } from "../common";
 import axios from "axios";
+import API_URL from "../../config";
 
 export const ActivityForm = () => {
   const {
@@ -50,7 +51,7 @@ export const ActivityForm = () => {
       const token = localStorage.getItem("jwtToken"); // get the token from local storage
 
       const response = await axios.post(
-        "http://localhost:8080/activity/addActivity",
+        `${API_URL}/activity/addActivity`,
         activityData,
         {
           headers: {
