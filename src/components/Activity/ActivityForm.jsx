@@ -15,7 +15,7 @@ export const ActivityForm = () => {
     formState: { errors },
   } = useForm();
 
-  const [imageUrl, setImageUrl] = useState(null);
+  const [imageUrl, setImageUrls] = useState(null);
   const navigate = useNavigate();
   const categories = [
     { value: 1, label: "Fitness" },
@@ -45,17 +45,33 @@ export const ActivityForm = () => {
         // files: [], // Not needed here, as we're using FormData below
       };
 
-      console.log(JSON.stringify(activityData, null, 2));
+      // console.log(JSON.stringify(activityData, null, 2));
+      console.log("img test");
+      console.log(data.files);
+      console.log(JSON.stringify(activityData));
+      console.log("files type", data.files.type);
+      // Create FormData object
+      const formData = new FormData();
+      formData.append("activityRequest", JSON.stringify(activityData));
+      // formData.append("files", data.files);
+      data.files.forEach((file, index) => {
+        formData.append("files", file); // Append each file with a unique key
+      });
+      // formData.append("activityRequest", JSON.stringify(activityData));
 
       // Make the request directly from here
       const token = localStorage.getItem("jwtToken"); // get the token from local storage
+      console.log("FormData json:", formData.get("activityRequest"));
+      console.log("FormData img:", formData.getAll("files").length);
+      console.log("FormData img type:", formData.getAll("files").type);
 
       const response = await axios.post(
         `${API_URL}/activity/addActivity`,
-        activityData,
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`, // use the token here
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -70,13 +86,10 @@ export const ActivityForm = () => {
   };
 
   const handleImageChange = (event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
-      setImageUrl(URL.createObjectURL(selectedFile));
-      setValue("upload-photo", selectedFile); // Use setValue to set the value of the file input field
-    } else {
-      setImageUrl(null);
-    }
+    const selectedFiles = Array.from(event.target.files);
+    const fileUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+    setImageUrls(fileUrls);
+    setValue("files", selectedFiles); // Use setValue to set the value of the file input field
   };
 
   const fileInputRef = useRef(null);
@@ -107,7 +120,9 @@ export const ActivityForm = () => {
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
+                    multiple
                     style={{ display: "none" }}
+                    name="files"
                   />
                   <div
                     className="btn btn-outline-secondary d-flex align-items-center justify-content-center mx-auto"
