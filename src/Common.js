@@ -6,7 +6,7 @@ import { SIDEBAR_DATA as dummyData } from './components/Data.js';
 
 function Common ({ children }) {
     return (
-        <div id="colorPage">
+        <div >
             <Sidebar>
                 {children}
             <Routes>
