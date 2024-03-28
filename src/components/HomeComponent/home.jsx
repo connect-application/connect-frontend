@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Common from '../../Common';
-import PostService from '../../services/postService';
+import PostService from "../../services/PostService";
+
 import makeStyles from '@mui/styles/makeStyles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
