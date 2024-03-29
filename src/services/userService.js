@@ -195,3 +195,35 @@ export const editProfilePic = async (newProfilePic) => {
     throw error;
   }
 };
+
+export const searchUser = async (query) => {
+  const token = localStorage.getItem("jwtToken");
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const url = `http://localhost:8080/search/userName?userName=${query}`;
+    const response = await axios.get(url, {}, options);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const searchGroup = async (query) => {
+  const token = localStorage.getItem("jwtToken");
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  try {
+    const url = `http://localhost:8080/search/groupName?groupName=${query}`;
+    const response = await axios.get(url, {}, options);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
