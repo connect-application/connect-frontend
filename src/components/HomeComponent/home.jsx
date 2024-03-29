@@ -60,7 +60,7 @@ function HomeComponent() {
     return (
         <Common dummyData={dummyData}>
         <h2 style={{ color: '#009999' }}>Home</h2>
-            <div id="colorPage" className={classes.root}>
+            <div  className={classes.root}>
                 {posts.map((post, index) => (
                     <PostCard key={index} post={post} classes={classes} />
                 ))}
