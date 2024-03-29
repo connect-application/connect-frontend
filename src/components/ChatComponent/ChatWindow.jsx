@@ -62,7 +62,7 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
         };
 
         try {
-            const response = await axios.post(`http://localhost:8080/chat/addChat?toUserId=${selectedFollower.id}&chatText=${newChat}`, {}, options);
+            const response = await axios.post(`${API_URL}/chat/addChat?toUserId=${selectedFollower.id}&chatText=${newChat}`, {}, options);
             console.log('Request URL:', response.config.url); 
             console.log(response.data);
         } catch (error) {
