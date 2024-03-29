@@ -25,6 +25,22 @@ class PostService {
     getLikes(postId){
       return axios.get(`${POST_API_GET_LIKE_URL}?postId=${postId}`);
     }
+
+    async getUserGroups() {
+        const token = localStorage.getItem("jwtToken");
+        const options = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+      
+        try {
+          const response = await axios.get(`${API_URL}/group/getUserGroups`, options);
+          return response.data;
+        } catch (error) {
+          throw error;
+        }
+      }
 }
 
 export const getCurrentUserPosts = async () => {
