@@ -8,7 +8,7 @@ export const addActivity = async (activityData) => {
     },
   };
   try {
-    const url = "http://localhost:8080/activity/addActivity";
+    const url = `${API_URL}/activity/addActivity`;
     const response = await axios.post(url, {
       categoryId: activityData.categoryId,
       statusId: activityData.statusId,

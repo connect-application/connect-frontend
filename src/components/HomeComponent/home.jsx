@@ -1,88 +1,134 @@
-import React, { useState, useEffect } from "react";
-import Common from "../../Common";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import axios from "axios";
-import waterlooImage from "../../assets/img/logos/waterloo.png";
-import { SIDEBAR_DATA as dummyData } from "../Data";
+import React, { useState, useEffect } from 'react';
+import Common from '../../Common';
+import PostService from "../../services/PostService";
+
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import waterlooImage from '../../assets/img/logos/waterloo.png';
+import { SIDEBAR_DATA as dummyData } from '../Data';
+import IconButton from '@mui/material/IconButton';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    maxHeight: "100vh", // Set maximum height to viewport height
-    width: "100%",
-    flexDirection: "column", // Set flex direction to column
-    padding: theme.spacing(2),
-    overflowX: "hidden", // Add vertical scrollbar if content overflows // Add margin between cards
-    overflowY: "auto", // Add vertical scrollbar if content overflows // Add margin between cards
-  },
-  card: {
-    padding: theme.spacing(1),
-    marginBottom: theme.spacing(2),
-    width: "50%",
-    marginRight: theme.spacing(2),
-    overflowY: "auto", // Add vertical scrollbar if content overflows // Add margin between cards
-    border: "2px solid #325d66", // Add a border with a light gray color
-    borderRadius: theme.spacing(1), // Add a border radius for rounded corners
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Add a box shadow for depth
-  },
-  image: {
-    maxWidth: "100%",
-    height: "auto",
-  },
-}));
+    card: {
+      maxWidth: 600,
+      margin: 'auto',
+      marginBottom: theme.spacing(2),
+    },
+    header: {
+      display: 'flex',
+      alignItems: 'center',
+      marginBottom: theme.spacing(1),
+    },
+    avatar: {
+      marginRight: theme.spacing(1),
+    },
+    image: {
+      width: '100%',
+      height: 'auto',
+    },
+    icon: {
+      marginLeft: 'auto',
+    },
+  }));
+  
 
 function HomeComponent() {
-  var status = "ERROR";
-  const [posts, setPosts] = useState([]);
-  const classes = useStyles();
+    const [posts, setPosts] = useState([]);
+    const classes = useStyles();
 
-  useEffect(() => {
-    getPosts();
-  }, []);
+    useEffect(() => {
+        getPosts();
+    }, []);
 
-  const getPosts = () => {};
+    const getPosts = () => {
+        PostService.getAllPosts()
+            .then((response) => {
+                if (response != null) {
+                    setPosts(response.data['SUCCESS']);
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching posts:", error);
+            });
+    };
 
-  return (
-    <Common dummyData={dummyData}>
-      <div>
-        <ul>
-          <h1></h1>
-          <div id="colorPage" className={classes.root}>
-            {posts.map((post) => (
-              <Card
-                className={`${classes.card} ${classes.additionalClass}`}
-                key={post.postId}
-              >
-                <CardContent>
-                  {post.postId === 1 && (
-                    <img src={waterlooImage} alt="Waterloo" />
-                  )}
-                  <Typography color="textSecondary" gutterBottom>
-                    <span style={{ fontWeight: "bold", color: "black" }}>
-                      User ID:
-                    </span>
-                    <span style={{ marginLeft: "4px" }}>{post.userId}</span>
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                    {post.postText}
-                  </Typography>
-                  <Typography color="textSecondary">
-                    <span style={{ fontWeight: "bold", color: "black" }}>
-                      Created At:
-                    </span>
-                    <span style={{ marginLeft: "4px" }}>{post.createdAt}</span>
-                  </Typography>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </ul>
-      </div>
-    </Common>
-  );
+    return (
+        <Common dummyData={dummyData}>
+        <h2 style={{ color: '#009999' }}>Home</h2>
+            <div  className={classes.root}>
+                {posts.map((post, index) => (
+                    <PostCard key={index} post={post} classes={classes} />
+                ))}
+            </div>
+        </Common>
+    )
 }
+
+function PostCard({ post }) {
+    const classes = useStyles();
+  
+    const [liked, setLiked] = useState(post.liked); // Initialize the liked state based on the post data
+    const [likeCount, setLikeCount] = useState(post.noOfLikes); // Initialize like count
+    console.log('Response:', post);
+  const handleLike = () => {
+    // Toggle the like status locally
+    setLiked(!liked);
+    console.log('Liked post:', post.postId);
+    PostService.likePost(post.postId)
+    .then((response) => {
+        if (response != null) {
+            if(response.data){
+                setLiked(!liked);
+            }
+        }
+    })
+    .catch((error) => {
+        console.error("Error fetching likes:", error);
+    });
+    setLikeCount(liked ? likeCount - 1 : likeCount + 1);
+  };
+  
+    const handleComment = () => {
+      // Implement your comment functionality here
+      console.log('Commented on post:', post.postId);
+    };
+  
+    return (
+      <Card className={classes.card}>
+        <CardContent>
+          <Typography variant="subtitle1" gutterBottom>
+            User ID: {post.userId}
+          </Typography>
+          {post.image && (
+            <img src={post.image} alt="Post" className={classes.image} />
+          )}
+          <Typography variant="body1" className={classes.content}>
+            {post.postText}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            Created At: {post.createdAt}
+          </Typography>
+          {/* Like and Comment buttons */}
+          <div className={classes.actions}>
+            <IconButton onClick={handleLike} size="large">
+            <FavoriteIcon color={liked ? 'secondary' : 'action'} /> {/* Change color to pink if liked */}
+            </IconButton>
+            <Typography variant="body2" color="textSecondary">
+            {likeCount} Likes
+          </Typography>
+            <IconButton onClick={handleComment} size="large">
+              <ChatBubbleOutlineIcon />
+            </IconButton>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+  
 
 export default HomeComponent;

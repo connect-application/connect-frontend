@@ -1,8 +1,13 @@
 import axios from "axios";
+import API_URL from "../config";
 
 
-const POST_API_BASE_URL = 'http://localhost:8080/posts/getFeed';
-const POST_API_CREATE_URL = 'http://localhost:8080/posts/addPost';
+const POST_API_BASE_URL = `${API_URL}/posts/getFeed`;
+const POST_API_CREATE_URL = `${API_URL}/posts/addPost`;
+const POST_API_LIKE_URL = `${API_URL}/like/togglePostLike`;
+const POST_API_GET_LIKE_URL = `${API_URL}/like/getCountLikes`;
+
+
 
 class PostService {
     getAllPosts() { // Declare userId and jwtToken as parameters
@@ -12,6 +17,30 @@ class PostService {
     createPost(postText,isPublic){
         return axios.post(`${POST_API_CREATE_URL}?postText=${postText}&isPublic=${isPublic}`);
     }
+
+    likePost(postId){
+      return axios.post(`${POST_API_LIKE_URL}?postId=${postId}`);
+    }
+
+    getLikes(postId){
+      return axios.get(`${POST_API_GET_LIKE_URL}?postId=${postId}`);
+    }
+
+    async getUserGroups() {
+        const token = localStorage.getItem("jwtToken");
+        const options = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+      
+        try {
+          const response = await axios.get(`${API_URL}/group/getUserGroups`, options);
+          return response.data;
+        } catch (error) {
+          throw error;
+        }
+      }
 }
 
 export const getCurrentUserPosts = async () => {
@@ -23,7 +52,7 @@ export const getCurrentUserPosts = async () => {
   };
 
   try {
-    const response = await axios.get(`http://localhost:8080/posts/getCurrentUserPosts`, options);
+    const response = await axios.get(`${API_URL}/posts/getCurrentUserPosts`, options);
     return response.data;
   } catch (error) {
     throw error;
@@ -39,7 +68,7 @@ export const getUserPosts = async (userId) => {
   };
 
   try {
-    const response = await axios.get(`http://localhost:8080/posts/${userId}`, options);
+    const response = await axios.get(`${API_URL}/posts/${userId}`, options);
     return response.data;
   } catch (error) {
     throw error;

@@ -1,8 +1,8 @@
 import axios from "axios";
-
+import API_URL from "../config";
 export const login = async (email, password) => {
   try {
-    const response = await axios.post("http://localhost:8080/api/v1/login", {
+    const response = await axios.post(`${API_URL}/api/v1/login`, {
       email,
       password,
     });
@@ -14,7 +14,7 @@ export const login = async (email, password) => {
 
 export const signup = async (data) => {
     try {
-      const response = await axios.post("http://localhost:8080/api/v1/signup", {
+      const response = await axios.post(`${API_URL}/api/v1/signup`, {
         firstName: data.firstName,
         lastName: data.lastName,
         userName: data.username,
@@ -30,7 +30,7 @@ export const signup = async (data) => {
 
 export const recoverPassword = async (email) => {
 try {
-    const response = await axios.post("http://localhost:8080/api/v1/login/reset/token", {
+    const response = await axios.post(`${API_URL}/api/v1/login/reset/token`, {
     email,
     });
     return response.data;
@@ -41,7 +41,7 @@ try {
 
 export const resetPassword = async (email, token, newPassword) => {
 try {
-    const response = await axios.post("http://localhost:8080/api/v1/login/reset", {
+    const response = await axios.post(`${API_URL}/api/v1/login/reset`, {
     email,
     token,
     newPassword,

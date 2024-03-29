@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { InputField, SelectField } from "../common";
 import axios from "axios";
+import API_URL from "../../config";
 
 export const ActivityForm = () => {
   const {
@@ -71,7 +72,7 @@ export const ActivityForm = () => {
       console.log("FormData img type:", formData.getAll("files").type);
 
       const response = await axios.post(
-        "http://localhost:8080/activity/addActivity",
+        `${API_URL}/activity/addActivity`,
         formData,
         {
           headers: {

@@ -1,8 +1,9 @@
 // NotificationService.js
 
 import axios from "axios";
+import API_URL from "../config";
 
-const NOTIFICATION_API_BASE_URL = 'http://localhost:8080/notify/';
+const NOTIFICATION_API_BASE_URL = `${API_URL}/notify/`;
 
 class NotificationService {
     getAllNotifications() {
