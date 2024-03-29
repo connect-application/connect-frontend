@@ -9,8 +9,24 @@ class PostService {
         return axios.get(`${POST_API_BASE_URL}`);
     }
 
-    createPost(postText,isPublic){
-        return axios.post(`${POST_API_CREATE_URL}?postText=${postText}&isPublic=${isPublic}`);
+    createPost(postText,isPublic, isGroupPost, groupId){
+        return axios.post(`${POST_API_CREATE_URL}?postText=${postText}&isPublic=${isPublic}&isGroupPost=${isGroupPost}&groupId=${groupId}`);
+    }
+
+    async getUserGroups() {
+      const token = localStorage.getItem("jwtToken");
+      const options = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+    
+      try {
+        const response = await axios.get(`http://localhost:8080/group/getUserGroups`, options);
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
     }
 }
 
@@ -45,5 +61,6 @@ export const getUserPosts = async (userId) => {
     throw error;
   }
 };
+
 
 export default new PostService();

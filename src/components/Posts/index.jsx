@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Button,
   Radio,
+  Select,
+  MenuItem,
   RadioGroup,
   FormControlLabel,
   FormControl,
@@ -19,9 +21,29 @@ import PostService from "../../services/postService";
 const Posts = () => {
   const [caption, setCaption] = useState("");
   const [visibility, setVisibility] = useState("public");
+  const [isGroup, setisGroup] = useState("No");
   const [file, setFile] = useState(null);
+  const [selectedGroup, setSelectedGroup] = useState("");
   const [imageUrl, setImageUrl] = useState(null); // State to store the image URL
   const [post, setPost] = useState(null);
+  const [groupOptions, setGroupOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const groups = await PostService.getUserGroups();
+        console.log(groups);
+        setGroupOptions(groups.map(group => ({
+          value: group.groupId,
+          label: group.groupName
+        })));
+      } catch (error) {
+        console.log("Error fetching groups:", error);
+      }
+    };
+
+    fetchGroups();
+  }, []);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -41,6 +63,13 @@ const Posts = () => {
   const handleVisibilityChange = (e) => {
     setVisibility(e.target.value);
   };
+  const handleisGroupChange = (e) => {
+    setisGroup(e.target.value);
+    setSelectedGroup("");
+  };
+  const handleGroupChange = (e) => {
+    setSelectedGroup(e.target.value);
+  };
 
   const createPost = async () => {
     try {
@@ -48,8 +77,11 @@ const Posts = () => {
       if (visibility == "public") {
         isPublic = true;
       }
+      if(isGroup == "Yes"){
+        setisGroup(true);
+      }
       console.log(localStorage.getItem("jwtToken"));
-      const response = await PostService.createPost(caption, isPublic);
+      const response = await PostService.createPost(caption, isPublic, isGroup, selectedGroup);
       setPost(response.data);
       console.log(response.data);
     } catch (error) {
@@ -150,6 +182,45 @@ const Posts = () => {
                 label="Private"
               />
             </RadioGroup>
+            {/* Is Group */}
+            <FormLabel component="legend">Is For Group</FormLabel>
+            <RadioGroup
+              row
+              name="isGroup"
+              value={isGroup}
+              onChange={handleisGroupChange}
+            >
+              <FormControlLabel
+                value="No"
+                control={<Radio />}
+                label="No"
+              />
+              <FormControlLabel
+                value="Yes"
+                control={<Radio />}
+                label="Yes"
+              />
+            </RadioGroup>
+            {isGroup === "Yes" && (
+              <FormControl sx={{ mt: 2 }} fullWidth>
+                <Select
+                  value={selectedGroup}
+                  onChange={handleGroupChange}
+                  displayEmpty
+                  fullWidth
+                >
+                  <MenuItem value="" disabled>
+                    Select Group
+                  </MenuItem>
+                  {/* Populate with your group options */}
+                  {groupOptions.map((group) => (
+                    <MenuItem key={group.value} value={group.value}>
+                      {group.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
           </FormControl>
           <Button
             type="submit"
