@@ -22,9 +22,9 @@ const Posts = () => {
   const [caption, setCaption] = useState("");
   const [visibility, setVisibility] = useState("public");
   const [isGroup, setisGroup] = useState("No");
-  const [file, setFile] = useState(null);
+  const [files, setFile] = useState(null);
   const [selectedGroup, setSelectedGroup] = useState("");
-  const [imageUrl, setImageUrl] = useState(null); // State to store the image URL
+  const [imageUrl, setImageUrls] = useState(null); // State to store the image URL
   const [post, setPost] = useState(null);
   const [groupOptions, setGroupOptions] = useState([]);
 
@@ -46,14 +46,10 @@ const Posts = () => {
   }, []);
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-      setImageUrl(URL.createObjectURL(selectedFile)); // Set the image URL
-    } else {
-      // Handle the case when no file is selected or when the selection is canceled
-      setImageUrl(null); // Clear the image URL
-    }
+    const selectedFiles = Array.from(e.target.files);
+    const fileUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+    setImageUrls(fileUrls);
+    setFile(selectedFiles);
   };
 
   const handleCaptionChange = (e) => {
@@ -77,11 +73,40 @@ const Posts = () => {
       if (visibility == "public") {
         isPublic = true;
       }
+      var isGroupPost = false;
       if(isGroup == "Yes"){
-        setisGroup(true);
+        isGroupPost=true;
       }
-      console.log(localStorage.getItem("jwtToken"));
-      const response = await PostService.createPost(caption, isPublic, isGroup, selectedGroup);
+      const formData = new FormData();
+      formData.append("postText", caption);
+      formData.append("isPublic", isPublic);
+      formData.append("isGroupPost", isGroupPost);
+      formData.append("groupId", selectedGroup);
+
+      if (files && files.length > 0) {
+        files.forEach((file, index) => {
+          formData.append("files", file);
+        });
+      }
+      console.log("FormData img:", formData.getAll("files").length);
+      console.log("formdata ispub", formData.get("isPublic"));
+      console.log("formdata isGroupPost", formData.get("isGroupPost"));
+      console.log("formdata postText", formData.get("postText"));
+      console.log("formdata groupId", formData.get("groupId"));
+
+      const token = localStorage.getItem("jwtToken");
+      const response = await axios.post(
+        "http://localhost:8080/posts/addPost",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // use the token here
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      // const response = await PostService.createPost(caption, isPublic, isGroup, selectedGroup);
       setPost(response.data);
       console.log(response.data);
     } catch (error) {

@@ -48,14 +48,20 @@ export const ActivityForm = () => {
       console.log("img test");
       console.log(data.files);
       console.log(JSON.stringify(activityData));
-      console.log("files type", data.files.type);
+      // console.log("files type", data.files.type);
       // Create FormData object
       const formData = new FormData();
       formData.append("activityRequest", JSON.stringify(activityData));
       // formData.append("files", data.files);
-      data.files.forEach((file, index) => {
-        formData.append("files", file); // Append each file with a unique key
-      });
+      if (data.files && data.files.length > 0) {
+        data.files.forEach((file, index) => {
+          formData.append("files", file);
+        });
+      }
+
+      // data.files.forEach((file, index) => {
+      //   formData.append("files", file); // Append each file with a unique key
+      // });
       // formData.append("activityRequest", JSON.stringify(activityData));
 
       // Make the request directly from here
