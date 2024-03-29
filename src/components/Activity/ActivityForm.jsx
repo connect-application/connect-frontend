@@ -166,6 +166,7 @@ export const ActivityForm = () => {
                       options={categories}
                       required
                       errorMessage={errors.category && "Required"}
+                      errorMessageId="category_error"
                     />
                   </div>
                 </div>
@@ -179,6 +180,7 @@ export const ActivityForm = () => {
                       type="date"
                       required
                       errorMessage={errors.startDate && "Required"}
+                      errorMessageId="startDate_error"
                     />
                   </div>
                   <div className="col-12 col-lg-6">
@@ -200,6 +202,7 @@ export const ActivityForm = () => {
                       type="date"
                       required
                       errorMessage={errors.endDate && "Required"}
+                      errorMessageId="endDate_error"
                     />
                   </div>
                   <div className="col-12 col-lg-6">
@@ -230,6 +233,7 @@ export const ActivityForm = () => {
                   type="text"
                   required // Add this line
                   errorMessage={errors.postText && "Required"}
+                  errorMessageId="postText_error"
                 />
                 <h5 className="mb-3">Visibility</h5>
                 <div className="form-group">
