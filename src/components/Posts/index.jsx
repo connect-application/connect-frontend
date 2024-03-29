@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Button,
   Radio,
+  Select,
+  MenuItem,
   RadioGroup,
   FormControlLabel,
   FormControl,
@@ -19,19 +21,35 @@ import PostService from "../../services/postService";
 const Posts = () => {
   const [caption, setCaption] = useState("");
   const [visibility, setVisibility] = useState("public");
-  const [file, setFile] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null); // State to store the image URL
+  const [isGroup, setisGroup] = useState("No");
+  const [files, setFile] = useState(null);
+  const [selectedGroup, setSelectedGroup] = useState("");
+  const [imageUrl, setImageUrls] = useState(null); // State to store the image URL
   const [post, setPost] = useState(null);
+  const [groupOptions, setGroupOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const groups = await PostService.getUserGroups();
+        console.log(groups);
+        setGroupOptions(groups.map(group => ({
+          value: group.groupId,
+          label: group.groupName
+        })));
+      } catch (error) {
+        console.log("Error fetching groups:", error);
+      }
+    };
+
+    fetchGroups();
+  }, []);
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-      setImageUrl(URL.createObjectURL(selectedFile)); // Set the image URL
-    } else {
-      // Handle the case when no file is selected or when the selection is canceled
-      setImageUrl(null); // Clear the image URL
-    }
+    const selectedFiles = Array.from(e.target.files);
+    const fileUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+    setImageUrls(fileUrls);
+    setFile(selectedFiles);
   };
 
   const handleCaptionChange = (e) => {
@@ -41,6 +59,13 @@ const Posts = () => {
   const handleVisibilityChange = (e) => {
     setVisibility(e.target.value);
   };
+  const handleisGroupChange = (e) => {
+    setisGroup(e.target.value);
+    setSelectedGroup("");
+  };
+  const handleGroupChange = (e) => {
+    setSelectedGroup(e.target.value);
+  };
 
   const createPost = async () => {
     try {
@@ -48,8 +73,40 @@ const Posts = () => {
       if (visibility == "public") {
         isPublic = true;
       }
-      console.log(localStorage.getItem("jwtToken"));
-      const response = await PostService.createPost(caption, isPublic);
+      var isGroupPost = false;
+      if(isGroup == "Yes"){
+        isGroupPost=true;
+      }
+      const formData = new FormData();
+      formData.append("postText", caption);
+      formData.append("isPublic", isPublic);
+      formData.append("isGroupPost", isGroupPost);
+      formData.append("groupId", selectedGroup);
+
+      if (files && files.length > 0) {
+        files.forEach((file, index) => {
+          formData.append("files", file);
+        });
+      }
+      console.log("FormData img:", formData.getAll("files").length);
+      console.log("formdata ispub", formData.get("isPublic"));
+      console.log("formdata isGroupPost", formData.get("isGroupPost"));
+      console.log("formdata postText", formData.get("postText"));
+      console.log("formdata groupId", formData.get("groupId"));
+
+      const token = localStorage.getItem("jwtToken");
+      const response = await axios.post(
+        "http://localhost:8080/posts/addPost",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // use the token here
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      // const response = await PostService.createPost(caption, isPublic, isGroup, selectedGroup);
       setPost(response.data);
       console.log(response.data);
     } catch (error) {
@@ -150,6 +207,45 @@ const Posts = () => {
                 label="Private"
               />
             </RadioGroup>
+            {/* Is Group */}
+            <FormLabel component="legend">Is For Group</FormLabel>
+            <RadioGroup
+              row
+              name="isGroup"
+              value={isGroup}
+              onChange={handleisGroupChange}
+            >
+              <FormControlLabel
+                value="No"
+                control={<Radio />}
+                label="No"
+              />
+              <FormControlLabel
+                value="Yes"
+                control={<Radio />}
+                label="Yes"
+              />
+            </RadioGroup>
+            {isGroup === "Yes" && (
+              <FormControl sx={{ mt: 2 }} fullWidth>
+                <Select
+                  value={selectedGroup}
+                  onChange={handleGroupChange}
+                  displayEmpty
+                  fullWidth
+                >
+                  <MenuItem value="" disabled>
+                    Select Group
+                  </MenuItem>
+                  {/* Populate with your group options */}
+                  {groupOptions.map((group) => (
+                    <MenuItem key={group.value} value={group.value}>
+                      {group.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
           </FormControl>
           <Button
             type="submit"
