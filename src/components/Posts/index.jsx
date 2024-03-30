@@ -18,6 +18,7 @@ import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import axios from "axios";
 import PostService from "../../services/PostService";
 import API_URL from "../../config";
+import { useNavigate } from "react-router-dom";
 
 const Posts = () => {
   const [caption, setCaption] = useState("");
@@ -28,6 +29,7 @@ const Posts = () => {
   const [imageUrl, setImageUrls] = useState(null); // State to store the image URL
   const [post, setPost] = useState(null);
   const [groupOptions, setGroupOptions] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchGroups = async () => {
@@ -110,6 +112,7 @@ const Posts = () => {
       // const response = await PostService.createPost(caption, isPublic, isGroup, selectedGroup);
       setPost(response.data);
       console.log(response.data);
+      navigate("/create-post/success");
     } catch (error) {
       console.log("Error creating post:", error);
     }
