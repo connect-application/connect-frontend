@@ -11,6 +11,7 @@ import {
   SignInSuccessPage,
   ResetPasswordPage,
   ChatPage,
+  GroupPage,
   ResetPasswordSuccessPage,
   RecoverPasswordSuccessPage,
   NewActivityPage,
@@ -22,7 +23,7 @@ import {
 import { Helmet } from "react-helmet";
 import "./styles/shared.css";
 import HomeComponent from "./components/HomeComponent/home";
-import Settings from "./components/Settings";
+// import Settings from "./components/Settings";
 import Notification from "./components/Notifications";
 import Posts from "./components/Posts";
 import { NewPostSuccessPage } from "./pages/NewPostSuccessPage";
@@ -57,7 +58,7 @@ function App() {
           <Route path="/profile/:userId" element={<ProfilePage />} />
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/profile/edit" element={<ProfileEditPage />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/groups" element={<GroupPage />} />
           <Route path="/notifications" element={<Notification />} />
           <Route path="/search" element={<SearchPage />} />
           <Route path="/create-activity" element={<NewActivityPage />} />
