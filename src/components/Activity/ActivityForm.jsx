@@ -3,8 +3,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { InputField, SelectField } from "../common";
 import { createActivity } from "../../services/PostService";
-import axios from "axios";
-import API_URL from "../../config";
+
 
 export const ActivityForm = () => {
   const {
@@ -24,6 +23,21 @@ export const ActivityForm = () => {
     { value: 3, label: "Professional Goals" },
     { value: 4, label: "Daily Goal" },
   ];
+  const [isRecurring, setIsRecurring] = useState(false);
+  const [intervalValue, setIntervalValue] = useState(1);
+  const [recurrenceFrequency, setRecurrenceFrequency] = useState('');
+
+  const handleCheckboxChange = (e) => {
+    setIsRecurring(e.target.checked);
+  };
+  const handleRecurrenceChange = (e) => {
+    setRecurrenceFrequency(e.target.value);
+  };
+
+  const handleIntervalChange = (e) => {
+    setIntervalValue(e.target.value);
+  };
+
   const triggerFileInput = () => {
     fileInputRef.current.click();
   };
@@ -37,38 +51,41 @@ export const ActivityForm = () => {
       let endTime = data.endTime
         ? data.endDate + " " + data.endTime + ":00.000"
         : data.endDate + " 00:00:00.000";
-
+  
       const activityData = {
         categoryId: data.category.value, // replace with actual data
         statusId: 1, // replace with actual data
         startTime: startTime,
         endTime: endTime,
-        recurring: data.isRecurring,
+        recurring: isRecurring,
         shared: data.visibility === "public",
         notified: false,
         postText: data.postText,
       };
-
+      if (isRecurring) {
+        activityData.recurrence = {
+          type: recurrenceFrequency, // replace with actual recurrence type data
+          interval: intervalValue, // replace with actual interval data
+          startDate: data.startDate, // replace with actual start date data
+          endDate: data.endDate, // replace with actual end date data
+        };
+      }
       const formData = new FormData();
       formData.append("activityRequest", JSON.stringify(activityData));
       if (data.files && data.files.length > 0) {
         data.files.forEach((file, index) => {
           formData.append("files", file);
         });
-      }
-
+      }  
       const token = localStorage.getItem("jwtToken");
-
       const response = await createActivity(formData, token);
-
       // Handle the response
-      console.log(response.data);
       navigate("/create-activity/success");
     } catch (error) {
       // Handle the error
       console.log(error);
     }
-  };
+  };  
 
   const handleImageChange = (event) => {
     const selectedFiles = Array.from(event.target.files);
@@ -198,11 +215,91 @@ export const ActivityForm = () => {
                     className="form-check-input"
                     id="isRecurring"
                     {...register("isRecurring")}
+                    checked={isRecurring}
+                    onChange={handleCheckboxChange}
                   />
                   <label className="form-check-label" htmlFor="isRecurring">
                     Recurring Task
                   </label>
                 </div>
+                {isRecurring && (
+                  <div className="recurring-options">
+                    <p>Please select recurrence frequency:</p>
+                    <div>
+                      <input
+                        type="radio"
+                        id="daily"
+                        name="recurrence"
+                        value="daily"
+                        checked={recurrenceFrequency === 'daily'}
+                        onChange={handleRecurrenceChange}
+                      />
+                      <label htmlFor="daily">Daily</label>
+                    </div>
+                    <div>
+                      <input
+                        type="radio"
+                        id="weekly"
+                        name="recurrence"
+                        value="weekly"
+                        checked={recurrenceFrequency === 'weekly'}
+                        onChange={handleRecurrenceChange}
+                      />
+                      <label htmlFor="weekly">Weekly</label>
+                    </div>
+                    <div>
+                      <input
+                        type="radio"
+                        id="monthly"
+                        name="recurrence"
+                        value="monthly"
+                        checked={recurrenceFrequency === 'monthly'}
+                        onChange={handleRecurrenceChange}
+                      />
+                      <label htmlFor="monthly">Monthly</label>
+                    </div>
+                    <div>
+                      <input
+                        type="radio"
+                        id="yearly"
+                        name="recurrence"
+                        value="yearly"
+                        checked={recurrenceFrequency === 'yearly'}
+                        onChange={handleRecurrenceChange}
+                      />
+                      <label htmlFor="yearly">Yearly</label>
+                    </div>
+                    <div>
+                      <label htmlFor="interval">Interval:</label>
+                      <input
+                        type="number"
+                        id="interval"
+                        value={intervalValue}
+                        onChange={handleIntervalChange}
+                        min="1"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="startDate">Start Date:</label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        id="startDate"
+                        {...register("startDate")}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="endDate">End Date:</label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        id="endDate"
+                        {...register("endDate")}
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <InputField
                   label="Activity Description"
                   id="postText"
