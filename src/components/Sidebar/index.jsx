@@ -23,7 +23,7 @@ export default function Sidebar({ children }) {
 
   return (
     <React.Fragment>
-      <SidebarContainer displaySidebar={displaySidebar}>
+      <SidebarContainer displaySidebar={displaySidebar} style={{ position: 'fixed' }}>
         <SidebarWrapper>
           <SidebarLogoWrapper displaySidebar={displaySidebar}>
             {/* Logo wrapper starts */}
