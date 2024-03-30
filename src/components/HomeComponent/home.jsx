@@ -30,8 +30,9 @@ const Transition = React.forwardRef(function Transition(
 
 const useStyles = makeStyles((theme) => ({
     card: {
-      maxWidth: 600,
-      margin: 'auto',
+      maxWidth: '40%',
+      marginLeft:'20%',
+      marginTop: theme.spacing(3),
       marginBottom: theme.spacing(2),
     },
     header: {
@@ -97,7 +98,6 @@ function HomeComponent() {
 
     return (
         <Common dummyData={dummyData}>
-        <h2 style={{ color: '#009999' }}>Home</h2>
             <div  className={classes.root}>
                 {posts.map((post, index) => (
                     <PostCard key={index} post={post} classes={classes} />
