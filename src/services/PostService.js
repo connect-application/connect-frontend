@@ -84,4 +84,37 @@ export const getUserPosts = async (userId) => {
   }
 };
 
+export const createActivity = async (formData) => {
+  const token = localStorage.getItem("jwtToken");
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
+  };
+
+  try {
+    const response = await axios.post(`${API_URL}/activity/addActivity`, formData, options);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getPostAttachments = async (postId) => {
+  const token = localStorage.getItem("jwtToken");
+  const options = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const response = await axios.get(`${API_URL}/posts/getPostAttachments?postId=${postId}`, options);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export default new PostService();
