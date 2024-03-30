@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API_URL from "../../config";
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JS
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
 
 const GroupCard = ({ handleFollowerClick }) => {
   const userId = localStorage.getItem("userId");
   const loggedInUserId = localStorage.getItem("userId");
 
-  // State variables to hold form data and initial groups
   const [groupName, setGroupName] = useState("");
-  const [categoryId, setCategoryId] = useState("1"); // Default value for category
+  const [categoryId, setCategoryId] = useState("1"); 
   const [groups, setGroups] = useState([]);
   
-  // Fetch initial groups when the component mounts
   useEffect(() => {
     fetchInitialGroups();
-  }, []); // Empty dependency array ensures this effect runs only once on mount
+  }, []); 
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault(); 
 
     const token = localStorage.getItem("jwtToken");
     const options = {
@@ -29,7 +27,6 @@ const GroupCard = ({ handleFollowerClick }) => {
     };
 
     try {
-      // Send form data to the backend
       const response = await axios.post(
         `${API_URL}/group/createGroup?groupName=${groupName}&categoryId=${categoryId}`,
         {},
@@ -38,17 +35,14 @@ const GroupCard = ({ handleFollowerClick }) => {
       console.log('Request URL:', response.config.url); 
       console.log(response.data);
 
-      // Optionally, reset the form after successful submission
       setGroupName("");
-      setCategoryId("1"); // Reset category to default value
+      setCategoryId("1"); 
 
-      // Reload groups after successful creation
       fetchInitialGroups();
       const modalElement = document.getElementById("modalCloseBtn");
       modalElement.click();
     } catch (error) {
       console.error('Error:', error);
-      // Handle error if necessary
     }
   };
 
@@ -61,13 +55,10 @@ const GroupCard = ({ handleFollowerClick }) => {
     };
 
     try {
-      // Fetch initial groups from the backend
       const response = await axios.get(`${API_URL}/group/getUserGroups`, options);
       console.log('Request URL:', response.config.url); 
       console.log(response.data);
 
-      // Update state with fetched groups
-      // console.log(response);
       
       const constGroups = response.data.map(item => ({
         groupId: item.groupId,
