@@ -33,9 +33,6 @@ const GroupCard = ({ handleFollowerClick }) => {
         {},
         options
       );
-      console.log('Request URL:', response.config.url);
-      console.log(response.data);
-
       setGroupName("");
       setCategoryId("1");
 
@@ -123,9 +120,6 @@ const GroupCard = ({ handleFollowerClick }) => {
                 <button type="submit" className="btn btn-primary">Create</button>
               </form>
             </div>
-            {/* <div className="modal-footer">
-              <button type="button" id = "modalCloseBtn" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div> */}
           </div>
         </div>
       </div>
