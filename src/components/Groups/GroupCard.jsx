@@ -2,22 +2,23 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import API_URL from "../../config";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; 
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import GroupList from "./GroupList";
 
 const GroupCard = ({ handleFollowerClick }) => {
   const userId = localStorage.getItem("userId");
   const loggedInUserId = localStorage.getItem("userId");
 
   const [groupName, setGroupName] = useState("");
-  const [categoryId, setCategoryId] = useState("1"); 
+  const [categoryId, setCategoryId] = useState("1");
   const [groups, setGroups] = useState([]);
-  
+
   useEffect(() => {
     fetchInitialGroups();
-  }, []); 
+  }, []);
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
 
     const token = localStorage.getItem("jwtToken");
     const options = {
@@ -32,11 +33,11 @@ const GroupCard = ({ handleFollowerClick }) => {
         {},
         options
       );
-      console.log('Request URL:', response.config.url); 
+      console.log('Request URL:', response.config.url);
       console.log(response.data);
 
       setGroupName("");
-      setCategoryId("1"); 
+      setCategoryId("1");
 
       fetchInitialGroups();
       const modalElement = document.getElementById("modalCloseBtn");
@@ -56,18 +57,18 @@ const GroupCard = ({ handleFollowerClick }) => {
 
     try {
       const response = await axios.get(`${API_URL}/group/getUserGroups`, options);
-      console.log('Request URL:', response.config.url); 
+      console.log('Request URL:', response.config.url);
       console.log(response.data);
 
-      
+
       const constGroups = response.data.map(item => ({
         groupId: item.groupId,
         groupName: item.groupName,
         categoryId: item.categoryId,
         groupCode: item.groupCode,
         groupOwner: item.groupOwner,
-    }));
-    setGroups(constGroups);
+      }));
+      setGroups(constGroups);
       console.log(groups);
     } catch (error) {
       throw error;
@@ -78,7 +79,7 @@ const GroupCard = ({ handleFollowerClick }) => {
     <div className="container">
       <h5 className="display-6">Groups</h5>
       <hr />
-      
+
       <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Create new group
       </button>
@@ -88,7 +89,7 @@ const GroupCard = ({ handleFollowerClick }) => {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">New group</h5>
-              <button type="button" id = "modalCloseBtn" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              <button type="button" id="modalCloseBtn" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <form onSubmit={handleSubmit}>
@@ -129,22 +130,8 @@ const GroupCard = ({ handleFollowerClick }) => {
         </div>
       </div>
 
-      {/* <h5 className="display-6">My Groups</h5> */}
       <br></br><br></br>
-      <div className="row row-cols-1 row-cols-md-3 g-4">
-        {groups.map((group) => (
-          <div className="col" key={group.groupId}>
-            <div className="card h-100">
-              <div className="card-body">
-                <h5 className="card-title">{group.groupName}</h5>
-                <p className="card-text">Category: {group.categoryId}</p>
-                <p className="card-text">Code: {group.groupCode}</p>
-                <p className="card-text">Owner: {group.groupOwner}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+      <GroupList groups={groups} />
     </div>
   );
 };
