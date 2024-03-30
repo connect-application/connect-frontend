@@ -6,7 +6,8 @@ const POST_API_BASE_URL = `${API_URL}/posts/getFeed`;
 const POST_API_CREATE_URL = `${API_URL}/posts/addPost`;
 const POST_API_LIKE_URL = `${API_URL}/like/togglePostLike`;
 const POST_API_GET_LIKE_URL = `${API_URL}/like/getCountLikes`;
-
+const POST_API_GET_COMMENTS_URL = `${API_URL}/comments/getComments`;
+const POST_API_ADD_COMMENTS_URL = `${API_URL}/comments/addComment`;
 
 
 class PostService {
@@ -24,6 +25,14 @@ class PostService {
 
     getLikes(postId){
       return axios.get(`${POST_API_GET_LIKE_URL}?postId=${postId}`);
+    }
+
+    fetchComments(postId){
+        return axios.post(`${POST_API_GET_COMMENTS_URL}?postId=${postId}`);
+    }
+
+    addComments(postId, commentText){
+        return axios.post(`${POST_API_ADD_COMMENTS_URL}?postId=${postId}&commentText=${commentText}`);
     }
 
     async getUserGroups() {
