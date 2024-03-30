@@ -15,7 +15,7 @@ const GroupCard = ({ handleFollowerClick }) => {
   
   // Fetch initial groups when the component mounts
   useEffect(() => {
-    // fetchInitialGroups();
+    fetchInitialGroups();
   }, []); // Empty dependency array ensures this effect runs only once on mount
 
   const handleSubmit = async (event) => {
@@ -43,7 +43,7 @@ const GroupCard = ({ handleFollowerClick }) => {
       setCategoryId("1"); // Reset category to default value
 
       // Reload groups after successful creation
-      // fetchInitialGroups();
+      fetchInitialGroups();
       const modalElement = document.getElementById("modalCloseBtn");
       modalElement.click();
     } catch (error) {
@@ -52,36 +52,36 @@ const GroupCard = ({ handleFollowerClick }) => {
     }
   };
 
-  // const fetchInitialGroups = async () => {
-  //   const token = localStorage.getItem("jwtToken");
-  //   const options = {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   };
+  const fetchInitialGroups = async () => {
+    const token = localStorage.getItem("jwtToken");
+    const options = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-  //   try {
-  //     // Fetch initial groups from the backend
-  //     const response = await axios.get(`${API_URL}/group/getUserGroups`, options);
-  //     console.log('Request URL:', response.config.url); 
-  //     console.log(response.data);
+    try {
+      // Fetch initial groups from the backend
+      const response = await axios.get(`${API_URL}/group/getUserGroups`, options);
+      console.log('Request URL:', response.config.url); 
+      console.log(response.data);
 
-  //     // Update state with fetched groups
-  //     // console.log(response);
+      // Update state with fetched groups
+      // console.log(response);
       
-  //     const constGroups = response.data.map(item => ({
-  //       groupId: item.groupId,
-  //       groupName: item.groupName,
-  //       categoryId: item.categoryId,
-  //       groupCode: item.groupCode,
-  //       groupOwner: item.groupOwner,
-  //   }));
-  //   setGroups(constGroups);
-  //     console.log(groups);
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
+      const constGroups = response.data.map(item => ({
+        groupId: item.groupId,
+        groupName: item.groupName,
+        categoryId: item.categoryId,
+        groupCode: item.groupCode,
+        groupOwner: item.groupOwner,
+    }));
+    setGroups(constGroups);
+      console.log(groups);
+    } catch (error) {
+      throw error;
+    }
+  };
 
   return (
     <div className="container">
