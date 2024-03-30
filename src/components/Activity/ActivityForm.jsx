@@ -1,7 +1,8 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { InputField, SelectField } from "../common";
+import { createActivity } from "../../services/PostService";
 import axios from "axios";
 import API_URL from "../../config";
 
@@ -15,7 +16,7 @@ export const ActivityForm = () => {
     formState: { errors },
   } = useForm();
 
-  const [imageUrl, setImageUrls] = useState(null);
+  const [imageUrl, setImageUrls] = useState("");
   const navigate = useNavigate();
   const categories = [
     { value: 1, label: "Fitness" },
@@ -23,6 +24,10 @@ export const ActivityForm = () => {
     { value: 3, label: "Professional Goals" },
     { value: 4, label: "Daily Goal" },
   ];
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
+  };
+
   const onSubmit = async (data) => {
     try {
       // Check if time is provided for start and end time
@@ -42,45 +47,19 @@ export const ActivityForm = () => {
         shared: data.visibility === "public",
         notified: false,
         postText: data.postText,
-        // files: [], // Not needed here, as we're using FormData below
       };
 
-      // console.log(JSON.stringify(activityData, null, 2));
-      console.log("img test");
-      console.log(data.files);
-      console.log(JSON.stringify(activityData));
-      // console.log("files type", data.files.type);
-      // Create FormData object
       const formData = new FormData();
       formData.append("activityRequest", JSON.stringify(activityData));
-      // formData.append("files", data.files);
       if (data.files && data.files.length > 0) {
         data.files.forEach((file, index) => {
           formData.append("files", file);
         });
       }
 
-      // data.files.forEach((file, index) => {
-      //   formData.append("files", file); // Append each file with a unique key
-      // });
-      // formData.append("activityRequest", JSON.stringify(activityData));
+      const token = localStorage.getItem("jwtToken");
 
-      // Make the request directly from here
-      const token = localStorage.getItem("jwtToken"); // get the token from local storage
-      console.log("FormData json:", formData.get("activityRequest"));
-      console.log("FormData img:", formData.getAll("files").length);
-      console.log("FormData img type:", formData.getAll("files").type);
-
-      const response = await axios.post(
-        `${API_URL}/activity/addActivity`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // use the token here
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await createActivity(formData, token);
 
       // Handle the response
       console.log(response.data);
@@ -99,10 +78,9 @@ export const ActivityForm = () => {
   };
 
   const fileInputRef = useRef(null);
-
-  const triggerFileInput = () => {
-    fileInputRef.current.click();
-  };
+  useEffect(() => {
+    register("files"); // Register the files field
+  }, [register]);
 
   return (
     <div className="container py-5">
@@ -139,7 +117,7 @@ export const ActivityForm = () => {
                       overflow: "hidden",
                       cursor: "pointer",
                     }}
-                    onClick={() => fileInputRef.current.click()}
+                    onClick={triggerFileInput}
                   >
                     {imageUrl ? (
                       <img

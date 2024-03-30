@@ -2,7 +2,7 @@
 import React from "react";
 import PostList from "./PostList";
 
-const PostsSection = ({ posts }) => (
+const PostsSection = ({ posts, postAttachments }) => (
   <div className="col-lg-12 mb-4">
     <h5
       style={{

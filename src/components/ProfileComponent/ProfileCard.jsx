@@ -17,6 +17,7 @@ const ProfileCard = () => {
     followersList,
     followingsList,
     posts,
+    postAttachments,
     loading,
   } = useUserProfile(userId, loggedInUserId);
   const { isFollowing, handleFollowUnfollow } = useFollowStatus(
