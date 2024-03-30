@@ -139,7 +139,7 @@ const GroupCard = ({ handleFollowerClick }) => {
       </div>
 
       {/* <h5 className="display-6">My Groups</h5> */}
-      {/* <br></br><br></br>
+      <br></br><br></br>
       <div className="row row-cols-1 row-cols-md-3 g-4">
         {groups.map((group) => (
           <div className="col" key={group.groupId}>
@@ -153,7 +153,7 @@ const GroupCard = ({ handleFollowerClick }) => {
             </div>
           </div>
         ))}
-      </div> */}
+      </div>
     </div>
   );
 };
