@@ -99,6 +99,7 @@ function HomeComponent() {
 
     return (
         <Common dummyData={dummyData}>
+            <h2 style={{ color: '#009999' , textAlign:'left', marginLeft:'20%'}}>Timeline</h2>
             <div  className={classes.root}>
                 {posts.map((post, index) => (
                     <PostCard key={index} post={post} classes={classes} />
