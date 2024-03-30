@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Common from '../../Common';
-import PostService from "../../services/PostService";
-
+import PostService, { getPostAttachments } from "../../services/PostService";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -18,6 +17,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
+import { blue } from '@mui/material/colors';
+
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
   textField: {
       width: '100%',
-      marginBottom: theme.spacing(1), // Add margin between text field and submit button
+      marginBottom: theme.spacing(2), // Add margin between text field and submit button
   },
   commentText: {
     marginBottom: theme.spacing(1), // Add margin between comment rows
@@ -115,6 +116,7 @@ function PostCard({ post }) {
     const [comments, setComments] = useState([]);
     const [commentText, setCommentText] = useState(''); // State to manage comment input text
     const [openDialog, setOpenDialog] = useState(false); // State to track whether dialog is open or not
+    const [attachments, setAttachments] = useState([]);
 
     const handleToggleDialog = () => {
       setOpenDialog(!openDialog); // Toggle the state to open/close dialog
@@ -137,8 +139,15 @@ function PostCard({ post }) {
   .catch((error) => {
       console.error("Error fetching comments:", error);
   });
-
+  }
+  const fetchAttachments = async () => {
+    const attachment = await getPostAttachments(post.postId);
+    setAttachments(attachment);
   };
+
+  useEffect(() => {
+    fetchAttachments();
+    });
 
   const handleLike = () => {
     // Toggle the like status locally
@@ -180,32 +189,37 @@ const handleCommentSubmit = () => {
 };
 
     return (
-      <Card className={classes.card}>
+      <Card style={{ border: '1px solid #ccc' }} className={classes.card}>
         <CardContent>
-          <Typography variant="subtitle1" gutterBottom>
-            User ID: {post.userId}
-          </Typography>
-          {post.image && (
-            <img src={post.image} alt="Post" className={classes.image} />
-          )}
-          <Typography variant="body1" className={classes.content}>
+        {attachments.length > 0 && (
+          <img
+            src={`data:image/jpeg;base64,${attachments[0].file}`}
+            alt="Post attachment"
+            style={{
+              width: "100%", // Set width to 100% to ensure it takes the full width of the container
+              maxHeight: "600px", // Set maximum height to prevent the image from exceeding a certain size
+              objectFit: "cover", // Use "cover" to maintain aspect ratio and cover the entire container
+              borderRadius: "5px", // Optional: Add border radius for rounded corners
+            }}          />
+        )}
+          <Typography variant="body1" className={classes.content} style={{ marginTop: '10px'}}>
             {post.postText}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             Created At: {post.createdAt}
           </Typography>
           {/* Like and Comment buttons */}
-          <div className={classes.actions}>
-            <IconButton onClick={handleLike} size="large">
-            <FavoriteIcon color={liked ? 'secondary' : 'action'} /> {/* Change color to pink if liked */}
-            </IconButton>
-            <Typography variant="body2" color="textSecondary">
+          <div className={classes.actions} style={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton onClick={handleLike} size="large">
+            <FavoriteIcon color={liked ? 'secondary' : 'inherit'} />
+          </IconButton>
+          <Typography variant="body2" color="textSecondary">
             {likeCount} Likes
           </Typography>
-            <IconButton onClick={handleToggleDialog} size="large">
-              <ChatBubbleOutlineIcon />
-            </IconButton>
-          </div>
+          <IconButton  onClick={handleToggleDialog} size="large">
+            <ChatBubbleOutlineIcon />
+          </IconButton>
+        </div>
         </CardContent>
           {/* Comment Dialog */}
           <Dialog open={openDialog}  TransitionComponent={Transition} keepMounted onClose={handleToggleDialog} fullWidth>
@@ -216,7 +230,7 @@ const handleCommentSubmit = () => {
               {comments.map((comment, index) => (
                   <div key={index} className={classes.commentContainer}>
                       <Typography variant="body2" className={classes.commentText}>
-                          <span className={classes.usernameLabel}>{comment.userName}</span>: {comment.commentText}
+                          <span style={{backgroundColor:'#8fd8d8'}}  className={classes.usernameLabel}>{comment.userName}</span>: {comment.commentText}
                       </Typography>
                   </div>
               ))}
@@ -230,7 +244,7 @@ const handleCommentSubmit = () => {
               className={classes.textField}
               variant="outlined"
           />
-          <Button onClick={handleCommentSubmit} color="primary" variant="contained" className={classes.submitButton}>
+          <Button onClick={handleCommentSubmit} style={{backgroundColor:'#009999', marginTop:'20px'}} variant="contained" className={classes.submitButton}>
               Submit
           </Button>
       </DialogContent>
