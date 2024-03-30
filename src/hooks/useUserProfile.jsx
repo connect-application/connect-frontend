@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import {
   getUser,
   getFollowersCount,
@@ -22,7 +22,7 @@ export function useUserProfile(userId, loggedInUserId) {
   useEffect(() => {
     const fetchUser = async () => {
       const userData = await getUser(userId);
-      setProfileData(prevData => ({ ...prevData, user: userData }));
+      setProfileData((prevData) => ({ ...prevData, user: userData }));
     };
 
     fetchUser();
@@ -32,7 +32,11 @@ export function useUserProfile(userId, loggedInUserId) {
     const fetchFollowers = async () => {
       const followersCount = await getFollowersCount(userId);
       const followersUserData = await getFollowersList(userId);
-      setProfileData(prevData => ({ ...prevData, followers: followersCount, followersList: followersUserData }));
+      setProfileData((prevData) => ({
+        ...prevData,
+        followers: followersCount,
+        followersList: followersUserData,
+      }));
     };
 
     fetchFollowers();
@@ -42,7 +46,11 @@ export function useUserProfile(userId, loggedInUserId) {
     const fetchFollowing = async () => {
       const followingCount = await getFollowingCount(userId);
       const followingsUserData = await getFollowingsList(userId);
-      setProfileData(prevData => ({ ...prevData, following: followingCount, followingsList: followingsUserData }));
+      setProfileData((prevData) => ({
+        ...prevData,
+        following: followingCount,
+        followingsList: followingsUserData,
+      }));
     };
 
     fetchFollowing();
@@ -53,12 +61,16 @@ export function useUserProfile(userId, loggedInUserId) {
       let postsData;
       if (userId === loggedInUserId) {
         postsData = await getCurrentUserPosts();
-        console.log('not logged User:', postsData);
+        console.log("not logged User:", postsData);
       } else {
         postsData = await getUserPosts(userId);
-        console.log('logged User:', postsData);
+        console.log("logged User:", postsData);
       }
-      setProfileData(prevData => ({ ...prevData, posts: postsData, loading: false }));
+      setProfileData((prevData) => ({
+        ...prevData,
+        posts: postsData,
+        loading: false,
+      }));
     };
 
     fetchPosts();

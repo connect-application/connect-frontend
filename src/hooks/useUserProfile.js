@@ -6,7 +6,7 @@ import {
   getFollowersList,
   getFollowingsList,
 } from "../services/userService";
-import { getUserPosts, getCurrentUserPosts } from "../services/PostService";
+import { getUserPosts, getCurrentUserPosts , getPostAttachments} from "../services/PostService";
 
 
 export function useUserProfile(userId, loggedInUserId) {
@@ -17,6 +17,7 @@ export function useUserProfile(userId, loggedInUserId) {
     followersList: [],
     followingsList: [],
     posts: [],
+    postAttachments: [],
     loading: true,
   });
 
@@ -55,16 +56,28 @@ export function useUserProfile(userId, loggedInUserId) {
       let postsData;
       if (userId === loggedInUserId) {
         postsData = await getCurrentUserPosts();
-        console.log('not logged User:', postsData);
+        console.log('logged User:', postsData);
       } else {
         postsData = await getUserPosts(userId);
-        console.log('logged User:', postsData);
+        console.log('Not logged User:', postsData);
       }
-      setProfileData(prevData => ({ ...prevData, posts: postsData, loading: false }));
-    };
+      // Fetch the attachments for each post and include them in the post objects
+      let postsWithAttachments = [];
+      for (let post of postsData) {
+        console.log(post); // Add this line
+        const attachments = await getPostAttachments(post.postId);
+        postsWithAttachments.push({ ...post, attachments });
+      }
+      postsWithAttachments = postsWithAttachments.reverse();
+
+
+    setProfileData(prevData => ({ ...prevData, posts: postsWithAttachments, loading: false }));
+  };
 
     fetchPosts();
   }, [userId, loggedInUserId]);
+
+
 
   return profileData;
 }

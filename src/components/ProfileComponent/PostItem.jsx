@@ -18,9 +18,16 @@ const postDateStyle = {
   color: "#606770",
 };
 
-const PostItem = ({ post }) => (
+const PostItem = ({ post, attachments }) => (
   <div style={postStyle}>
     <h6 style={postTextStyle}>{post.postText}</h6>
+    {attachments.length > 0 && (
+      <img
+        src={`data:image/jpeg;base64,${attachments[0].file}`}
+        alt="Post attachment"
+        style={{ width: "100px", height: "100px", objectFit: "cover" }}
+      />
+    )}
     <p className="small mb-0" style={postDateStyle}>
       Created at: {new Date(post.createdAt).toLocaleString()}
     </p>
