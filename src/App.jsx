@@ -25,6 +25,7 @@ import HomeComponent from "./components/HomeComponent/home";
 import Settings from "./components/Settings";
 import Notification from "./components/Notifications";
 import Posts from "./components/Posts";
+import { NewPostSuccessPage } from "./pages/NewPostSuccessPage";
 
 function App() {
   return (
@@ -65,6 +66,10 @@ function App() {
             element={<NewActivitySuccessPage />}
           />
           <Route path="/create-post" element={<Posts />} />
+          <Route
+            path="/create-post/success"
+            element={<NewPostSuccessPage />}
+          />
           <Route
             path="/reset-password-success"
             element={<ResetPasswordSuccessPage />}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Common from "../Common";
 import { SIDEBAR_DATA as dummyData } from "../components/Data";
 
-export const NewActivitySuccessPage = () => (
+export const NewPostSuccessPage = () => (
   <Common dummyData={dummyData}>
     {/* Extend the container to use the full viewport height for centering */}
     <div
@@ -16,10 +16,10 @@ export const NewActivitySuccessPage = () => (
       >
         {" "}
         {/* Adjust maxWidth for optimal readability */}
-        <h2>Activity Creation Success</h2>
-        <p>Your new activity was generated successfully!</p>
+        <h2>Post Creation Success</h2>
+        <p>Your new post was generated successfully!</p>
         <p className="mt-3">
-          Generate another <Link to="/create-activity">activity</Link>.
+          Generate another <Link to="/create-post">post</Link>.
         </p>
       </div>
     </div>
