@@ -4,6 +4,7 @@ import API_URL from "../config";
 
 const POST_API_BASE_URL = `${API_URL}/posts/getFeed`;
 const POST_API_CREATE_URL = `${API_URL}/posts/addPost`;
+const POST_API_GROUP_POSTS_URL = `${API_URL}/posts/getGroupPosts`;
 const POST_API_LIKE_URL = `${API_URL}/like/togglePostLike`;
 const POST_API_GET_LIKE_URL = `${API_URL}/like/getCountLikes`;
 const POST_API_GET_COMMENTS_URL = `${API_URL}/comments/getComments`;
@@ -50,6 +51,21 @@ class PostService {
           throw error;
         }
       }
+
+      async getGroupPosts(groupId){
+        const token = localStorage.getItem("jwtToken");
+        const options = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+          try {
+            const response =await axios.get(`${POST_API_GROUP_POSTS_URL}?groupId=${groupId}`);;
+            return response.data;
+          } catch (error) {
+            throw error;
+          }    
+    }
 }
 
 export const getCurrentUserPosts = async () => {

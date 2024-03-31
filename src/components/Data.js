@@ -1,14 +1,13 @@
 import { Logout } from "@mui/icons-material";
 import {
-    SettingsIcon,
     HomeIcon,
     SearchIcon,
     ChatIcon,
     CreateIcon,
     UserIcon,
-    NotificationIcon
+    NotificationIcon,
+    UsersRoundIcon
   } from "./Icons";
-
   
   export const SIDEBAR_DATA = [
     {
@@ -52,10 +51,10 @@ import {
     },
     {
       id: 7,
-      name: "Settings",
-      path: "/settings",
-      component: "Settings",
-      icon: <SettingsIcon />,
+      name: "Groups",
+      path: "/groups",
+      component: "Groups",
+      icon: <UsersRoundIcon />,
     },
     {
       id: 8,
