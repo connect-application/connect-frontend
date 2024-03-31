@@ -25,7 +25,7 @@ const ChatWindowStyle = {
 const UserList = ({ users, headerText, handleFollowerClick }) => {
   return (
     <div className="col-lg-7 mb-4" style={{ position: 'relative' }}><br></br>
-      <h5 class = "display-6">
+      <h5 class = "display-6" style={{ color: "#009999"}}>
         {headerText}
       </h5><hr></hr>
       <div >

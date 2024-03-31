@@ -35,7 +35,7 @@ export const SignUpForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="signup_form">
-      <h2 className="text-center">Sign Up</h2>
+      <h2 className="text-center" style={{ color: "#009999"}}>Sign Up</h2>
       <InputField
         label="First Name"
         id="firstName"
@@ -154,7 +154,7 @@ export const SignUpForm = () => {
         />
         <label className="form-check-label" htmlFor="termsCheck">
           By signing up, you agree to our{" "}
-          <a href="#">Terms and Privacy Policy</a>
+          <a href="#" style={{ color: "#009999"}}>Terms and Privacy Policy</a>
         </label>
         <div className="error-message" errorMessageId="checkbox_error">
           {errors.termsCheck && errors.termsCheck.message}
@@ -171,12 +171,12 @@ export const SignUpForm = () => {
           </div>
         )}
       </div>
-      <button type="submit" className="btn btn-primary w-100">
+      <button type="submit" style={{ backgroundColor: "#009999"}} className="btn btn-primary w-100">
         Sign Up
       </button>
 
-      <p className="text-center mt-3 sign-in-link">
-        Already a member? <Link to="/">Sign In</Link>
+      <p className="text-center mt-3 sign-in-link" style={{ color: "#009999"}}>
+        Already a member? <Link style={{ color: "#009999"}} to="/">Sign In</Link>
       </p>
     </form>
   );

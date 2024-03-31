@@ -27,7 +27,7 @@ export const SearchCard = () => {
 
   return (
     <div className="container py-5">
-      <div className="row justify-content-center">
+      <div className="row"  style={{ overflowX: "hidden" }}>
         <div className="col-md-8">
           <div
             className="card shadow-sm"

@@ -56,7 +56,7 @@ export const SignInForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="text-center">Sign In</h2>
+      <h2 className="text-center" style={{ color: "#009999"}}>Sign In</h2>
       <InputField
         label="Email"
         id="email"
@@ -91,13 +91,13 @@ export const SignInForm = () => {
           </div>
         )}
       </div>
-      <button type="submit" className="btn btn-primary w-100">
+      <button type="submit" className="btn btn-primary w-100" style={{ backgroundColor: "#009999"}}>
         Submit
       </button>
-      <Link to="/recover-password" className="d-block text-center mt-3">
+      <Link to="/recover-password" className="d-block text-center mt-3" style={{ color: "#009999"}} >
         Forgot Password?
       </Link>
-      <Link to="/signup" className="btn btn-secondary mt-5 w-100">
+      <Link to="/signup" className="btn btn-secondary mt-5 w-100" style={{ backgroundColor: "#009999"}}>
         Create new account
       </Link>
     </form>

@@ -42,7 +42,7 @@ function Notification() {
 
   return (
     <Common dummyData={dummyData}>
-      <div>
+      <div className = "notifications" style={{ overflowX: "hidden" }}>
         <h2 style={{ textAlign: 'center',  color: "#009999" }}>Notifications</h2>
         <div>
           <div style={{ textAlign: 'right',  marginBottom: '10px' }}>
