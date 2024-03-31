@@ -26,6 +26,25 @@ export const ActivityForm = () => {
   const [isRecurring, setIsRecurring] = useState(false);
   const [intervalValue, setIntervalValue] = useState(1);
   const [recurrenceFrequency, setRecurrenceFrequency] = useState('');
+  const [selectedWeekdays, setSelectedWeekdays] = useState([]);
+
+  const handleWeekdayChange = (event) => {
+    const { value } = event.target;
+    let updatedWeekdays;
+
+    // Check if the weekday is already selected
+    if (selectedWeekdays.includes(value)) {
+        // If selected, remove it from the array
+        updatedWeekdays = selectedWeekdays.filter(day => day !== value);
+    } else {
+        // If not selected, add it to the array
+        updatedWeekdays = [...selectedWeekdays, value];
+    }
+
+    // Update the state with the updated array of selected weekdays
+    setSelectedWeekdays(updatedWeekdays);
+    console.log(selectedWeekdays);
+};
 
   const handleCheckboxChange = (e) => {
     setIsRecurring(e.target.checked);
@@ -68,6 +87,7 @@ export const ActivityForm = () => {
           interval: intervalValue, // replace with actual interval data
           startDate: data.startDate, // replace with actual start date data
           endDate: data.endDate, // replace with actual end date data
+          daysOfWeek: selectedWeekdays
         };
       }
       const formData = new FormData();
@@ -297,6 +317,22 @@ export const ActivityForm = () => {
                         {...register("endDate")}
                       />
                     </div>
+                    <p>Please select weekdays:</p>
+                    <div className="form-group weekdays-checkboxes" >
+                      {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map(day => (
+                          <div key={day} className="weekday-checkbox">
+                              <input
+                                  type="checkbox"
+                                  id={day}
+                                  name="weekdays"
+                                  value={day}
+                                  // Add onChange handler to update selected weekdays state
+                                  onChange={handleWeekdayChange}
+                              />
+                              <label htmlFor={day}>{day}</label>
+                          </div>
+                      ))}
+                  </div>
                   </div>
                 )}
 
