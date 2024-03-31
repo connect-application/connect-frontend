@@ -31,178 +31,181 @@ const Transition = React.forwardRef(function Transition(
 });
 
 const useStyles = makeStyles((theme) => ({
-    card: {
-      maxWidth: '40%',
-      marginLeft:'20%',
-      marginTop: theme.spacing(3),
-      marginBottom: theme.spacing(2),
-    },
-    header: {
-      display: 'flex',
-      alignItems: 'center',
-      marginBottom: theme.spacing(1),
-    },
-    avatar: {
-      marginRight: theme.spacing(1),
-    },
-    image: {
-      width: '100%',
-      height: 'auto',
-    },
-    icon: {
-      marginLeft: 'auto',
-    },
-    commentsSection: {
-      marginBottom: theme.spacing(1), // Add margin between comments and text field
+  card: {
+    maxWidth: '40%',
+    marginLeft: '20%',
+    marginTop: theme.spacing(3),
+    marginBottom: theme.spacing(2),
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: theme.spacing(1),
+  },
+  avatar: {
+    marginRight: theme.spacing(1),
+  },
+  image: {
+    width: '100%',
+    height: 'auto',
+  },
+  icon: {
+    marginLeft: 'auto',
+  },
+  commentsSection: {
+    marginBottom: theme.spacing(1), // Add margin between comments and text field
+    display: "flex",
+    flexDirection: "column",
   },
   textField: {
-      width: '100%',
-      marginBottom: theme.spacing(2), // Add margin between text field and submit button
+    width: '100%',
+    marginBottom: theme.spacing(2), // Add margin between text field and submit button
   },
   commentText: {
     marginBottom: theme.spacing(1), // Add margin between comment rows
+    marginLeft: "62px !important" /* Width of profile pic + margin */
+  },
+  separator: {
+    marginTop: "10px", /* Adjust margin as needed */
+    backgroundImage: "linear-gradient(to right, rgba(0, 153, 153, 0.2), transparent)",/* Faded gradient */
   },
   comment: {
-    marginTop:theme.spacing(2),
+    marginTop: theme.spacing(2),
     backgroundColor: '#e3f4f8',
     marginBottom: theme.spacing(1), // Add margin between comment rows
   },
   usernameLabel: {
     display: 'inline-block',
-    backgroundColor: '#c9e7f1',
-    padding: theme.spacing(0.5, 1), // Adjust padding as needed
-    borderRadius: '4px',
     marginBottom: theme.spacing(1), // Add margin between comment rows
-    marginRight: theme.spacing(1), // Add margin to separate from comment text
   },
-  }));
-  
+}));
+
 
 function HomeComponent() {
-    const [posts, setPosts] = useState([]);
-    const classes = useStyles();
+  const [posts, setPosts] = useState([]);
+  const classes = useStyles();
 
-    useEffect(() => {
-        getPosts();
-    }, []);
+  useEffect(() => {
+    getPosts();
+  }, []);
 
-    const getPosts = () => {
-        PostService.getAllPosts()
-            .then((response) => {
-                if (response != null) {
-                    setPosts(response.data['SUCCESS']);
-                }
-            })
-            .catch((error) => {
-                console.error("Error fetching posts:", error);
-            });
-    };
+  const getPosts = () => {
+    PostService.getAllPosts()
+      .then((response) => {
+        if (response != null) {
+          setPosts(response.data['SUCCESS']);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+  };
 
-    return (
-        <Common dummyData={dummyData}>
-            <h2 style={{ color: '#009999' , textAlign:'left', marginLeft:'20%'}}>Timeline</h2>
-            <div  className={classes.root}>
-                {posts.map((post, index) => (
-                    <PostCard key={index} post={post} classes={classes} />
-                ))}
-            </div>
-        </Common>
-    )
+  return (
+    <Common dummyData={dummyData}>
+      <h2 style={{ color: '#009999', textAlign: 'left', marginLeft: '20%' }}>Timeline</h2>
+      <div className={classes.root}>
+        {posts.map((post, index) => (
+          <PostCard key={index} post={post} classes={classes} />
+        ))}
+      </div>
+    </Common>
+  )
 }
 
 function PostCard({ post }) {
-    const classes = useStyles();
-  
-    const [liked, setLiked] = useState(post.liked); // Initialize the liked state based on the post data
-    const [likeCount, setLikeCount] = useState(post.noOfLikes); // Initialize like count
-    const [comments, setComments] = useState([]);
-    const [commentText, setCommentText] = useState(''); // State to manage comment input text
-    const [openDialog, setOpenDialog] = useState(false); // State to track whether dialog is open or not
+  const classes = useStyles();
 
-    const handleToggleDialog = () => {
-      setOpenDialog(!openDialog); // Toggle the state to open/close dialog
-      if (!openDialog) {
-        fetchComments(); // Fetch comments only when the dialog box is opened
+  const [liked, setLiked] = useState(post.liked); // Initialize the liked state based on the post data
+  const [likeCount, setLikeCount] = useState(post.noOfLikes); // Initialize like count
+  const [comments, setComments] = useState([]);
+  const [commentText, setCommentText] = useState(''); // State to manage comment input text
+  const [openDialog, setOpenDialog] = useState(false); // State to track whether dialog is open or not
+
+  const handleToggleDialog = () => {
+    setOpenDialog(!openDialog); // Toggle the state to open/close dialog
+    if (!openDialog) {
+      fetchComments(); // Fetch comments only when the dialog box is opened
     }
   };
 
   const fetchComments = () => {
     PostService.fetchComments(post.postId)
-    .then((response) => {
-      if (response != null) {
-          if(response.data){
-              setComments(response.data);
-              console.log("post :", post.postId);
-              console.log("comments :", comments);
+      .then((response) => {
+        if (response != null) {
+          if (response.data) {
+            setComments(response.data);
+            console.log("post :", post.postId);
+            console.log("comments :", comments);
           }
-      }
-  })
-  .catch((error) => {
-      console.error("Error fetching comments:", error);
-  });
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching comments:", error);
+      });
   }
   const handleLike = () => {
     // Toggle the like status locally
     setLiked(!liked);
     PostService.likePost(post.postId)
-    .then((response) => {
+      .then((response) => {
         if (response != null) {
-            if(response.data){
-                setLiked(!liked);
-            }
+          if (response.data) {
+            setLiked(!liked);
+          }
         }
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         console.error("Error fetching likes:", error);
-    });
+      });
     setLikeCount(liked ? likeCount - 1 : likeCount + 1);
   };
-  
+
   const handleCommentInputChange = (event) => {
     setCommentText(event.target.value);
-};
+  };
 
-const handleCommentSubmit = () => {
+  const handleCommentSubmit = () => {
     console.log('Submitted comment:', commentText);
     PostService.addComments(post.postId, commentText)
-    .then((response) => {
-      if (response != null) {
-          if(response.data){
+      .then((response) => {
+        if (response != null) {
+          if (response.data) {
             fetchComments();
             console.log("comments :", comments);
           }
-      }
-  })
-  .catch((error) => {
-      console.error("Error adding comments:", error);
-  });
+        }
+      })
+      .catch((error) => {
+        console.error("Error adding comments:", error);
+      });
     setCommentText('');
     // You can also add functionality to send the comment to the server here
-};
+  };
 
-    return (
-      <Card style={{ border: '1px solid #ccc' }} className={classes.card}>
-        <CardContent>
-       
-        <Typography variant="body1" className={classes.content} style={{ marginTop: '10px'}}>
-        {post.profilePic ? (
-          <img
-            src={`data:image/jpeg;base64,${post.profilePic}`}
-            alt={`${post.userName}'s avatar`}
-            className="rounded-circle"
-            style={{ width: "50px", height: "50px", objectFit: "cover", marginRight:"6px" }}
-          />
-        ) : (
-          <img
-            src={defaultProfilePic}
-            alt={`${post.userName}'s avatar`}
-            className="rounded-circle"
-            style={{ width: "50px", height: "50px", objectFit: "cover" ,  marginRight:"6px"}}
-          />
-        )}
-            {post.userName}
-          </Typography>
-        {post.files != null  && (
+  return (
+    <Card style={{ border: '1px solid #ccc' }} className={classes.card}>
+      <CardContent>
+
+        <Typography variant="body1" className={classes.content} style={{ marginTop: '10px' }}>
+          {post.profilePic ? (
+            <img
+              src={`data:image/jpeg;base64,${post.profilePic}`}
+              alt={`${post.userName}'s avatar`}
+              className="rounded-circle"
+              style={{ width: "50px", height: "50px", objectFit: "cover", marginRight: "6px" }}
+            />
+          ) : (
+            <img
+              src={defaultProfilePic}
+              alt={`${post.userName}'s avatar`}
+              className="rounded-circle"
+              style={{ width: "50px", height: "50px", objectFit: "cover", marginRight: "6px" }}
+            />
+          )}
+          {post.userName}
+        </Typography>
+        {post.files != null && (
           <img
             src={`data:image/jpeg;base64,${post.files}`}
             alt="Post attachment"
@@ -211,60 +214,79 @@ const handleCommentSubmit = () => {
               maxHeight: "600px", // Set maximum height to prevent the image from exceeding a certain size
               objectFit: "cover", // Use "cover" to maintain aspect ratio and cover the entire container
               borderRadius: "5px", // Optional: Add border radius for rounded corners
-              marginTop:"10px"
-            }}          />
+              marginTop: "10px"
+            }} />
         )}
-          <Typography variant="body1" className={classes.content} style={{ marginTop: '10px'}}>
-            {post.postText}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            Created At: {post.createdAt}
-          </Typography>
-          {/* Like and Comment buttons */}
-          <div className={classes.actions} style={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant="body1" className={classes.content} style={{ marginTop: '10px' }}>
+          {post.postText}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          Created At: {post.createdAt}
+        </Typography>
+        {/* Like and Comment buttons */}
+        <div className={classes.actions} style={{ display: 'flex', alignItems: 'center' }}>
           <IconButton onClick={handleLike} size="large">
             <FavoriteIcon color={liked ? 'secondary' : 'inherit'} />
           </IconButton>
           <Typography variant="body2" color="textSecondary">
             {likeCount} Likes
           </Typography>
-          <IconButton  onClick={handleToggleDialog} size="large">
+          <IconButton onClick={handleToggleDialog} size="large">
             <ChatBubbleOutlineIcon />
           </IconButton>
         </div>
-        </CardContent>
-          {/* Comment Dialog */}
-          <Dialog open={openDialog}  TransitionComponent={Transition} keepMounted onClose={handleToggleDialog} fullWidth>
-      <DialogTitle style={{color:'#009999'}}>Comments</DialogTitle>
-      <DialogContent className={classes.dialogContent}>
+      </CardContent>
+      {/* Comment Dialog */}
+      <Dialog open={openDialog} TransitionComponent={Transition} keepMounted onClose={handleToggleDialog} fullWidth>
+        <DialogTitle style={{ color: '#009999' }}>Comments</DialogTitle>
+        <DialogContent className={classes.dialogContent}>
           {/* Comments section */}
           <div className={classes.commentsSection}>
-              {comments.map((comment, index) => (
-                  <div key={index} className={classes.commentContainer}>
-                      <Typography variant="body2" className={classes.commentText}>
-                          <span style={{backgroundColor:'#8fd8d8'}}  className={classes.usernameLabel}>{comment.userName}</span>: {comment.commentText}
-                      </Typography>
-                  </div>
-              ))}
+            {comments.map((comment, index) => (
+              <div key={index} className={classes.commentContainer}>
+                <div className={classes.userProfile}>
+                  {comment.profilePic ? (
+                    <img
+                      src={`data:image/jpeg;base64,${comment.profilePic}`}
+                      alt={`${comment.userName}'s avatar`}
+                      className="rounded-circle"
+                      style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "6px" }}
+                    />
+                  ) : (
+                    <img
+                      src={defaultProfilePic}
+                      alt={`${comment.userName}'s avatar`}
+                      className="rounded-circle"
+                      style={{ width: "40px", height: "40px", objectFit: "cover", marginRight: "6px" }}
+                    />
+                  )}
+                  <span className={classes.usernameLabel}>{comment.userName}</span>
+                </div>
+                <div className={classes.commentText}>{comment.commentText}</div>
+                {index !== comments.length - 1 && <hr className={classes.separator} />}
+              </div>
+            ))}
           </div>
+
+
 
           {/* Add comment input */}
           <TextField
-              label="Add a comment"
-              value={commentText}
-              onChange={handleCommentInputChange}
-              className={classes.textField}
-              variant="outlined"
+            label="Add a comment"
+            value={commentText}
+            onChange={handleCommentInputChange}
+            className={classes.textField}
+            variant="outlined"
           />
-          <Button onClick={handleCommentSubmit} style={{backgroundColor:'#009999', marginTop:'20px'}} variant="contained" className={classes.submitButton}>
-              Submit
+          <Button onClick={handleCommentSubmit} style={{ backgroundColor: '#009999', marginTop: '20px' }} variant="contained" className={classes.submitButton}>
+            Submit
           </Button>
-      </DialogContent>
-  </Dialog>
+        </DialogContent>
+      </Dialog>
 
-        </Card>
-    );
-  }
-  
+    </Card>
+  );
+}
+
 
 export default HomeComponent;
