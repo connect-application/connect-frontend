@@ -115,17 +115,18 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
         <div className="chat-window" style={{ ...ChatWindowStyle, backgroundColor: '#f8f9fa' }}>
             <div className="chat-header" style={headerStyle}>
                 <h3>{selectedFollower.firstName} {selectedFollower.lastName}</h3>
-                <button className="btn btn-secondary" onClick={onClose}>Close</button>
+                <button style={{ backgroundColor: "#009999", color: "white" ,alignItems: "center" }} className="btn btn-secondary" onClick={onClose}>Close</button>
             </div>
             <hr></hr>
-            <div className="chat-messages">
+            <div className="chat-messages ">
                 {messages.length > 0 ? (
                     messages.map((msg, index) => (
-                        <div key={index} className="chat-message">
-                            <div className="p-3 mb-2 bg-info text-white"
+                        <div key={index} className="chat-message" style={{backgroundColor: "#009999"}}>
+                            <div className="p-3 mb-2 text-white"
                                 style={{
                                     textAlign: msg.align,
                                     borderRadius: '10px',
+                                    backgroundColor: "#009999",
                                     marginLeft: msg.align === 'left' ? '10px' : 'auto',
                                     marginRight: msg.align === 'right' ? '10px' : 'auto',
                                     maxWidth: '70%', // Limit maximum width of chat message
@@ -134,7 +135,7 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
                                 {msg.chatText}
                             </div>
                             {showSentAt === msg.sentAt && (
-                                <div className="sent-at" style={{ textAlign: 'center', fontSize: '12px', color: '#888' }}>
+                                <div className="sent-at" style={{ textAlign: 'right', fontSize: '12px', color: 'white' }}>
                                     {msg.sentAt}
                                 </div>
                             )}
@@ -153,7 +154,7 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
                     value={message}
                     onChange={handleMessageChange}
                 />
-                <button className="btn btn-primary" onClick={handleSendMessage}>Send</button>
+                <button style={{ backgroundColor: "#009999", color: "white" ,alignItems: "center" }} className="btn btn-primary" onClick={handleSendMessage}>Send</button>
             </div>
         </div>
     );

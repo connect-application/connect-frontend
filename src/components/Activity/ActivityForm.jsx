@@ -120,7 +120,7 @@ export const ActivityForm = () => {
   }, [register]);
 
   return (
-    <div className="container py-5">
+    <div className="container py-5"  style={{ position: "absolute"}}>
       <div className="row justify-content-center">
         <div className="col-md-8">
           <div

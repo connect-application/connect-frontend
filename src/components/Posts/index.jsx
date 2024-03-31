@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useRef, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import {
   TextField,
   Button,
@@ -30,7 +31,10 @@ const Posts = () => {
   const [post, setPost] = useState(null);
   const [groupOptions, setGroupOptions] = useState([]);
   const navigate = useNavigate();
-
+  const {
+    register,
+    formState: { errors },
+  } = useForm();
   useEffect(() => {
     const fetchGroups = async () => {
       try {
@@ -47,7 +51,6 @@ const Posts = () => {
 
     fetchGroups();
   }, []);
-
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     const fileUrls = selectedFiles.map((file) => URL.createObjectURL(file));
@@ -62,6 +65,15 @@ const Posts = () => {
   const handleVisibilityChange = (e) => {
     setVisibility(e.target.value);
   };
+  const fileInputRef = useRef(null);
+  useEffect(() => {
+    register("files"); // Register the files field
+  }, [register]);
+
+  const triggerFileInput = () => {
+    fileInputRef.current.click();
+  };
+
   const handleisGroupChange = (e) => {
     setisGroup(e.target.value);
     setSelectedGroup("");
@@ -125,142 +137,144 @@ const Posts = () => {
 
   return (
     <Common dummyData={dummyData}>
-      <div id="colorPage">
-        <Box
-          component="form"
-          className="post-form"
-          sx={{
-            overflowY: "auto",
-            width: "60%",
-            padding: 2,
-            backgroundColor: "white",
-            borderRadius: 4,
-            boxShadow: 2,
-          }}
-          onSubmit={handleSubmit}
-        >
-          <h2>Create Post</h2>
-          <label htmlFor="upload-photo">
-            <input
-              style={{ display: "none" }}
-              id="upload-photo"
-              name="upload-photo"
-              type="file"
-              accept="image/*"
-              onChange={handleFileChange}
-            />
-            <Button
-              sx={{
-                display: "flex",
-                marginTop: "10%",
-                marginLeft: "15%",
-                alignItems: "center",
-                justifyContent: "center !important",
-                width: "600px",
-                height: "600px",
-                border: "2px dashed #CCCCCC",
-                borderRadius: "8px",
-                cursor: "pointer",
-                transition: "border 0.3s ease",
-                "&:hover": {
-                  border: "2px dashed #AAAAAA",
-                },
-              }}
-              component="div"
-            >
-              {imageUrl ? (
-                <img
-                  src={imageUrl}
-                  alt="Uploaded"
-                  style={{ width: "100%", height: "100%", objectFit: "fit" }}
-                />
-              ) : (
-                <AddPhotoAlternateIcon
-                  sx={{ fontSize: "48px", color: "#CCCCCC" }}
-                />
-              )}
-            </Button>
-          </label>
-          <TextField
-            id="outlined-multiline-flexible"
-            size="large"
-            label="Caption"
-            multiline
-            maxRows={4}
-            fullWidth
-            value={caption}
-            onChange={handleCaptionChange}
-            sx={{ mt: 2 }}
-          />
-          <FormControl component="fieldset" sx={{ mt: 2 }}>
-            <FormLabel component="legend">Visibility</FormLabel>
-            <RadioGroup
-              row
-              name="visibility"
-              value={visibility}
-              onChange={handleVisibilityChange}
-            >
-              <FormControlLabel
-                value="public"
-                control={<Radio />}
-                label="Public"
-              />
-              <FormControlLabel
-                value="private"
-                control={<Radio />}
-                label="Private"
-              />
-            </RadioGroup>
-            {/* Is Group */}
-            <FormLabel component="legend">Is For Group</FormLabel>
-            <RadioGroup
-              row
-              name="isGroup"
-              value={isGroup}
-              onChange={handleisGroupChange}
-            >
-              <FormControlLabel
-                value="No"
-                control={<Radio />}
-                label="No"
-              />
-              <FormControlLabel
-                value="Yes"
-                control={<Radio />}
-                label="Yes"
-              />
-            </RadioGroup>
-            {isGroup === "Yes" && (
-              <FormControl sx={{ mt: 2 }} fullWidth>
-                <Select
-                  value={selectedGroup}
-                  onChange={handleGroupChange}
-                  displayEmpty
-                  fullWidth
-                >
-                  <MenuItem value="" disabled>
-                    Select Group
-                  </MenuItem>
-                  {/* Populate with your group options */}
-                  {groupOptions.map((group) => (
-                    <MenuItem key={group.value} value={group.value}>
-                      {group.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
-          </FormControl>
-          <Button
-            type="submit"
-            size="large"
-            variant="outlined"
-            sx={{ mt: 2, marginLeft: "80%" }}
+          <div className="container py-5"  style={{ position: "absolute"}}>
+          <div className="row justify-content-center">
+        <div className="col-md-8">
+          <div
+            className="card shadow-sm"
+            style={{ borderRadius: "10px", overflow: "hidden" }}
           >
-            Post
-          </Button>
-        </Box>
-      </div>
+            <div className="card-body">
+              <h2
+                className="card-title text-center mb-4"
+                style={{ color: "#009999" }}
+              >
+                Create Post
+              </h2>
+              <form onSubmit={handleSubmit} >
+              <div className="text-center mb-4">
+                  <input
+                    id="upload-photo"
+                    name="upload-photo"
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    multiple
+                    style={{ display: "none" }}
+                  />
+                  <div
+                    className="btn btn-outline-secondary d-flex align-items-center justify-content-center mx-auto"
+                    style={{
+                      height: "150px",
+                      width: "150px",
+                      borderRadius: "75px",
+                      overflow: "hidden",
+                      cursor: "pointer",
+                    }}
+                    onClick={triggerFileInput}
+                  >
+                    {imageUrl ? (
+                      <img
+                        src={imageUrl}
+                        alt="Upload"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    ) : (
+                      <span style={{ fontSize: "24px" }}>+</span>
+                    )}
+                  </div>
+                </div>
+                <TextField
+                  id="outlined-multiline-flexible"
+                  size="large"
+                  label="Caption"
+                  multiline
+                  maxRows={4}
+                  fullWidth
+                  value={caption}
+                  onChange={handleCaptionChange}
+                  sx={{ mt: 2 }}
+                />
+                <div>
+                <FormControl component="fieldset" sx={{ mt: 2 }}>
+                  <FormLabel component="legend">Visibility</FormLabel>
+                  <RadioGroup
+                    row
+                    name="visibility"
+                    value={visibility}
+                    onChange={handleVisibilityChange}
+                  >
+                    <FormControlLabel
+                      value="public"
+                      control={<Radio />}
+                      label="Public"
+                    />
+                    <FormControlLabel
+                      value="private"
+                      control={<Radio />}
+                      label="Private"
+                    />
+                  </RadioGroup>
+                  {/* Is Group */}
+                  <FormLabel component="legend">Is For Group</FormLabel>
+                  <RadioGroup
+                    row
+                    name="isGroup"
+                    value={isGroup}
+                    onChange={handleisGroupChange}
+                  >
+                    <FormControlLabel
+                      value="No"
+                      control={<Radio />}
+                      label="No"
+                    />
+                    <FormControlLabel
+                      value="Yes"
+                      control={<Radio />}
+                      label="Yes"
+                    />
+                  </RadioGroup>
+                  {isGroup === "Yes" && (
+                    <FormControl sx={{ mt: 2 }} fullWidth>
+                      <Select
+                        value={selectedGroup}
+                        onChange={handleGroupChange}
+                        displayEmpty
+                        fullWidth
+                      >
+                        <MenuItem value="" disabled>
+                          Select Group
+                        </MenuItem>
+                        {/* Populate with your group options */}
+                        {groupOptions.map((group) => (
+                          <MenuItem key={group.value} value={group.value}>
+                            {group.label}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
+                </FormControl>
+                </div>
+                <button
+                    type="submit"
+                    className="btn"
+                    style={{ backgroundColor: "#009999", color: "white" ,alignItems: "center" }}
+                  >
+                    Create
+                  </button>
+              </form>
+            </div>
+            </div>
+            </div>
+            </div>
+        </div>
+
     </Common>
   );
 };

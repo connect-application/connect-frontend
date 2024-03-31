@@ -153,7 +153,10 @@ h2{
   display: flex;
   flex-wrap: wrap;
 }
-
+.notifications{
+  height: '100vh'; /* Set the full height of the viewport */
+  max-width: 80%;
+}
 .weekday-checkbox {
   margin-right: 20px; /* Adjust margin as needed */
 }
