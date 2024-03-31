@@ -52,9 +52,9 @@ import {
     },
     {
       id: 7,
-      name: "Settings",
-      path: "/settings",
-      component: "Settings",
+      name: "Groups",
+      path: "/groups",
+      component: "Groups",
       icon: <SettingsIcon />,
     },
     {
