@@ -18,6 +18,7 @@ import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { blue } from '@mui/material/colors';
+import defaultProfilePic from "../../assets/img/logos/base.png";
 
 
 const Transition = React.forwardRef(function Transition(
@@ -117,7 +118,6 @@ function PostCard({ post }) {
     const [comments, setComments] = useState([]);
     const [commentText, setCommentText] = useState(''); // State to manage comment input text
     const [openDialog, setOpenDialog] = useState(false); // State to track whether dialog is open or not
-    const [attachments, setAttachments] = useState([]);
 
     const handleToggleDialog = () => {
       setOpenDialog(!openDialog); // Toggle the state to open/close dialog
@@ -141,15 +141,6 @@ function PostCard({ post }) {
       console.error("Error fetching comments:", error);
   });
   }
-  const fetchAttachments = async () => {
-    const attachment = await getPostAttachments(post.postId);
-    setAttachments(attachment);
-  };
-
-  useEffect(() => {
-    fetchAttachments();
-    });
-
   const handleLike = () => {
     // Toggle the like status locally
     setLiked(!liked);
@@ -192,15 +183,35 @@ const handleCommentSubmit = () => {
     return (
       <Card style={{ border: '1px solid #ccc' }} className={classes.card}>
         <CardContent>
-        {attachments.length > 0 && (
+       
+        <Typography variant="body1" className={classes.content} style={{ marginTop: '10px'}}>
+        {post.profilePic ? (
           <img
-            src={`data:image/jpeg;base64,${attachments[0].file}`}
+            src={`data:image/jpeg;base64,${post.profilePic}`}
+            alt={`${post.userName}'s avatar`}
+            className="rounded-circle"
+            style={{ width: "50px", height: "50px", objectFit: "cover", marginRight:"6px" }}
+          />
+        ) : (
+          <img
+            src={defaultProfilePic}
+            alt={`${post.userName}'s avatar`}
+            className="rounded-circle"
+            style={{ width: "50px", height: "50px", objectFit: "cover" ,  marginRight:"6px"}}
+          />
+        )}
+            {post.userName}
+          </Typography>
+        {post.files != null  && (
+          <img
+            src={`data:image/jpeg;base64,${post.files}`}
             alt="Post attachment"
             style={{
               width: "100%", // Set width to 100% to ensure it takes the full width of the container
               maxHeight: "600px", // Set maximum height to prevent the image from exceeding a certain size
               objectFit: "cover", // Use "cover" to maintain aspect ratio and cover the entire container
               borderRadius: "5px", // Optional: Add border radius for rounded corners
+              marginTop:"10px"
             }}          />
         )}
           <Typography variant="body1" className={classes.content} style={{ marginTop: '10px'}}>
