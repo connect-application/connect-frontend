@@ -43,6 +43,10 @@ const ChatWindow = ({ selectedFollower, onClose }) => {
     };
 
     const handleSendMessage = () => {
+        if (message.trim() === '') {
+            setMessage("");
+            return;
+        }
         console.log("Message sent:", message);
         sendNewMsg(message);
         setMessages([...messages, { chatText: message, fromUserId: userId, align: 'right', sentAt: new Date().toLocaleString() }]);
