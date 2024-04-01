@@ -4,6 +4,7 @@ import API_URL from "../../config";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import GroupList from "./GroupList";
+import { Link } from "react-router-dom";
 
 const GroupCard = ({ handleFollowerClick }) => {
   const userId = localStorage.getItem("userId");
@@ -73,7 +74,7 @@ const GroupCard = ({ handleFollowerClick }) => {
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{ height: "100vh", overflowY: "auto" }}>
       <h5 className="display-6">Groups</h5>
       <hr />
 
@@ -125,7 +126,10 @@ const GroupCard = ({ handleFollowerClick }) => {
       </div>
 
       <br></br><br></br>
-      <GroupList groups={groups} />
+      {groups.map((group) => (
+        <Link key={group.groupId} to={`/groups/${group.groupId}`}>
+      <GroupList key={group.groupId} group={group} />
+      </Link>))}
     </div>
   );
 };

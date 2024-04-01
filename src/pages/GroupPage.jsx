@@ -21,7 +21,7 @@ export const GroupPage = () => {
   };
 
   return (
-    <div className="row no-gutters ">
+    <div className="row no-gutters " >
       <div className="col-lg-8 align-items-center">
         <Common dummyData={dummyData}>
           <Suspense fallback={<div>Loading...</div>}>

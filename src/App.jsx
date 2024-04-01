@@ -58,7 +58,7 @@ function App() {
           <Route path="/profile/:userId" element={<ProfilePage />} />
           <Route path="/chat" element={<ChatPage />} />
           <Route path="/profile/edit" element={<ProfileEditPage />} />
-          {/* <Route path="/groups" element={<Groups />} /> */}
+          <Route path="/groups/:groupId" element={<Groups />} />
           <Route path="/groups" element={<GroupPage />} />
           <Route path="/notifications" element={<Notification />} />
           <Route path="/search" element={<SearchPage />} />
