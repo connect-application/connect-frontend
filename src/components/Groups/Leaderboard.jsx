@@ -20,6 +20,7 @@ const Leaderboard = ({ LeaderboardData, headerText }) => {
           fontWeight: "bold",
           color: "#009999",
           fontFamily: "'Roboto', sans-serif",
+          marginTop: "10px"
         }}
       >
         {headerText}

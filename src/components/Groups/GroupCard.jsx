@@ -75,10 +75,10 @@ const GroupCard = ({ handleFollowerClick }) => {
 
   return (
     <div className="container" style={{ height: "100vh", overflowY: "auto" }}>
-      <h5 className="display-6">Groups</h5>
+      <h5 className="display-6"  style={{color:"#009999" }}>Groups</h5>
       <hr />
 
-      <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      <button type="button"  style={{backgroundColor:"#009999" }} className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
         Create new group
       </button>
 
@@ -127,7 +127,7 @@ const GroupCard = ({ handleFollowerClick }) => {
 
       <br></br><br></br>
       {groups.map((group) => (
-        <Link key={group.groupId} to={`/groups/${group.groupId}`}>
+        <Link style={{color:"#009999" }} key={group.groupId} to={`/groups/${group.groupId}`}>
       <GroupList key={group.groupId} group={group} />
       </Link>))}
     </div>

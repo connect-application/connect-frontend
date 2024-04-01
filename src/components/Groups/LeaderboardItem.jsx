@@ -15,8 +15,15 @@ const LeaderboardItem = ({ entry }) => {
       style={{ color: "#009999", textDecoration: "none" }}
     >
       <div style={ItemStyle}>
-        {entry.user.username} Activities Finished: {entry.activitiesFinished} Activities In Progress: {entry.activitiesInProgress}
+        {entry.user.username} :
+        <div>
+        Activities Finished: {entry.activitiesFinished}
       </div>
+      <div>
+          Activities In Progress: {entry.activitiesInProgress}
+      </div>
+      </div>
+
     </Link>
   );
 };

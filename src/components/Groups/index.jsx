@@ -7,10 +7,10 @@ import GroupService from "../../services/GroupService";
 import { useParams } from "react-router-dom";
 import UserList from "../ProfileComponent/UserList";
 import Leaderboard from "./Leaderboard";
+import PostCard from "../PostCard";
 
 function Groups() {
   const { groupId } = useParams();
-
   const [groupMembers, setGroupMembers] = useState([]);
   const [leaderboardType, setLeaderboardType] = useState(null);
   const [leaderboardTimeType, setLeaderboardTimeType] = useState(null);
@@ -88,21 +88,32 @@ function Groups() {
       <div className="row">
         {/* Left Section */}
         <div className="col-md-8">
-          <div className="scrollable">
+          <div>
             {/* Leaderboard Section */}
             <div>
-              <h5
+              <h2
                 style={{
                   fontWeight: "bold",
                   color: "#009999",
                   fontFamily: "'Roboto', sans-serif",
+                  marginTop:"6px"
                 }}
               >
                 Leaderboard Options
-              </h5>
-              <div>
+              </h2>
+              <div    style={{
+                  fontWeight: "bold",
+                  color: "#009999" }}>
                 <select
                   value={leaderboardType}
+                  style={{
+                    fontWeight: "bold",
+                    color: "#009999",
+                    fontFamily: "'Roboto', sans-serif",
+                    marginTop:"6px",
+                    marginLeft:"10px"
+
+                  }}
                   onChange={handleLeaderboardTypeChange}
                 >
                   <option value="">Select leaderboard type</option>
@@ -113,6 +124,13 @@ function Groups() {
                   ))}
                 </select>
                 <select
+                  style={{
+                    fontWeight: "bold",
+                    color: "#009999",
+                    fontFamily: "'Roboto', sans-serif",
+                    marginTop:"6px",
+                    marginLeft:"10px"
+                  }}
                   value={leaderboardTimeType}
                   onChange={handleLeaderboardTimeTypeChange}
                 >
@@ -133,18 +151,16 @@ function Groups() {
 
             {/* Group Posts Section */}
             <div>
-              <h3>Group Posts</h3>
+              <h2 style={{
+                    fontWeight: "bold",
+                    color: "#009999",
+                    fontFamily: "'Roboto', sans-serif",
+                    marginTop:"6px",
+                    textAlign:"center"
+                  }}>Group Posts</h2>
               <ul>
-                {posts.map((post) => (
-                  <li key={post.postId}>
-                    <p>Post ID: {post.postId}</p>
-                    <p>User ID: {post.userId}</p>
-                    <p>Post Text: {post.postText}</p>
-                    <p>Created At: {post.createdAt}</p>
-                    <p>Is Public: {post.isPublic ? "Yes" : "No"}</p>
-                    <p>No of Likes: {post.noOfLikes}</p>
-                    <p>Liked: {post.liked ? "Yes" : "No"}</p>
-                  </li>
+                {posts.map((post, index) => (
+                  <PostCard key={index} post={post}/>
                 ))}
               </ul>
             </div>
@@ -152,8 +168,13 @@ function Groups() {
         </div>
 
         {/* Right Section */}
-        <div className="col-md-4">
-          <div className="scrollable">
+        <div className="col-md-4" style={{
+                    fontWeight: "bold",
+                    color: "#009999",
+                    fontFamily: "'Roboto', sans-serif",
+                    marginTop:"10px",
+                  }}>
+          <div>
             <UserList users={groupMembers} headerText="Group Members" />
           </div>
         </div>
