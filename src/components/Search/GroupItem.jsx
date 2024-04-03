@@ -11,17 +11,17 @@ const ItemStyle = {
 // Component for each group item
 const GroupItem = ({ group }) => {
   return (
-    // <Link
-    //   to={`/group/${group.groupId}`}
-    //   style={{ textDecoration: "none", color: "#009999" }}
-    // >
+    <Link
+      to={`/groups/${group.groupId}`}
+      style={{ textDecoration: "none", color: "#009999" }}
+    >
     <div style={ItemStyle}>
       <div>
         <strong>{group.groupName}</strong>
-        <div>Category ID: {group.categoryId}</div>
+        <div>Category: {group.categoryName}</div>
       </div>
     </div>
-    // </Link>
+    </Link>
   );
 };
 

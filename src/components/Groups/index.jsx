@@ -4,7 +4,7 @@ import { SIDEBAR_DATA as dummyData } from "../Data";
 import axios from "axios";
 import PostService from "../../services/PostService";
 import GroupService from "../../services/GroupService";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import UserList from "../ProfileComponent/UserList";
 import Leaderboard from "./Leaderboard";
 import PostCard from "../PostCard";
@@ -16,6 +16,8 @@ function Groups() {
   const [leaderboardTimeType, setLeaderboardTimeType] = useState(null);
   const [leaderboardData, setLeaderboardData] = useState([]);
   const [posts, setPosts] = useState([]);
+  const [isInGroup, setIsInGroup] = useState(false);
+  const [groupCode, setGroupCode] = useState("");
 
   // Define leaderboard type options
   const leaderboardTypeOptions = [
@@ -30,21 +32,31 @@ function Groups() {
   ];
 
   useEffect(() => {
-    const fetchData = async () => {
-      const groupUsers = await GroupService.getGroupUsers(groupId);
-      try {
-        setGroupMembers(groupUsers);
-        fetchPosts(groupId);
-        // console.log("groupposts: ", posts);
-        if (leaderboardTimeType && leaderboardType) {
-          fetchLeaderboard(groupId, leaderboardType, leaderboardTimeType);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
     fetchData();
+    console.log("inGroup ", isInGroup);
   }, [groupId, leaderboardType, leaderboardTimeType]);
+  const fetchData = async () => {
+    const groupUsers = await GroupService.getGroupUsers(groupId);
+    try {
+      setGroupMembers(groupUsers);
+      fetchPosts(groupId);
+      // console.log("groupposts: ", posts);
+      if (leaderboardTimeType && leaderboardType) {
+        fetchLeaderboard(groupId, leaderboardType, leaderboardTimeType);
+      }
+      const userGroups = await PostService.getUserGroups();
+      const inGroup = userGroups.some(
+        (group) => group.groupId === parseInt(groupId)
+      );
+      setIsInGroup(inGroup);
+      // Check if the provided groupId exists in the user's groups
+      const isInGroup = userGroups.some(
+        (group) => group.groupId === parseInt(groupId)
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchLeaderboard = async (groupId, type, timeType) => {
     try {
@@ -82,6 +94,27 @@ function Groups() {
       fetchLeaderboard(groupId, leaderboardType, e.target.value);
     }
   };
+  const joinGroup = () => {
+    try {
+      const joinData = GroupService.joinGroup(groupId, groupCode);
+      fetchData();
+    } catch (error) {
+      alert("ERROR: Invalid code");
+    }
+  };
+
+  // Define a function to handle exiting the group
+  const exitGroup = () => {
+    console.log("User is exiting the group...");
+    try {
+      const exitdata = GroupService.exitGroup(groupId);
+      fetchData();
+    } catch (error) {
+      console.log("Error fetching leaderboard data:", error);
+    }
+
+    // Additional logic to exit the group can be added here
+  };
 
   return (
     <Common dummyData={dummyData}>
@@ -91,28 +124,30 @@ function Groups() {
           <div>
             {/* Leaderboard Section */}
             <div>
-              <h2
+              <h4
                 style={{
                   fontWeight: "bold",
                   color: "#009999",
                   fontFamily: "'Roboto', sans-serif",
-                  marginTop:"6px"
+                  marginTop: "6px",
                 }}
               >
                 Leaderboard Options
-              </h2>
-              <div    style={{
+              </h4>
+              <div
+                style={{
                   fontWeight: "bold",
-                  color: "#009999" }}>
+                  color: "#009999",
+                }}
+              >
                 <select
                   value={leaderboardType}
                   style={{
                     fontWeight: "bold",
                     color: "#009999",
                     fontFamily: "'Roboto', sans-serif",
-                    marginTop:"6px",
-                    marginLeft:"10px"
-
+                    marginTop: "6px",
+                    marginLeft: "10px",
                   }}
                   onChange={handleLeaderboardTypeChange}
                 >
@@ -128,8 +163,8 @@ function Groups() {
                     fontWeight: "bold",
                     color: "#009999",
                     fontFamily: "'Roboto', sans-serif",
-                    marginTop:"6px",
-                    marginLeft:"10px"
+                    marginTop: "6px",
+                    marginLeft: "10px",
                   }}
                   value={leaderboardTimeType}
                   onChange={handleLeaderboardTimeTypeChange}
@@ -151,16 +186,20 @@ function Groups() {
 
             {/* Group Posts Section */}
             <div>
-              <h2 style={{
-                    fontWeight: "bold",
-                    color: "#009999",
-                    fontFamily: "'Roboto', sans-serif",
-                    marginTop:"6px",
-                    textAlign:"center"
-                  }}>Group Posts</h2>
+              <h2
+                style={{
+                  fontWeight: "bold",
+                  color: "#009999",
+                  fontFamily: "'Roboto', sans-serif",
+                  marginTop: "6px",
+                  textAlign: "center",
+                }}
+              >
+                Group Posts
+              </h2>
               <ul>
                 {posts.map((post, index) => (
-                  <PostCard key={index} post={post}/>
+                  <PostCard key={index} post={post} />
                 ))}
               </ul>
             </div>
@@ -168,12 +207,36 @@ function Groups() {
         </div>
 
         {/* Right Section */}
-        <div className="col-md-4" style={{
-                    fontWeight: "bold",
-                    color: "#009999",
-                    fontFamily: "'Roboto', sans-serif",
-                    marginTop:"10px",
-                  }}>
+        <div
+          className="col-md-4"
+          style={{
+            fontWeight: "bold",
+            color: "#009999",
+            fontFamily: "'Roboto', sans-serif",
+            marginTop: "10px",
+          }}
+        >
+          <div>
+            <div>
+              {isInGroup ? (
+                <button onClick={exitGroup} className="btn btn-show">
+                  Exit Group
+                </button>
+              ) : (
+                <div>
+                  <input
+                    type="text"
+                    value={groupCode}
+                    onChange={(e) => setGroupCode(e.target.value)}
+                    placeholder="Enter group code"
+                  />
+                  <button onClick={joinGroup} className="btn btn-show">
+                    Join Group
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
           <div>
             <UserList users={groupMembers} headerText="Group Members" />
           </div>

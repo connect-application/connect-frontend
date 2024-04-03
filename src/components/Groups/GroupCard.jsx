@@ -62,9 +62,9 @@ const GroupCard = ({ handleFollowerClick }) => {
       const constGroups = response.data.map(item => ({
         groupId: item.groupId,
         groupName: item.groupName,
-        categoryId: item.categoryId,
+        categoryId: item.categoryName,
         groupCode: item.groupCode,
-        groupOwner: item.groupOwner,
+        groupOwner: item.ownerName,
       }));
       setGroups(constGroups);
       console.log(groups);
