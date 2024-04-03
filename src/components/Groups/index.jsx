@@ -8,7 +8,22 @@ import { useParams, Link } from "react-router-dom";
 import UserList from "../ProfileComponent/UserList";
 import Leaderboard from "./Leaderboard";
 import PostCard from "../PostCard";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { TransitionProps } from '@mui/material/transitions';
+import Slide from '@mui/material/Slide';
 
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+      children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 function Groups() {
   const { groupId } = useParams();
   const [groupMembers, setGroupMembers] = useState([]);
@@ -18,6 +33,14 @@ function Groups() {
   const [posts, setPosts] = useState([]);
   const [isInGroup, setIsInGroup] = useState(false);
   const [groupCode, setGroupCode] = useState("");
+  const [openDialog, setOpenDialog] = useState(false); // State to track whether dialog is open or not
+  
+  const handleToggleDialog = () => {
+    setOpenDialog(!openDialog); // Toggle the state to open/close dialog
+  };
+  const handleCodeInputChange = (event) => {
+    setGroupCode(event.target.value);
+  };
 
   // Define leaderboard type options
   const leaderboardTypeOptions = [
@@ -219,25 +242,36 @@ function Groups() {
           <div>
             <div>
               {isInGroup ? (
-                <button onClick={exitGroup} className="btn btn-show">
+                <button onClick={exitGroup}  style={{ marginTop: '20px',marginLeft: '40px' }}  className="btn btn-show">
                   Exit Group
                 </button>
               ) : (
                 <div>
-                  <input
-                    type="text"
-                    value={groupCode}
-                    onChange={(e) => setGroupCode(e.target.value)}
-                    placeholder="Enter group code"
-                  />
-                  <button onClick={joinGroup} className="btn btn-show">
+                  <button style={{ marginTop: '20px',marginLeft: '40px' }} onClick={handleToggleDialog} className="btn btn-show">
                     Join Group
                   </button>
+                  <Dialog open={openDialog} TransitionComponent={Transition} keepMounted onClose={handleToggleDialog} fullWidth>
+                    <DialogTitle style={{ color: '#009999' }}>Enter Code</DialogTitle>
+                    <DialogContent>            
+                      {/* Add comment input */}
+                      <TextField
+                        label="Enter Secret Code"
+                        value = {groupCode}
+                        onChange={handleCodeInputChange}
+                        variant="outlined"
+                      />
+                      <div>
+                      <Button onClick={joinGroup} style={{ backgroundColor: '#009999', marginTop: '20px' }} variant="contained">
+                        Submit
+                      </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               )}
             </div>
           </div>
-          <div>
+          <div style={{ marginTop: '20px',marginRight: '10%' }} >
             <UserList users={groupMembers} headerText="Group Members" />
           </div>
         </div>
