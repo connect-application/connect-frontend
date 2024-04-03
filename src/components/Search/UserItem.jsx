@@ -14,17 +14,31 @@ const UserItem = ({ user }) => {
   return (
     <Link to={`/profile/${user.id}`}>
       <div style={ItemStyle}>
-        <img
-          src={defaultProfilePic} // Assuming a default image for all users. Adjust if you have user-specific images.
-          alt={`${user.username}'s avatar`}
-          className="rounded-circle"
-          style={{
-            width: "30px",
-            height: "30px",
-            objectFit: "cover",
-            marginRight: "10px",
-          }}
-        />
+      {user.profilePic ? (
+              <img
+                src={`data:image/jpeg;base64,${user.profilePic}`}
+                alt={`${user.userName}'s avatar`}
+                className="rounded-circle"
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  objectFit: "cover",
+                  marginRight: "10px",
+                }}
+              />
+            ) : (
+              <img
+                src={defaultProfilePic}
+                alt={`${user.userName}'s avatar`}
+                className="rounded-circle"
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  objectFit: "cover",
+                  marginRight: "10px",
+                }}
+              />
+            )}
         <div style={{ color: "#009999" }}>
           <strong>{user.username}</strong>{" "}
           <div>{`${user.firstName} ${user.lastName}`}</div>
