@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { InputField, SelectField } from "../common";
 import SearchList from "./SearchList";
-
+import {Select, MenuItem, TextField} from "@mui/material";
 export const SearchCard = () => {
   const {
     register,
@@ -11,19 +11,27 @@ export const SearchCard = () => {
     watch,
     formState: { errors },
   } = useForm();
+  const [queryText, setQueryText] = useState("");
+  const [queryType, setQueryType] = useState("");
 
   const onSubmit = async (data) => {
     setQueryText(data.query);
-    setQueryType(data.type.value);
+    setQueryType(queryType);
   };
-
-  const [queryText, setQueryText] = useState("");
-  const [queryType, setQueryType] = useState("");
 
   const searchOptions = [
     { value: "users", label: "Users" },
     { value: "groups", label: "Groups" },
   ];
+  const handleTypeChange = (event) => {
+    // Reset queryText when the type changes
+    setQueryText('');
+    setQueryType(event.target.value); // Update queryType with the selected value
+  };
+
+  const handleQueryTextChange = (event) => {
+    setQueryText(event.target.value);
+  }
 
   return (
     <div className="container py-5">
@@ -43,34 +51,35 @@ export const SearchCard = () => {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="form-row">
                   <div className="col-12 col-lg-6">
-                    <SelectField
-                      control={control}
-                      label="Type"
-                      id="type"
-                      rules={{ required: true }}
-                      options={searchOptions}
-                      errorMessage={errors.type && "Type is required"}
-                      required
-                      {...register("type")}
-                    />
+                    <Select
+                      value={queryType}
+                      onChange={handleTypeChange}
+                      displayEmpty
+                      fullWidth
+                    >
+                    <MenuItem value="" disabled>
+                          Select Type
+                        </MenuItem>
+                        {/* Populate with your group options */}
+                        {searchOptions.map((searchOption) => (
+                          <MenuItem key={searchOption.value} value={searchOption.value}>
+                            {searchOption.label}
+                          </MenuItem>
+                        ))}
+                  </Select>
                   </div>
                 </div>
-                <InputField
+                 <TextField
+                  id="outlined-multiline-flexible"
+                  size="large"
                   label="Query"
-                  id="query"
-                  register={register}
-                  type="text"
-                  {...register("query")}
+                  multiline
+                  maxRows={4}
+                  fullWidth
+                  value={queryText}
+                  onChange={handleQueryTextChange}
+                  sx={{ mt: 2 }}
                 />
-                <div className="text-center">
-                  <button
-                    type="submit"
-                    className="btn"
-                    style={{ backgroundColor: "#009999", color: "white" }}
-                  >
-                    Search
-                  </button>
-                </div>
               </form>
               <div className="d-flex justify-content-center">
                 <SearchList
