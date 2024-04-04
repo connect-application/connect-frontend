@@ -37,7 +37,7 @@ const SidebarItems = ({ displaySidebar }) => {
           key={index}
           onClick={() => handleItemClick(itemData.name)}
           className={
-            itemData.name === "create" || activeItem === itemData.id
+            activeItem === itemData.name
               ? "active"
               : ""
           }
