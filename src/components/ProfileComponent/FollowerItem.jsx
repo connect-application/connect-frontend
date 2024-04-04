@@ -41,6 +41,7 @@ const FollowerItem = ({ follower }) => {
           />
         )}
         {follower.userName}
+        {follower.username}
       </div>
     </Link>
   );

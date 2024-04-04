@@ -4,6 +4,7 @@ export * from "./RecoverPasswordPage";
 export * from "./SignUpSuccessPage";
 export * from "./SignInSuccessPage";
 export * from "./ChatPage";
+export * from "./GroupPage";
 export * from "./ResetPasswordPage";
 export * from "./ResetPasswordSuccessPage";
 export * from "./RecoverPasswordSuccessPage";
