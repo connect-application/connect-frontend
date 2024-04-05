@@ -19,8 +19,10 @@ const postDateStyle = {
 };
 
 const PostItem = ({ post, attachments }) => (
-  <div style={postStyle}>
-    <h6 style={postTextStyle}>{post.postText}</h6>
+  <div style={postStyle} id="post-item">
+    <h6 style={postTextStyle} id="post-text">
+      {post.postText}
+    </h6>
     {attachments.length > 0 && (
       <img
         src={`data:image/jpeg;base64,${attachments[0].file}`}

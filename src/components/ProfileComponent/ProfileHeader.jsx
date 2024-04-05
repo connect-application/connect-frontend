@@ -37,6 +37,7 @@ const ProfileHeader = ({
         )}
         <div className="ms-3">
           <h2
+            id="profile-username"
             className="mb-0"
             style={{
               fontWeight: "bold",
@@ -50,6 +51,7 @@ const ProfileHeader = ({
             {user.userName}
           </h2>
           <p
+            id="profile-name"
             className="mb-0"
             style={{ color: "#606770", fontFamily: "'Roboto', sans-serif" }}
           >
@@ -57,7 +59,10 @@ const ProfileHeader = ({
           </p>
         </div>
       </div>
-      <div style={{ flexGrow: 0, marginLeft: "auto", marginRight: "20px" }}>
+      <div
+        id="profile-btn"
+        style={{ flexGrow: 0, marginLeft: "auto", marginRight: "20px" }}
+      >
         {" "}
         {/* Adjust the spacing here */}
         {userId === loggedInUserId ? (
@@ -77,6 +82,7 @@ const ProfileHeader = ({
         {" "}
         {/* Ensure a minimum width for alignment */}
         <p
+          id="profile-followers-count"
           className="mb-1"
           style={{ fontSize: "1.25rem", fontWeight: "bold", color: "#009999" }}
         >
@@ -84,6 +90,7 @@ const ProfileHeader = ({
         </p>
         <p className="small text-muted">Followers</p>
         <p
+          id="profile-following-count"
           className="mb-1"
           style={{ fontSize: "1.25rem", fontWeight: "bold", color: "#009999" }}
         >
