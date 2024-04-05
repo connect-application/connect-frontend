@@ -34,7 +34,8 @@ function Groups() {
   const [isInGroup, setIsInGroup] = useState(false);
   const [groupCode, setGroupCode] = useState("");
   const [openDialog, setOpenDialog] = useState(false); // State to track whether dialog is open or not
-  
+  const [currentUser, setCurrentUser] = useState(1);
+
   const handleToggleDialog = () => {
     setOpenDialog(!openDialog); // Toggle the state to open/close dialog
   };
@@ -56,6 +57,7 @@ function Groups() {
 
   useEffect(() => {
     fetchData();
+    getCurrentUser();
     console.log("inGroup ", isInGroup);
   }, [groupId, leaderboardType, leaderboardTimeType]);
   const fetchData = async () => {
@@ -139,6 +141,39 @@ function Groups() {
     // Additional logic to exit the group can be added here
   };
 
+  const handleDeletePost = (deletedPostId) => {
+    setPosts(prevPostData => prevPostData.filter(item => item.postId !== deletedPostId));
+  };
+  const handleEditPost = (postId, editedText) => {
+    // Make an API call to update the post text
+    PostService.updatePost(postId, editedText)
+      .then((response) => {
+        if (response != null && response.data) {
+          // If the post was successfully updated, you might want to update the UI or take other actions
+          const updatedPosts = posts.map((post) =>
+          post.postId === postId ? { ...post, postText: editedText } : post
+        );
+        setPosts(updatedPosts); 
+        } else {
+          console.error("Failed to update post.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating post:", error);
+      });
+  };
+  const getCurrentUser = () => {
+    PostService.getCurrentUser()
+      .then((response) => {
+        if (response != null) {
+          setCurrentUser(response.data.id);
+          console.log("current user: " + response.data.id);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+  };
   return (
     <Common dummyData={dummyData}>
       <div className="row">
@@ -222,7 +257,7 @@ function Groups() {
               </h2>
               <ul>
                 {posts.map((post, index) => (
-                  <PostCard key={index} post={post} />
+                  <PostCard key={index} post={post}  onDeletePost={handleDeletePost} onEditPost={handleEditPost} currentUser={currentUser} />
                 ))}
               </ul>
             </div>

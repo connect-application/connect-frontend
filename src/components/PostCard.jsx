@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -15,6 +16,7 @@ import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import defaultProfilePic from "../assets/img/logos/base.png";
+import EditIcon from '@material-ui/icons/Edit';
 
 
 
@@ -78,7 +80,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 
-function PostCard({ post }) {
+function PostCard({ post , onDeletePost, onEditPost, currentUser}) {
     const classes = useStyles();
   
     const [liked, setLiked] = useState(post.liked); // Initialize the liked state based on the post data
@@ -86,14 +88,52 @@ function PostCard({ post }) {
     const [comments, setComments] = useState([]);
     const [commentText, setCommentText] = useState(''); // State to manage comment input text
     const [openDialog, setOpenDialog] = useState(false); // State to track whether dialog is open or not
-  
+    const [openDeleteBox, setOpenDeleteBox] = useState(false); // State to track whether dialog is open or not
+    const [deleteStatus, setDeleteStatus] = useState(null); // null: not attempted, true: success, false: failure
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedPostText, setEditedPostText] = useState(post.postText);
+    const handleSave = () => {
+      // Call the parent component function to handle saving
+      onEditPost(post.postId, editedPostText); // Pass postId and editedText to parent
+      // Exit edit mode
+      setIsEditing(false);
+    };
+    const toggleEditMode = () => {
+      setIsEditing(!isEditing);
+    };
+
     const handleToggleDialog = () => {
       setOpenDialog(!openDialog); // Toggle the state to open/close dialog
       if (!openDialog) {
         fetchComments(); // Fetch comments only when the dialog box is opened
       }
     };
-  
+
+    const handleDeletePost = () => {
+      setOpenDeleteBox(!openDeleteBox); // Toggle the state to open/close dialog
+    };
+    const handleEditPost = () => {
+      // Call the parent component function or navigate to the edit page
+      onEditPost();
+    };
+    const deletePost = () => {
+      PostService.deletePost(post.postId)
+        .then((response) => {
+          if (response != null) {
+            if (response.data) {
+              setDeleteStatus(true);
+              handleDeletePost();
+              onDeletePost(post.postId); // Update postData in ParentComponent
+            }else {
+              setDeleteStatus(false);
+            }
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching comments:", error);
+          setDeleteStatus(false);
+        });
+    }
     const fetchComments = () => {
       PostService.fetchComments(post.postId)
         .then((response) => {
@@ -183,9 +223,21 @@ function PostCard({ post }) {
                 marginTop: "10px"
               }} />
           )}
+            {isEditing ? (
+          // If in edit mode, show text field for editing
+          <TextField
+            value={editedPostText} style={{ marginTop: '10px' }}
+            onChange={(e) => setEditedPostText(e.target.value)}
+            multiline
+            fullWidth
+          />
+        ) : (
+          // If not in edit mode, show post text
           <Typography variant="body1" className={classes.content} style={{ marginTop: '10px' }}>
             {post.postText}
           </Typography>
+        )}
+
           <Typography variant="body2" color="textSecondary">
             Created At: {post.createdAt}
           </Typography>
@@ -200,6 +252,37 @@ function PostCard({ post }) {
             <IconButton onClick={handleToggleDialog} size="large">
               <ChatBubbleOutlineIcon />
             </IconButton>
+            {currentUser === post.userId && (
+                    <>
+                        {isEditing ? (
+                            <Button onClick={handleSave} variant="outlined" color="primary" style={{ color: '#009999' }}>
+                                Save
+                            </Button>
+                        ) : (
+                            <IconButton onClick={toggleEditMode} size="large">
+                                <EditIcon />
+                            </IconButton>
+                        )}
+                        <IconButton onClick={handleDeletePost} size="large">
+                            <DeleteIcon />
+                        </IconButton>
+                    </>
+                )}
+            <Dialog open={openDeleteBox} TransitionComponent={Transition} keepMounted onClose={handleDeletePost} fullWidth>
+                    <DialogTitle style={{ color: '#009999' }}>
+                    {deleteStatus === true ? 'Post deleted' : deleteStatus === false ? 'Post Not Deleted' : 'Are you sure you want to delete this Post?'}
+                      </DialogTitle>
+                    <DialogContent>            
+                      <div>
+                      <Button onClick={deletePost} style={{ backgroundColor: '#009999', marginTop: '20px' }} variant="contained">
+                        Yes
+                      </Button>
+                      <Button onClick={handleDeletePost} style={{ backgroundColor: '#009999', marginTop: '20px', marginLeft: '20px' }} variant="contained">
+                        No
+                      </Button>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
           </div>
         </CardContent>
         {/* Comment Dialog */}
