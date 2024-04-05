@@ -9,6 +9,7 @@ const POST_API_LIKE_URL = `${API_URL}/like/togglePostLike`;
 const POST_API_GET_LIKE_URL = `${API_URL}/like/getCountLikes`;
 const POST_API_GET_COMMENTS_URL = `${API_URL}/comments/getComments`;
 const POST_API_ADD_COMMENTS_URL = `${API_URL}/comments/addComment`;
+const POST_API_DELETE_POST_URL = `${API_URL}/posts/deletePost`;
 
 
 class PostService {
@@ -30,6 +31,9 @@ class PostService {
 
     fetchComments(postId){
         return axios.post(`${POST_API_GET_COMMENTS_URL}?postId=${postId}`);
+    }
+    deletePost(postId){
+      return axios.post(`${POST_API_DELETE_POST_URL}?postId=${postId}`);
     }
 
     addComments(postId, commentText){

@@ -101,13 +101,16 @@ function HomeComponent() {
         console.error("Error fetching posts:", error);
       });
   };
+  const handleDeletePost = (deletedPostId) => {
+    setPosts(prevPostData => prevPostData.filter(item => item.postId !== deletedPostId));
+  };
 
   return (
     <Common dummyData={dummyData}>
       <h2 style={{ color: '#009999', textAlign: 'left', marginLeft: '20%' }}>Timeline</h2>
       <div className={classes.root}>
         {posts.map((post, index) => (
-          <PostCard key={index} post={post} classes={classes} />
+          <PostCard key={index} post={post} onDeletePost={handleDeletePost} classes={classes} />
         ))}
       </div>
     </Common>
