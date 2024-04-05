@@ -13,7 +13,7 @@ const ListStyle = {
 
 const UserList = ({ users, headerText }) => {
   return (
-    <div className="col-lg-6 mb-4">
+    <div className="col-lg-6 mb-4" id={`list-${headerText}`}>
       <h5
         style={{
           fontWeight: "bold",

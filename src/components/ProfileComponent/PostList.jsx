@@ -13,7 +13,7 @@ const sectionStyle = {
 };
 
 const PostList = ({ posts }) => (
-  <div style={sectionStyle}>
+  <div style={sectionStyle} id="post-list">
     {posts.map((post, index) => (
       <PostItem key={index} post={post} attachments={post.attachments} />
     ))}

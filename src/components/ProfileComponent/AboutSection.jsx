@@ -25,7 +25,7 @@ const AboutSection = ({ aboutText }) => {
           height: "100px",
         }}
       >
-        <p className="mb-0" style={{ fontStyle: "italic" }}>
+        <p id="profile-about" className="mb-0" style={{ fontStyle: "italic" }}>
           {aboutText}
         </p>
       </div>

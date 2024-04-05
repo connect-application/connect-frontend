@@ -13,6 +13,7 @@ const FollowerItem = ({ follower }) => {
     <Link
       to={`/profile/${follower.id}`}
       style={{ color: "#009999", textDecoration: "none" }}
+      id={`follower-${follower.userName}`}
     >
       <div style={ItemStyle}>
         {follower.profilePic ? (
