@@ -139,6 +139,27 @@ function Groups() {
     // Additional logic to exit the group can be added here
   };
 
+  const handleDeletePost = (deletedPostId) => {
+    setPosts(prevPostData => prevPostData.filter(item => item.postId !== deletedPostId));
+  };
+  const handleEditPost = (postId, editedText) => {
+    // Make an API call to update the post text
+    PostService.updatePost(postId, editedText)
+      .then((response) => {
+        if (response != null && response.data) {
+          // If the post was successfully updated, you might want to update the UI or take other actions
+          const updatedPosts = posts.map((post) =>
+          post.postId === postId ? { ...post, postText: editedText } : post
+        );
+        setPosts(updatedPosts); 
+        } else {
+          console.error("Failed to update post.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating post:", error);
+      });
+  };
   return (
     <Common dummyData={dummyData}>
       <div className="row">
@@ -222,7 +243,7 @@ function Groups() {
               </h2>
               <ul>
                 {posts.map((post, index) => (
-                  <PostCard key={index} post={post} />
+                  <PostCard key={index} post={post}  onDeletePost={handleDeletePost} onEditPost={handleEditPost} />
                 ))}
               </ul>
             </div>
