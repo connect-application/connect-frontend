@@ -11,12 +11,16 @@ const POST_API_GET_COMMENTS_URL = `${API_URL}/comments/getComments`;
 const POST_API_ADD_COMMENTS_URL = `${API_URL}/comments/addComment`;
 const POST_API_DELETE_POST_URL = `${API_URL}/posts/deletePost`;
 const POST_API_UPDATE_POST_URL = `${API_URL}/posts/editPost`;
+const POST_API_GET_USER_URL =  `${API_URL}/user/retrieveCurrentUser`;
+
 
 class PostService {
     getAllPosts() { // Declare userId and jwtToken as parameters
         return axios.get(`${POST_API_BASE_URL}`);
     }
-
+    getCurrentUser() { // Declare userId and jwtToken as parameters
+      return axios.get(`${POST_API_GET_USER_URL}`);
+  }
     createPost(postText,isPublic){
         return axios.post(`${POST_API_CREATE_URL}?postText=${postText}&isPublic=${isPublic}`);
     }

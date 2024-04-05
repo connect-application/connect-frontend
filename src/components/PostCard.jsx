@@ -80,7 +80,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 
-function PostCard({ post , onDeletePost, onEditPost}) {
+function PostCard({ post , onDeletePost, onEditPost, currentUser}) {
     const classes = useStyles();
   
     const [liked, setLiked] = useState(post.liked); // Initialize the liked state based on the post data
@@ -252,18 +252,22 @@ function PostCard({ post , onDeletePost, onEditPost}) {
             <IconButton onClick={handleToggleDialog} size="large">
               <ChatBubbleOutlineIcon />
             </IconButton>
-            {isEditing ? (
-            <Button onClick={handleSave} variant="outlined" color="primary" style={{ color: '#009999' }}>
-              Save
-            </Button>
-          ) : (
-            <IconButton onClick={toggleEditMode} size="large">
-              <EditIcon />
-            </IconButton>
-          )}
-            <IconButton onClick={handleDeletePost} size="large">
-              <DeleteIcon />
-            </IconButton>
+            {currentUser === post.userId && (
+                    <>
+                        {isEditing ? (
+                            <Button onClick={handleSave} variant="outlined" color="primary" style={{ color: '#009999' }}>
+                                Save
+                            </Button>
+                        ) : (
+                            <IconButton onClick={toggleEditMode} size="large">
+                                <EditIcon />
+                            </IconButton>
+                        )}
+                        <IconButton onClick={handleDeletePost} size="large">
+                            <DeleteIcon />
+                        </IconButton>
+                    </>
+                )}
             <Dialog open={openDeleteBox} TransitionComponent={Transition} keepMounted onClose={handleDeletePost} fullWidth>
                     <DialogTitle style={{ color: '#009999' }}>
                     {deleteStatus === true ? 'Post deleted' : deleteStatus === false ? 'Post Not Deleted' : 'Are you sure you want to delete this Post?'}

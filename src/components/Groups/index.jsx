@@ -34,7 +34,8 @@ function Groups() {
   const [isInGroup, setIsInGroup] = useState(false);
   const [groupCode, setGroupCode] = useState("");
   const [openDialog, setOpenDialog] = useState(false); // State to track whether dialog is open or not
-  
+  const [currentUser, setCurrentUser] = useState(1);
+
   const handleToggleDialog = () => {
     setOpenDialog(!openDialog); // Toggle the state to open/close dialog
   };
@@ -56,6 +57,7 @@ function Groups() {
 
   useEffect(() => {
     fetchData();
+    getCurrentUser();
     console.log("inGroup ", isInGroup);
   }, [groupId, leaderboardType, leaderboardTimeType]);
   const fetchData = async () => {
@@ -160,6 +162,18 @@ function Groups() {
         console.error("Error updating post:", error);
       });
   };
+  const getCurrentUser = () => {
+    PostService.getCurrentUser()
+      .then((response) => {
+        if (response != null) {
+          setCurrentUser(response.data.id);
+          console.log("current user: " + response.data.id);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+  };
   return (
     <Common dummyData={dummyData}>
       <div className="row">
@@ -243,7 +257,7 @@ function Groups() {
               </h2>
               <ul>
                 {posts.map((post, index) => (
-                  <PostCard key={index} post={post}  onDeletePost={handleDeletePost} onEditPost={handleEditPost} />
+                  <PostCard key={index} post={post}  onDeletePost={handleDeletePost} onEditPost={handleEditPost} currentUser={currentUser} />
                 ))}
               </ul>
             </div>

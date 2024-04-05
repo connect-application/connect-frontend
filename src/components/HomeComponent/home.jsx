@@ -85,9 +85,11 @@ const useStyles = makeStyles((theme) => ({
 function HomeComponent() {
   const [posts, setPosts] = useState([]);
   const classes = useStyles();
+  const [currentUser, setCurrentUser] = useState(1);
 
   useEffect(() => {
     getPosts();
+    getCurrentUser();
   }, []);
 
   const getPosts = () => {
@@ -95,6 +97,18 @@ function HomeComponent() {
       .then((response) => {
         if (response != null) {
           setPosts(response.data['SUCCESS']);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching posts:", error);
+      });
+  };
+  const getCurrentUser = () => {
+    PostService.getCurrentUser()
+      .then((response) => {
+        if (response != null) {
+          setCurrentUser(response.data.id);
+          console.log("current user: " + response.data.id);
         }
       })
       .catch((error) => {
@@ -128,7 +142,7 @@ function HomeComponent() {
       <h2 style={{ color: '#009999', textAlign: 'left', marginLeft: '20%' }}>Timeline</h2>
       <div className={classes.root}>
         {posts.map((post, index) => (
-          <PostCard key={index} post={post} onDeletePost={handleDeletePost} onEditPost={handleEditPost} classes={classes} />
+          <PostCard key={index} post={post} onDeletePost={handleDeletePost} onEditPost={handleEditPost} currentUser={currentUser} classes={classes} />
         ))}
       </div>
     </Common>
