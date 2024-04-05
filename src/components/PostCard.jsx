@@ -16,6 +16,7 @@ import Button from '@mui/material/Button';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import defaultProfilePic from "../assets/img/logos/base.png";
+import EditIcon from '@material-ui/icons/Edit';
 
 
 
@@ -79,7 +80,7 @@ const Transition = React.forwardRef(function Transition(
 });
 
 
-function PostCard({ post , onDeletePost}) {
+function PostCard({ post , onDeletePost, onEditPost}) {
     const classes = useStyles();
   
     const [liked, setLiked] = useState(post.liked); // Initialize the liked state based on the post data
@@ -89,6 +90,17 @@ function PostCard({ post , onDeletePost}) {
     const [openDialog, setOpenDialog] = useState(false); // State to track whether dialog is open or not
     const [openDeleteBox, setOpenDeleteBox] = useState(false); // State to track whether dialog is open or not
     const [deleteStatus, setDeleteStatus] = useState(null); // null: not attempted, true: success, false: failure
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedPostText, setEditedPostText] = useState(post.postText);
+    const handleSave = () => {
+      // Call the parent component function to handle saving
+      onEditPost(post.postId, editedPostText); // Pass postId and editedText to parent
+      // Exit edit mode
+      setIsEditing(false);
+    };
+    const toggleEditMode = () => {
+      setIsEditing(!isEditing);
+    };
 
     const handleToggleDialog = () => {
       setOpenDialog(!openDialog); // Toggle the state to open/close dialog
@@ -99,6 +111,10 @@ function PostCard({ post , onDeletePost}) {
 
     const handleDeletePost = () => {
       setOpenDeleteBox(!openDeleteBox); // Toggle the state to open/close dialog
+    };
+    const handleEditPost = () => {
+      // Call the parent component function or navigate to the edit page
+      onEditPost();
     };
     const deletePost = () => {
       PostService.deletePost(post.postId)
@@ -207,9 +223,21 @@ function PostCard({ post , onDeletePost}) {
                 marginTop: "10px"
               }} />
           )}
+            {isEditing ? (
+          // If in edit mode, show text field for editing
+          <TextField
+            value={editedPostText} style={{ marginTop: '10px' }}
+            onChange={(e) => setEditedPostText(e.target.value)}
+            multiline
+            fullWidth
+          />
+        ) : (
+          // If not in edit mode, show post text
           <Typography variant="body1" className={classes.content} style={{ marginTop: '10px' }}>
             {post.postText}
           </Typography>
+        )}
+
           <Typography variant="body2" color="textSecondary">
             Created At: {post.createdAt}
           </Typography>
@@ -224,6 +252,15 @@ function PostCard({ post , onDeletePost}) {
             <IconButton onClick={handleToggleDialog} size="large">
               <ChatBubbleOutlineIcon />
             </IconButton>
+            {isEditing ? (
+            <Button onClick={handleSave} variant="outlined" color="primary" style={{ color: '#009999' }}>
+              Save
+            </Button>
+          ) : (
+            <IconButton onClick={toggleEditMode} size="large">
+              <EditIcon />
+            </IconButton>
+          )}
             <IconButton onClick={handleDeletePost} size="large">
               <DeleteIcon />
             </IconButton>

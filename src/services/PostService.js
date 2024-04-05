@@ -10,7 +10,7 @@ const POST_API_GET_LIKE_URL = `${API_URL}/like/getCountLikes`;
 const POST_API_GET_COMMENTS_URL = `${API_URL}/comments/getComments`;
 const POST_API_ADD_COMMENTS_URL = `${API_URL}/comments/addComment`;
 const POST_API_DELETE_POST_URL = `${API_URL}/posts/deletePost`;
-
+const POST_API_UPDATE_POST_URL = `${API_URL}/posts/editPost`;
 
 class PostService {
     getAllPosts() { // Declare userId and jwtToken as parameters
@@ -34,6 +34,9 @@ class PostService {
     }
     deletePost(postId){
       return axios.post(`${POST_API_DELETE_POST_URL}?postId=${postId}`);
+    }
+    updatePost(postId, postText){
+      return axios.post(`${POST_API_UPDATE_POST_URL}?postId=${postId}&postText=${postText}`);
     }
 
     addComments(postId, commentText){

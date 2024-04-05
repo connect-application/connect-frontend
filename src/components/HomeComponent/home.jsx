@@ -104,13 +104,31 @@ function HomeComponent() {
   const handleDeletePost = (deletedPostId) => {
     setPosts(prevPostData => prevPostData.filter(item => item.postId !== deletedPostId));
   };
+  const handleEditPost = (postId, editedText) => {
+    // Make an API call to update the post text
+    PostService.updatePost(postId, editedText)
+      .then((response) => {
+        if (response != null && response.data) {
+          // If the post was successfully updated, you might want to update the UI or take other actions
+          const updatedPosts = posts.map((post) =>
+          post.postId === postId ? { ...post, postText: editedText } : post
+        );
+        setPosts(updatedPosts); 
+        } else {
+          console.error("Failed to update post.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating post:", error);
+      });
+  };
 
   return (
     <Common dummyData={dummyData}>
       <h2 style={{ color: '#009999', textAlign: 'left', marginLeft: '20%' }}>Timeline</h2>
       <div className={classes.root}>
         {posts.map((post, index) => (
-          <PostCard key={index} post={post} onDeletePost={handleDeletePost} classes={classes} />
+          <PostCard key={index} post={post} onDeletePost={handleDeletePost} onEditPost={handleEditPost} classes={classes} />
         ))}
       </div>
     </Common>
