@@ -236,7 +236,7 @@ function PostCard({ post , onDeletePost}) {
                       <Button onClick={deletePost} style={{ backgroundColor: '#009999', marginTop: '20px' }} variant="contained">
                         Yes
                       </Button>
-                      <Button onClick={handleDeletePost} style={{ backgroundColor: '#009999', marginTop: '20px' }} variant="contained">
+                      <Button onClick={handleDeletePost} style={{ backgroundColor: '#009999', marginTop: '20px', marginLeft: '20px' }} variant="contained">
                         No
                       </Button>
                       </div>
